@@ -5,10 +5,13 @@
       <map>
         <entry key="..\:/Users/ahmet/ChatApp/app/src/main/res/drawable/circular.xml" value="0.3615" />
         <entry key="..\:/Users/ahmet/ChatApp/app/src/main/res/drawable/custom_searchviewbg.xml" value="0.3615" />
+        <entry key="..\:/Users/ahmet/ChatApp/app/src/main/res/drawable/ic_baseline_add.xml" value="0.2195" />
         <entry key="..\:/Users/ahmet/ChatApp/app/src/main/res/drawable/ic_baseline_search_24.xml" value="0.3615" />
+        <entry key="..\:/Users/ahmet/ChatApp/app/src/main/res/layout-v26/fragment_messages.xml" value="0.3697916666666667" />
         <entry key="..\:/Users/ahmet/ChatApp/app/src/main/res/layout/activity_main.xml" value="0.17592592592592593" />
         <entry key="..\:/Users/ahmet/ChatApp/app/src/main/res/layout/fragment_chat.xml" value="0.3697916666666667" />
-        <entry key="..\:/Users/ahmet/ChatApp/app/src/main/res/layout/fragment_messages.xml" value="0.28956372968349015" />
+        <entry key="..\:/Users/ahmet/ChatApp/app/src/main/res/layout/fragment_messages.xml" value="0.3446557971014493" />
+        <entry key="..\:/Users/ahmet/ChatApp/app/src/main/res/layout/message.xml" value="0.3697916666666667" />
         <entry key="..\:/Users/ahmet/ChatApp/app/src/main/res/layout/person.xml" value="0.9" />
       </map>
     </option>
