@@ -4,4 +4,11 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="all_messages">All Messages</string>
     <string name="add_user">add user</string>
+    <string name="type_a_message">Type a message</string>
+    <string name="video_call">video call</string>
+    <string name="call">call</string>
+    <string name="back">back</string>
+    <string name="emoji">emoji</string>
+    <string name="camera">camera</string>
+    <string name="send_message">send message</string>
 </resources>
