@@ -18,7 +18,14 @@
 
     <style name="CustomSearchViewTheme" parent="Widget.AppCompat.SearchView">
         <item name="iconifiedByDefault">false</item>
-        <item name="colorControlActivated">@color/white</item>
+        <item name="colorControlActivated">@color/white_100</item>
+        <item name="android:editTextColor">@color/white</item>
+        <item name="android:textColorHint">@color/grey</item>
+    </style>
+
+    <style name="CustomEditTextTheme" parent="Widget.AppCompat.EditText">
+        <item name="iconifiedByDefault">false</item>
+        <item name="colorControlActivated">@color/white_100</item>
         <item name="android:editTextColor">@color/white</item>
         <item name="android:textColorHint">@color/grey</item>
     </style>
