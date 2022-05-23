@@ -29,4 +29,10 @@
         <item name="android:editTextColor">@color/white</item>
         <item name="android:textColorHint">@color/grey</item>
     </style>
+
+    <style name="TextInputLayoutAppearance" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="colorControlNormal">@color/white_100</item>
+        <item name="colorControlActivated">@color/white_100</item>
+        <item name="colorControlHighlight">@color/white_100</item>
+    </style>
 </resources>
