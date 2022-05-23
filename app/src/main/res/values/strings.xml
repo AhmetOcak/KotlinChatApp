@@ -22,4 +22,13 @@
     <string name="password">Password</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="create_account">CREATE ACCOUNT</string>
+    <string name="account_settings">Account Settings</string>
+    <string name="sign_out">LOG OUT</string>
+    <string name="delete_account">DELETE ACCOUNT</string>
+    <string name="log_out_message">Are you sure you want to logout ?</string>
+    <string name="log_out">Log Out</string>
+    <string name="cancel">Cancel</string>
+    <string name="are_you_sure_you_want_to_logout">Are you sure you want to logout?</string>
+    <string name="log_out_title">Log Out?</string>
+    <string name="delete_account_message">Are you sure you want to delete your account?</string>
 </resources>
