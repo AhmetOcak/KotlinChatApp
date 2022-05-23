@@ -23,12 +23,21 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         binding.signUp.setOnClickListener {
             goToRegisterScreen()
         }
+        binding.loginButton.setOnClickListener {
+            goToMessagesScreen()
+        }
+
     }
 
     private fun goToRegisterScreen() {
         findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
+    }
+
+    private fun goToMessagesScreen() {
+        findNavController().navigate(R.id.action_loginFragment_to_messagesFragment)
     }
 }
