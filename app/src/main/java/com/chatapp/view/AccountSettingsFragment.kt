@@ -8,11 +8,15 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.chatapp.R
 import com.chatapp.databinding.FragmentAccountSettingsBinding
+import com.chatapp.utilites.Constants
+import com.chatapp.view.dialogs.DeleteAccountDialogFragment
+import com.chatapp.view.dialogs.LogOutDialogFragment
 
 class AccountSettingsFragment : Fragment() {
 
     private lateinit var binding: FragmentAccountSettingsBinding
-    private lateinit var dialog: SignOutDialogFragment
+    private val logOut: LogOutDialogFragment = LogOutDialogFragment()
+    private val deleteAccount: DeleteAccountDialogFragment = DeleteAccountDialogFragment()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,27 +33,16 @@ class AccountSettingsFragment : Fragment() {
             goToMessagesScreen()
         }
 
-        binding.signOutButton.setOnClickListener {
-            dialog = SignOutDialogFragment(
-                getString(R.string.log_out_message),
-                getString(R.string.log_out),
-                getString(R.string.cancel)
-            )
-            dialog.show(parentFragmentManager, "Log Out")
+        binding.logOutButton.setOnClickListener {
+            logOut.show(parentFragmentManager, Constants.LOG_OUT)
         }
 
         binding.deleteAccount.setOnClickListener {
-            dialog = SignOutDialogFragment(
-                getString(R.string.delete_account_message),
-                getString(R.string.delete_account),
-                getString(R.string.cancel)
-            )
-            dialog.show(parentFragmentManager, "Delete Account")
+            deleteAccount.show(parentFragmentManager, Constants.DELETE_ACCOUNT)
         }
     }
 
     private fun goToMessagesScreen() {
         findNavController().navigate(R.id.action_accountSettingsFragment_to_messagesFragment)
     }
-
 }

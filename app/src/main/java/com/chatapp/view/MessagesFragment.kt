@@ -10,10 +10,13 @@ import androidx.core.app.ActivityCompat
 import androidx.navigation.fragment.findNavController
 import com.chatapp.R
 import com.chatapp.databinding.FragmentMessagesBinding
+import com.chatapp.utilites.Constants
+import com.chatapp.view.dialogs.AddUserDialogFragment
 
 class MessagesFragment : Fragment() {
 
     private lateinit var binding: FragmentMessagesBinding
+    private val addUserDialogFragment = AddUserDialogFragment()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,6 +33,11 @@ class MessagesFragment : Fragment() {
         binding.currentUserImage.setOnClickListener {
             goToAccountSettingsScreen()
         }
+
+        binding.addUser.setOnClickListener {
+            addUserDialogFragment.show(parentFragmentManager, Constants.ADD_USER)
+        }
+
     }
 
     private fun onBackHandler() {
