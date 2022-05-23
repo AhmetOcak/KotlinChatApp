@@ -15,4 +15,6 @@
     <color name="grey">#FFB4B4B4</color>
     <color name="green">#FF16B75C</color>
     <color name="white_100">#FFD0D0D2</color>
+    <color name="mtrl_textinput_default_box_stroke_color">#FFD0D0D2</color>
 </resources>
+
