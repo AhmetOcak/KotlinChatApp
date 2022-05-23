@@ -3,7 +3,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="all_messages">All Messages</string>
-    <string name="add_user">add user</string>
+    <string name="add_user">Add User</string>
     <string name="type_a_message">Type a message</string>
     <string name="video_call">video call</string>
     <string name="call">call</string>
@@ -24,11 +24,13 @@
     <string name="create_account">CREATE ACCOUNT</string>
     <string name="account_settings">Account Settings</string>
     <string name="sign_out">LOG OUT</string>
-    <string name="delete_account">DELETE ACCOUNT</string>
-    <string name="log_out_message">Are you sure you want to logout ?</string>
+    <string name="delete_account">Delete Account</string>
+    <string name="log_out_message">Oh no! You\'re leaving…\n Are you sure ?</string>
     <string name="log_out">Log Out</string>
     <string name="cancel">Cancel</string>
     <string name="are_you_sure_you_want_to_logout">Are you sure you want to logout?</string>
     <string name="log_out_title">Log Out?</string>
     <string name="delete_account_message">Are you sure you want to delete your account?</string>
+    <string name="yes_log_me_out">Yes, Log Me Out</string>
+    <string name="naah_just_kidding">Naah, Just Kidding</string>
 </resources>
