@@ -1,10 +1,12 @@
 package com.chatapp.view
 
 import android.os.Bundle
+import android.text.TextWatcher
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.addTextChangedListener
 import androidx.navigation.fragment.findNavController
 import com.chatapp.R
 import com.chatapp.databinding.FragmentLoginBinding
@@ -30,7 +32,6 @@ class LoginFragment : Fragment() {
         binding.loginButton.setOnClickListener {
             goToMessagesScreen()
         }
-
     }
 
     private fun goToRegisterScreen() {
