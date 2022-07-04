@@ -1,4 +1,4 @@
-package com.chatapp.utilites
+package com.chatapp.utils
 
 class Constants {
     companion object {

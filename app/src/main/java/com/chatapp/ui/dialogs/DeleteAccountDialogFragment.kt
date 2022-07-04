@@ -1,4 +1,4 @@
-package com.chatapp.view.dialogs
+package com.chatapp.ui.dialogs
 
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable

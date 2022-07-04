@@ -1,4 +1,4 @@
-package com.chatapp.view
+package com.chatapp.ui.message
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -10,8 +10,8 @@ import androidx.core.app.ActivityCompat
 import androidx.navigation.fragment.findNavController
 import com.chatapp.R
 import com.chatapp.databinding.FragmentMessagesBinding
-import com.chatapp.utilites.Constants
-import com.chatapp.view.dialogs.AddUserDialogFragment
+import com.chatapp.utils.Constants
+import com.chatapp.ui.dialogs.AddUserDialogFragment
 
 class MessagesFragment : Fragment() {
 

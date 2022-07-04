@@ -1,4 +1,4 @@
-package com.chatapp.view
+package com.chatapp.ui.login
 
 import android.os.Bundle
 import android.text.TextWatcher

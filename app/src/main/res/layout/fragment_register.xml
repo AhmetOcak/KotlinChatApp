@@ -7,7 +7,7 @@
     android:fillViewport="true"
     android:isScrollContainer="true"
     android:scrollbars="none"
-    tools:context=".view.RegisterFragment">
+    tools:context=".ui.register.RegisterFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

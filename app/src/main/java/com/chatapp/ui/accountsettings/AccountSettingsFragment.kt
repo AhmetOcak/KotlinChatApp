@@ -1,4 +1,4 @@
-package com.chatapp.view
+package com.chatapp.ui.accountsettings
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,9 +8,9 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.chatapp.R
 import com.chatapp.databinding.FragmentAccountSettingsBinding
-import com.chatapp.utilites.Constants
-import com.chatapp.view.dialogs.DeleteAccountDialogFragment
-import com.chatapp.view.dialogs.LogOutDialogFragment
+import com.chatapp.utils.Constants
+import com.chatapp.ui.dialogs.DeleteAccountDialogFragment
+import com.chatapp.ui.dialogs.LogOutDialogFragment
 
 class AccountSettingsFragment : Fragment() {
 

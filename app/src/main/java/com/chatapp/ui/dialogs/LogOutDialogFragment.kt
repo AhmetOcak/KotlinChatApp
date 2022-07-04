@@ -1,4 +1,4 @@
-package com.chatapp.view.dialogs
+package com.chatapp.ui.dialogs
 
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -8,9 +8,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.DialogFragment
+import androidx.navigation.fragment.findNavController
 import com.chatapp.R
 
-class AddUserDialogFragment : DialogFragment() {
+class LogOutDialogFragment() : DialogFragment() {
 
     private lateinit var rootView: View
 
@@ -20,20 +21,26 @@ class AddUserDialogFragment : DialogFragment() {
         savedInstanceState: Bundle?
     ): View? {
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        rootView = inflater.inflate(R.layout.custom_adduser_dialog, container, false)
+        rootView = inflater.inflate(R.layout.custom_logout_dialog, container, false)
         return rootView
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        rootView.findViewById<Button>(R.id.dialogAddUserButtonAUD).setOnClickListener {
-            // add user
+        rootView.findViewById<Button>(R.id.dialogLogOutButtonDAD).setOnClickListener {
+            // logout
+            goToLoginScreen()
             dismiss()
         }
 
-        rootView.findViewById<Button>(R.id.dialogCancelButtonAUD).setOnClickListener {
+        rootView.findViewById<Button>(R.id.dialogCancelButtonDAD).setOnClickListener {
             dismiss()
         }
     }
+
+    private fun goToLoginScreen() {
+        findNavController().navigate(R.id.action_accountSettingsFragment_to_loginFragment)
+    }
 }
+
