@@ -45,6 +45,19 @@
         <entry key="..\:/Users/ahmet/ChatApp/app/src/main/res/layout/outgoing_message.xml" value="0.32518115942028986" />
         <entry key="..\:/Users/ahmet/ChatApp/app/src/main/res/layout/outgoing_messages.xml" value="0.3632246376811594" />
         <entry key="..\:/Users/ahmet/ChatApp/app/src/main/res/layout/person.xml" value="0.9" />
+        <entry key="..\:/Users/ahmet/ChatApp/core/src/main/res/drawable/divider.xml" value="0.3535" />
+        <entry key="..\:/Users/ahmet/ChatApp/core/src/main/res/drawable/ic_baseline_key.xml" value="0.3535" />
+        <entry key="..\:/Users/ahmet/ChatApp/core/src/main/res/layout/person.xml" value="0.3541666666666667" />
+        <entry key="..\:/Users/ahmet/ChatApp/features/chat/src/main/res/layout/fragment_blank.xml" value="0.3541666666666667" />
+        <entry key="..\:/Users/ahmet/ChatApp/features/dialogs/src/main/res/layout/custom_adduser_dialog.xml" value="0.3541666666666667" />
+        <entry key="..\:/Users/ahmet/ChatApp/features/dialogs/src/main/res/layout/custom_delete_account_dialog.xml" value="0.3541666666666667" />
+        <entry key="..\:/Users/ahmet/ChatApp/features/dialogs/src/main/res/layout/custom_logout_dialog.xml" value="0.3541666666666667" />
+        <entry key="..\:/Users/ahmet/ChatApp/features/login/src/main/res/layout/fragment_blank.xml" value="0.3541666666666667" />
+        <entry key="..\:/Users/ahmet/ChatApp/features/message/src/main/res/layout/fragment_blank.xml" value="0.3541666666666667" />
+        <entry key="..\:/Users/ahmet/ChatApp/features/message/src/main/res/layout/fragment_messages.xml" value="0.3541666666666667" />
+        <entry key="..\:/Users/ahmet/ChatApp/features/src/main/res/layout/custom_delete_account_dialog.xml" value="0.3541666666666667" />
+        <entry key="..\:/Users/ahmet/ChatApp/features/src/main/res/layout/fragment_login.xml" value="0.3541666666666667" />
+        <entry key="..\:/Users/ahmet/ChatApp/features/src/main/res/layout/fragment_register.xml" value="0.3541666666666667" />
       </map>
     </option>
   </component>

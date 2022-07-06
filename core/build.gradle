@@ -1,0 +1,50 @@
+plugins {
+    id("com.android.library")
+    id("org.jetbrains.kotlin.android")
+}
+
+android {
+    compileSdk = Configs.compileSdk
+
+    defaultConfig {
+        minSdk = Configs.minSdk
+        targetSdk = Configs.targetSdk
+        versionCode = Configs.versionCode
+        versionName = Configs.versionName
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility = Options.sourceCompatibility
+        targetCompatibility = Options.targetCompatibility
+    }
+    kotlinOptions {
+        jvmTarget = Options.jvmTarget
+    }
+}
+
+dependencies {
+
+    implementation (Libs.coreKtx)
+    implementation (Libs.appCompat)
+    implementation (Libs.material)
+    implementation (Libs.constraint)
+    implementation("androidx.legacy:legacy-support-v4:1.0.0")
+    testImplementation (Libs.junit)
+    androidTestImplementation (Libs.junit_ext)
+    androidTestImplementation (Libs.espresso)
+
+    // ViewModel
+    implementation (Libs.lifeCycleViewModel)
+
+    // Navigation
+    implementation (Libs.navigationFragment)
+    implementation (Libs.navigationUI)
+}
