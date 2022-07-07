@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 
 abstract class BaseFragment<ViewModel : BaseViewModel, VB : ViewDataBinding> : Fragment() {
@@ -13,11 +14,10 @@ abstract class BaseFragment<ViewModel : BaseViewModel, VB : ViewDataBinding> : F
     private var _binding: VB? = null
     val binding get() = _binding!!
 
-    private var _viewModel: ViewModel? = null
-    val viewModel: ViewModel get() = getViewModelClass().newInstance()
-
     abstract fun getViewModelClass() : Class<ViewModel>
     abstract fun getViewDataBinding() : VB
+
+    protected val viewModel: ViewModel by lazy { ViewModelProvider(this)[getViewModelClass()] }
 
     override fun onCreateView(
         inflater: LayoutInflater,
