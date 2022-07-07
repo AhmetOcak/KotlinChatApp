@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
     app:startDestination="@id/loginFragment">
 
     <fragment
         android:id="@+id/chatFragment"
         android:name="com.ahmet.features.chat.ChatFragment"
-        android:label="fragment_chat" />
+        android:label="fragment_chat"
+        tools:layout="@layout/fragment_chat"/>
     <fragment
         android:id="@+id/messagesFragment"
         android:name="com.ahmet.features.message.MessagesFragment"
-        android:label="fragment_messages">
+        android:label="fragment_messages"
+        tools:layout="@layout/fragment_messages">
         <action
             android:id="@+id/action_messagesFragment_to_chatFragment"
             app:destination="@id/chatFragment" />
@@ -22,7 +25,8 @@
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.ahmet.features.login.LoginFragment"
-        android:label="fragment_login">
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login">
         <action
             android:id="@+id/action_loginFragment_to_messagesFragment"
             app:destination="@id/messagesFragment" />
@@ -33,7 +37,8 @@
     <fragment
         android:id="@+id/registerFragment"
         android:name="com.ahmet.features.register.RegisterFragment"
-        android:label="fragment_register">
+        android:label="fragment_register"
+        tools:layout="@layout/fragment_register">
         <action
             android:id="@+id/action_registerFragment_to_loginFragment"
             app:destination="@id/loginFragment"
@@ -43,7 +48,8 @@
     <fragment
         android:id="@+id/accountSettingsFragment"
         android:name="com.ahmet.features.account_settings.AccountSettingsFragment"
-        android:label="fragment_account_settings">
+        android:label="fragment_account_settings"
+        tools:layout="@layout/fragment_account_settings">
         <action
             android:id="@+id/action_accountSettingsFragment_to_messagesFragment"
             app:destination="@id/messagesFragment"
