@@ -13,6 +13,7 @@ object Versions {
     const val junit_ext = "1.1.3"
     const val espresso = "3.4.0"
     const val viewModelLifeCycle = "2.4.1"
+    const val lifecyleExtension = "2.2.0"
     const val room = "2.4.2"
 }
 
@@ -31,6 +32,7 @@ object Libs {
     const val lifeCycleViewModel = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.viewModelLifeCycle}"
     const val room = "androidx.room:room-ktx:${Versions.room}"
     const val roomCompiler = "androidx.room:room-compiler:${Versions.room}"
+    const val lifecyleExtension = "androidx.lifecycle:lifecycle-extensions:${Versions.lifecyleExtension}"
 }
 
 object Configs {

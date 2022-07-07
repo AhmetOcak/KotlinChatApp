@@ -28,6 +28,10 @@ android {
     kotlinOptions {
         jvmTarget = Options.jvmTarget
     }
+    buildFeatures {
+        viewBinding true
+        dataBinding true
+    }
 }
 
 dependencies {
@@ -37,12 +41,15 @@ dependencies {
     implementation (Libs.material)
     implementation (Libs.constraint)
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
+    implementation 'androidx.databinding:viewbinding:7.2.1'
+    implementation 'androidx.databinding:databinding-runtime:7.2.1'
     testImplementation (Libs.junit)
     androidTestImplementation (Libs.junit_ext)
     androidTestImplementation (Libs.espresso)
 
     // ViewModel
     implementation (Libs.lifeCycleViewModel)
+    implementation (Libs.lifecyleExtension)
 
     // Navigation
     implementation (Libs.navigationFragment)
