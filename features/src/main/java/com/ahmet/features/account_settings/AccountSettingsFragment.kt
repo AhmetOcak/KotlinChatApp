@@ -7,15 +7,17 @@ import com.ahmet.features.dialogs.DeleteAccountDialogFragment
 import com.ahmet.features.dialogs.LogOutDialogFragment
 import com.ahmet.features.R
 import com.ahmet.features.databinding.FragmentAccountSettingsBinding
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class AccountSettingsFragment : BaseFragment<AccountSettingsViewModel, FragmentAccountSettingsBinding>() {
 
-    private val logOut: LogOutDialogFragment = LogOutDialogFragment()
-    private val deleteAccount: DeleteAccountDialogFragment = DeleteAccountDialogFragment()
+    @Inject lateinit var logOut: LogOutDialogFragment
+    @Inject lateinit var deleteAccount: DeleteAccountDialogFragment
 
     override fun getViewModelClass() = AccountSettingsViewModel::class.java
     override fun getViewDataBinding() = FragmentAccountSettingsBinding.inflate(layoutInflater)
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

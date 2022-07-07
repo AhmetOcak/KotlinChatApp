@@ -10,8 +10,9 @@ import android.widget.Button
 import androidx.fragment.app.DialogFragment
 import androidx.navigation.fragment.findNavController
 import com.ahmet.features.R
+import javax.inject.Inject
 
-class LogOutDialogFragment() : DialogFragment() {
+class LogOutDialogFragment @Inject constructor() : DialogFragment() {
 
     private lateinit var rootView: View
 

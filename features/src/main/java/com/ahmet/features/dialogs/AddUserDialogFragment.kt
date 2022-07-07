@@ -9,8 +9,9 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.DialogFragment
 import com.ahmet.features.R
+import javax.inject.Inject
 
-class AddUserDialogFragment : DialogFragment() {
+class AddUserDialogFragment @Inject constructor() : DialogFragment() {
 
     private lateinit var rootView: View
 

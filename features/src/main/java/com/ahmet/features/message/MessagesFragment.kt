@@ -8,13 +8,17 @@ import com.ahmet.core.base.BaseFragment
 import com.ahmet.features.R
 import com.ahmet.features.databinding.FragmentMessagesBinding
 import com.ahmet.features.dialogs.AddUserDialogFragment
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class MessagesFragment : BaseFragment<MessageViewModel, FragmentMessagesBinding>() {
 
     override fun getViewModelClass() = MessageViewModel::class.java
     override fun getViewDataBinding() = FragmentMessagesBinding.inflate(layoutInflater)
 
-    private val addUserDialogFragment = AddUserDialogFragment()
+    @Inject
+    lateinit var addUserDialogFragment: AddUserDialogFragment
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
