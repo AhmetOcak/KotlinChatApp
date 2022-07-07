@@ -1,21 +1,11 @@
 package com.ahmet.features.chat
 
-import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import com.ahmet.core.base.BaseFragment
 import com.ahmet.features.databinding.FragmentChatBinding
 
-class ChatFragment : Fragment() {
+class ChatFragment : BaseFragment<ChatViewModel, FragmentChatBinding>() {
 
-    private lateinit var binding: FragmentChatBinding
+    override fun getViewModelClass() = ChatViewModel::class.java
+    override fun getViewDataBinding() = FragmentChatBinding.inflate(layoutInflater)
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        binding = FragmentChatBinding.inflate(inflater, container, false)
-        return binding.root
-    }
 }

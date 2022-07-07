@@ -1,41 +1,31 @@
 package com.ahmet.features.message
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.core.app.ActivityCompat
-import androidx.navigation.fragment.findNavController
+import com.ahmet.core.base.BaseFragment
 import com.ahmet.features.R
 import com.ahmet.features.databinding.FragmentMessagesBinding
+import com.ahmet.features.dialogs.AddUserDialogFragment
 
-class MessagesFragment : Fragment() {
+class MessagesFragment : BaseFragment<MessageViewModel, FragmentMessagesBinding>() {
 
-    private lateinit var binding: FragmentMessagesBinding
-    private val addUserDialogFragment = com.ahmet.dialogs.AddUserDialogFragment()
+    override fun getViewModelClass() = MessageViewModel::class.java
+    override fun getViewDataBinding() = FragmentMessagesBinding.inflate(layoutInflater)
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        binding = FragmentMessagesBinding.inflate(inflater, container, false)
-        return binding.root
-    }
+    private val addUserDialogFragment = AddUserDialogFragment()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         onBackHandler()
 
         binding.currentUserImage.setOnClickListener {
-            goToAccountSettingsScreen()
+            goToNextScreen(R.id.action_messagesFragment_to_accountSettingsFragment)
         }
-
         binding.addUser.setOnClickListener {
             addUserDialogFragment.show(parentFragmentManager, "Add User")
         }
-
     }
 
     private fun onBackHandler() {
@@ -47,7 +37,4 @@ class MessagesFragment : Fragment() {
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
     }
 
-    private fun goToAccountSettingsScreen() {
-        findNavController().navigate(R.id.action_messagesFragment_to_accountSettingsFragment)
-    }
 }
