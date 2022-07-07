@@ -1,4 +1,4 @@
-package com.ahmet.dialogs
+package com.ahmet.features.dialogs
 
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
