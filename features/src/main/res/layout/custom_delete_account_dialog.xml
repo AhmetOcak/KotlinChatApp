@@ -32,6 +32,7 @@
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textColor="@color/white"
+        android:layout_marginHorizontal="48dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -40,24 +41,23 @@
     <Button
         android:id="@+id/dialogDeleteAccountButtonDAD"
         style="@style/CustomButtonStyle"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:layout_marginLeft="48dp"
         android:text="@string/delete_account"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
     <Button
         android:id="@+id/dialogCancelButtonDAD"
         style="@style/CustomButtonStyle"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:backgroundTint="@color/light_purple"
         android:text="@string/cancel"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:layout_marginRight="48dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dialogDeleteAccountButtonDAD"
+        app:layout_constraintTop_toBottomOf="@+id/textView2"
         app:strokeColor="@color/orange"
         app:strokeWidth="1dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
