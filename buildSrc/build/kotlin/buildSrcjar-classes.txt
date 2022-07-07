@@ -1,1 +1,0 @@
-C:\Users\ahmet\ChatApp\buildSrc\build\classes\kotlin\main\ClassPlugins.class;C:\Users\ahmet\ChatApp\buildSrc\build\classes\kotlin\main\Configs.class;C:\Users\ahmet\ChatApp\buildSrc\build\classes\kotlin\main\Libs.class;C:\Users\ahmet\ChatApp\buildSrc\build\classes\kotlin\main\Options.class;C:\Users\ahmet\ChatApp\buildSrc\build\classes\kotlin\main\Versions.class
