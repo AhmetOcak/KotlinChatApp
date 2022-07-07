@@ -17,5 +17,4 @@ class RegisterFragment : BaseFragment<RegisterViewModel, FragmentRegisterBinding
             goToNextScreen(R.id.action_registerFragment_to_loginFragment)
         }
     }
-
 }

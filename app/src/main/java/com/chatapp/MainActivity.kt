@@ -1,5 +1,7 @@
 package com.chatapp
 
 import com.ahmet.core.base.BaseActivity
+import dagger.hilt.android.AndroidEntryPoint
 
-class MainActivity : BaseActivity(R.layout.activity_main) {}
+@AndroidEntryPoint
+class MainActivity : BaseActivity(R.layout.activity_main)
