@@ -1,6 +1,8 @@
 plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
 }
 
 android {
@@ -42,9 +44,9 @@ dependencies {
 
     // Room
     implementation (Libs.room)
-    implementation (Libs.roomCompiler)
+    kapt (Libs.roomCompiler)
 
     // Dependency Injection
     implementation (Libs.hilt)
-    implementation (Libs.hiltCompiler)
+    kapt (Libs.hiltCompiler)
 }
