@@ -47,6 +47,9 @@ dependencies {
     androidTestImplementation(Libs.junit_ext)
     androidTestImplementation(Libs.espresso)
 
+    // Firebase
+    implementation 'com.google.firebase:firebase-auth-ktx:21.0.1'
+
     // ViewModel
     implementation(Libs.lifeCycleViewModel)
 
@@ -60,4 +63,5 @@ dependencies {
 
     // Modules
     implementation project(':core')
+    implementation project(':data')
 }

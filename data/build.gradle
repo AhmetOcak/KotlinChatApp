@@ -1,6 +1,9 @@
 plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -41,12 +44,27 @@ dependencies {
     androidTestImplementation (Libs.junit_ext)
     androidTestImplementation (Libs.espresso)
 
+    // Firebase
+    implementation 'com.google.firebase:firebase-auth-ktx:21.0.1'
+    implementation 'com.google.firebase:firebase-firestore:21.4.0'
+
     // Room
     implementation (Libs.room)
-    implementation (Libs.roomCompiler)
+    kapt (Libs.roomCompiler)
 
     // Dependency Injection
     implementation (Libs.hilt)
-    implementation (Libs.hiltCompiler)
+    kapt (Libs.hiltCompiler)
+
+    // Coroutines
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.1'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.2.1'
+
+    // Firebase
+    implementation platform('com.google.firebase:firebase-bom:30.2.0')
+
+    // Modules
+    implementation project(':domain')
 
 }
