@@ -48,7 +48,8 @@
                     android:hint="@string/full_name"
                     android:inputType="text"
                     android:textColor="@color/white_100"
-                    android:textColorHint="@color/orange" />
+                    android:textColorHint="@color/orange"
+                    android:text="@={viewModel.userName}"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -77,7 +78,8 @@
                     android:hint="@string/email_address"
                     android:inputType="textEmailAddress"
                     android:textColor="@color/white_100"
-                    android:textColorHint="@color/orange" />
+                    android:textColorHint="@color/orange"
+                    android:text="@={viewModel.email}"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -107,7 +109,8 @@
                     android:hint="@string/password"
                     android:inputType="textPassword"
                     android:textColor="@color/white_100"
-                    android:textColorHint="@color/orange" />
+                    android:textColorHint="@color/orange"
+                    android:text="@={viewModel.password}"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -136,7 +139,8 @@
                     android:hint="@string/confirm_password"
                     android:inputType="textPassword"
                     android:textColor="@color/white_100"
-                    android:textColorHint="@color/orange" />
+                    android:textColorHint="@color/orange"
+                    android:text="@={viewModel.confirmPassword}"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <Button
