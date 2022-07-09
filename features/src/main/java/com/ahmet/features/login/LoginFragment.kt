@@ -1,7 +1,6 @@
 package com.ahmet.features.login
 
 import android.os.Bundle
-import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.widget.Toast
@@ -9,7 +8,6 @@ import com.ahmet.core.base.BaseFragment
 import com.ahmet.features.R
 import com.ahmet.features.databinding.FragmentLoginBinding
 import com.ahmet.features.utils.*
-import kotlinx.coroutines.delay
 
 class LoginFragment : BaseFragment<LoginViewModel, FragmentLoginBinding>() {
 
@@ -31,6 +29,7 @@ class LoginFragment : BaseFragment<LoginViewModel, FragmentLoginBinding>() {
         }
         binding.loginButton.setOnClickListener {
             viewModel.login()
+            viewModel.getUserData()
             setToastMessage()
             viewModel.message.value = null
         }

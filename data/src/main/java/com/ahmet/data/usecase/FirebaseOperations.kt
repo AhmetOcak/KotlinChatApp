@@ -1,5 +1,7 @@
 package com.ahmet.data.usecase
 
+import android.util.Log
+import com.ahmet.data.utils.UserKeys
 import com.ahmet.domain.interfaces.IFirebaseOperations
 import com.ahmet.domain.model.User
 import com.google.firebase.auth.FirebaseAuth
@@ -53,17 +55,27 @@ class FirebaseOperations : IFirebaseOperations {
         val user = User(userName, email, password)
         val userData: MutableMap<String, String> = HashMap()
 
-        userData["username"] = user.userName
-        userData["email"] = user.emailAddress
-        userData["password"] = user.password
+        userData[UserKeys.USERNAME] = user.userName
+        userData[UserKeys.EMAIL] = user.emailAddress
+        userData[UserKeys.PASSWORD] = user.password
 
         db.collection(collectionPath)
             .document(user.emailAddress).set(userData)
     }
 
-    override suspend fun readFirestore(collectionPath: String) {
-        db.collection(collectionPath)
-            .get()
-            .addOnCompleteListener { }
+    override suspend fun getUserDoc(email: String): User? {
+        val userDoc = db.collection("users").document(email)
+        var user: User? = null
+
+        userDoc.get().addOnSuccessListener {
+            if (!it.data.isNullOrEmpty()) {
+                user = User(
+                    it.data!![UserKeys.USERNAME].toString(),
+                    it.data!![UserKeys.EMAIL].toString(),
+                    it.data!![UserKeys.PASSWORD].toString()
+                )
+            }
+        }.await()
+        return user
     }
 }

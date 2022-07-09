@@ -1,5 +1,6 @@
 package com.ahmet.features.login
 
+import android.util.Log
 import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -73,6 +74,16 @@ class LoginViewModel : BaseViewModel() {
             } catch (e: Exception) {
                 firebaseMessage.value = e.message
                 setProgBarVis(Status.ERROR)
+            }
+        }
+    }
+
+    fun getUserData() {
+        viewModelScope.launch {
+            try {
+                val user = FirebaseOperations().getUserDoc(email.value.toString())
+            }catch (e: Exception) {
+                Log.e("exception", e.message.toString())
             }
         }
     }
