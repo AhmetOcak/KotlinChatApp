@@ -47,9 +47,9 @@
                     android:drawableEnd="@drawable/ic_baseline_person"
                     android:hint="@string/full_name"
                     android:inputType="text"
+                    android:text="@={viewModel.userName}"
                     android:textColor="@color/white_100"
-                    android:textColorHint="@color/orange"
-                    android:text="@={viewModel.userName}"/>
+                    android:textColorHint="@color/orange" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -77,9 +77,9 @@
                     android:drawableEnd="@drawable/ic_baseline_email"
                     android:hint="@string/email_address"
                     android:inputType="textEmailAddress"
+                    android:text="@={viewModel.email}"
                     android:textColor="@color/white_100"
-                    android:textColorHint="@color/orange"
-                    android:text="@={viewModel.email}"/>
+                    android:textColorHint="@color/orange" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -108,9 +108,9 @@
                     android:drawableEnd="@drawable/ic_baseline_key"
                     android:hint="@string/password"
                     android:inputType="textPassword"
+                    android:text="@={viewModel.password}"
                     android:textColor="@color/white_100"
-                    android:textColorHint="@color/orange"
-                    android:text="@={viewModel.password}"/>
+                    android:textColorHint="@color/orange" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -138,9 +138,9 @@
                     android:drawableEnd="@drawable/ic_baseline_check_circle"
                     android:hint="@string/confirm_password"
                     android:inputType="textPassword"
+                    android:text="@={viewModel.confirmPassword}"
                     android:textColor="@color/white_100"
-                    android:textColorHint="@color/orange"
-                    android:text="@={viewModel.confirmPassword}"/>
+                    android:textColorHint="@color/orange" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <Button
@@ -165,6 +165,22 @@
                 app:layout_constraintBottom_toTopOf="@+id/registerUserName"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
+
+            <ProgressBar
+                android:id="@+id/register_progress_bar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:indeterminate="true"
+                android:layout_marginHorizontal="96dp"
+                android:layout_marginTop="16dp"
+                android:indeterminateTint="@color/orange"
+                android:visibility="@{viewModel.progressBarVisibility}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/registerButton" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>
