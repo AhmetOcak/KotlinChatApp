@@ -1,15 +1,17 @@
 package com.ahmet.data.usecase
 
+import com.ahmet.domain.interfaces.IFirebaseOperations
 import com.ahmet.domain.model.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 
-class FirebaseOperations {
+class FirebaseOperations : IFirebaseOperations {
 
     private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
+    private val auth: FirebaseAuth = FirebaseAuth.getInstance()
 
-    suspend fun register(
+    override suspend fun register(
         email: String,
         password: String,
         userName: String,
@@ -29,7 +31,20 @@ class FirebaseOperations {
         return resultMessage
     }
 
-    private fun saveFirestore(
+    override suspend fun login(email: String, password: String): String? {
+        var resultMessage: String? = null
+
+        auth.signInWithEmailAndPassword(email, password).addOnCompleteListener {
+            resultMessage = if (it.isSuccessful) {
+                "Login Successful"
+            }else {
+                it.exception!!.toString()
+            }
+        }.await()
+        return resultMessage
+    }
+
+    override fun saveFirestore(
         email: String,
         password: String,
         userName: String,
@@ -46,7 +61,7 @@ class FirebaseOperations {
             .document(user.emailAddress).set(userData)
     }
 
-    suspend fun readFirestore(collectionPath: String) {
+    override suspend fun readFirestore(collectionPath: String) {
         db.collection(collectionPath)
             .get()
             .addOnCompleteListener { }
