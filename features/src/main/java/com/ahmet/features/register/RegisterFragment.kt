@@ -7,8 +7,7 @@ import android.widget.Toast
 import com.ahmet.core.base.BaseFragment
 import com.ahmet.features.R
 import com.ahmet.features.databinding.FragmentRegisterBinding
-import com.ahmet.features.utils.Constants
-import com.ahmet.features.utils.FirebaseMessages
+import com.ahmet.features.utils.*
 
 class RegisterFragment : BaseFragment<RegisterViewModel, FragmentRegisterBinding>() {
 
@@ -56,16 +55,16 @@ class RegisterFragment : BaseFragment<RegisterViewModel, FragmentRegisterBinding
     private fun observeFirebaseResponse() {
         viewModel.firebaseMessage.observe(viewLifecycleOwner) {
             when {
-                viewModel.firebaseMessage.value.toString() == FirebaseMessages.EMAIL_ERROR -> {
-                    toast.setText(FirebaseMessages.EMAIL_ERROR)
+                viewModel.firebaseMessage.value.toString() == FirebaseRegisterMessages.EMAIL_ERROR -> {
+                    toast.setText(FirebaseRegisterMessages.EMAIL_ERROR)
                     toast.show()
                 }
-                viewModel.firebaseMessage.value.toString() == FirebaseMessages.NETWORK_ERROR -> {
-                    toast.setText(FirebaseMessages.NETWORK_ERROR)
+                viewModel.firebaseMessage.value.toString() == FirebaseCommonMessages.NETWORK_ERROR -> {
+                    toast.setText(FirebaseCommonMessages.NETWORK_ERROR)
                     toast.show()
                 }
                 else -> {
-                    toast.setText(FirebaseMessages.SUCCESSFUL)
+                    toast.setText(FirebaseRegisterMessages.SUCCESSFUL)
                     toast.show()
                     goToNextScreen(R.id.action_registerFragment_to_loginFragment)
                 }
@@ -73,6 +72,8 @@ class RegisterFragment : BaseFragment<RegisterViewModel, FragmentRegisterBinding
         }
     }
 }
+
+
 
 
 

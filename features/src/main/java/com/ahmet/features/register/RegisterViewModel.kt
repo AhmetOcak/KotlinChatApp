@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.ahmet.core.base.BaseViewModel
+import com.ahmet.core.utils.EmailController
 import com.ahmet.data.usecase.FirebaseOperations
 import com.ahmet.features.utils.CollectionPaths
 import com.ahmet.features.utils.Constants
@@ -35,7 +36,7 @@ class RegisterViewModel : BaseViewModel() {
     }
 
     private fun checkEmail(): Boolean {
-        return if (android.util.Patterns.EMAIL_ADDRESS.matcher(email.value.toString()).matches()) {
+        return if (EmailController.emailController(email.value.toString())) {
             true
         } else {
             message.value = Constants.EMAIL_MESSAGE
@@ -68,6 +69,7 @@ class RegisterViewModel : BaseViewModel() {
                         userName.value.toString(),
                         CollectionPaths.USER
                     )
+                    setProgBarVis(Status.DONE)
                     clearFields()
                 }
             } catch (e: Exception) {
