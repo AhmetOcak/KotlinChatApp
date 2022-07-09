@@ -7,11 +7,22 @@ object Constants {
     const val PASSWORD_MATCH_MESSAGE = "Password does not match"
 }
 
-object FirebaseMessages {
-    const val EMAIL_ERROR = "The email address is already in use by another account."
+object FirebaseCommonMessages {
     const val NETWORK_ERROR =
         "A network error (such as timeout, interrupted connection or unreachable host) has occurred."
+}
+
+object FirebaseRegisterMessages {
+    const val EMAIL_ERROR = "The email address is already in use by another account."
     const val SUCCESSFUL = "Register Successful"
+}
+
+object FirebaseLoginMessages {
+    const val SUCCESSFUL = "Login Successful"
+    const val LOGIN_ERROR = "Login Failed: Your user e-mail or password is incorrect"
+
+    const val ERROR_MESSAGE =
+        "There is no user record corresponding to this identifier. The user may have been deleted."
 }
 
 object CollectionPaths {

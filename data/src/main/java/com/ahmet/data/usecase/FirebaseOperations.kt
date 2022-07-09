@@ -35,9 +35,9 @@ class FirebaseOperations : IFirebaseOperations {
         var resultMessage: String? = null
 
         auth.signInWithEmailAndPassword(email, password).addOnCompleteListener {
-            resultMessage = if (it.isSuccessful) {
-                "Login Successful"
-            }else {
+            if (it.isSuccessful) {
+                resultMessage = "Login Successful"
+            } else {
                 it.exception!!.toString()
             }
         }.await()
