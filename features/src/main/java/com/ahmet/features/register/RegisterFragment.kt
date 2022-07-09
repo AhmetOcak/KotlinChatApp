@@ -1,27 +1,26 @@
 package com.ahmet.features.register
 
 import android.os.Bundle
-import android.view.Gravity
 import android.view.View
 import android.widget.Toast
 import com.ahmet.core.base.BaseFragment
 import com.ahmet.features.R
 import com.ahmet.features.databinding.FragmentRegisterBinding
 import com.ahmet.features.utils.*
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class RegisterFragment : BaseFragment<RegisterViewModel, FragmentRegisterBinding>() {
 
     override fun getViewModelClass() = RegisterViewModel::class.java
     override fun getViewDataBinding() = FragmentRegisterBinding.inflate(layoutInflater)
-    private lateinit var toast: Toast
+
+    @Inject lateinit var toast: Toast
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.viewModel = viewModel
-
-        // Toast definition
-        toast = Toast.makeText(requireContext(), " ", Toast.LENGTH_SHORT)
-        toast.setGravity(Gravity.TOP, 0, 0)
 
         binding.registerButton.setOnClickListener {
             viewModel.register()
