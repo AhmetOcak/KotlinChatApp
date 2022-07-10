@@ -30,6 +30,10 @@ android {
     kotlinOptions {
         jvmTarget = Options.jvmTarget
     }
+
+    hilt {
+        enableAggregatingTask = true
+    }
 }
 
 dependencies {

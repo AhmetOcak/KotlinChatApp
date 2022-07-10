@@ -37,6 +37,9 @@ android {
         dataBinding true
     }
 
+    hilt {
+        enableAggregatingTask = true
+    }
 }
 
 dependencies {
