@@ -10,6 +10,7 @@ object Constants {
 object FirebaseCommonMessages {
     const val NETWORK_ERROR =
         "A network error (such as timeout, interrupted connection or unreachable host) has occurred."
+    const val UNKNOWN_ERROR = "Something went wrong, please try again later"
 }
 
 object FirebaseRegisterMessages {
@@ -20,6 +21,7 @@ object FirebaseRegisterMessages {
 object FirebaseLoginMessages {
     const val SUCCESSFUL = "Login Successful"
     const val LOGIN_ERROR = "Login Failed: Your user e-mail or password is incorrect"
+    const val LOGIN_PASSWORD_ERROR = "The password is invalid or the user does not have a password."
 
     const val ERROR_MESSAGE =
         "There is no user record corresponding to this identifier. The user may have been deleted."
