@@ -1,6 +1,7 @@
 package com.ahmet.features.login
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import com.ahmet.core.base.BaseFragment
@@ -16,8 +17,8 @@ class LoginFragment : BaseFragment<LoginViewModel, FragmentLoginBinding>() {
     override fun getViewModelClass() = LoginViewModel::class.java
     override fun getViewDataBinding() = FragmentLoginBinding.inflate(layoutInflater)
 
-    @Inject lateinit var toast: Toast
-
+    @Inject
+    lateinit var toast: Toast
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -59,14 +60,23 @@ class LoginFragment : BaseFragment<LoginViewModel, FragmentLoginBinding>() {
                     toast.setText(FirebaseLoginMessages.LOGIN_ERROR)
                     toast.show()
                 }
+                viewModel.firebaseMessage.value.toString() == FirebaseLoginMessages.LOGIN_PASSWORD_ERROR -> {
+                    toast.setText(FirebaseLoginMessages.LOGIN_PASSWORD_ERROR)
+                    toast.show()
+                }
                 viewModel.firebaseMessage.value.toString() == FirebaseCommonMessages.NETWORK_ERROR -> {
                     toast.setText(FirebaseCommonMessages.NETWORK_ERROR)
                     toast.show()
                 }
-                else -> {
+                viewModel.firebaseMessage.value == FirebaseLoginMessages.SUCCESSFUL -> {
                     toast.setText(FirebaseLoginMessages.SUCCESSFUL)
                     toast.show()
                     goToNextScreen(R.id.action_loginFragment_to_messagesFragment)
+                }
+                else -> {
+                    toast.setText(FirebaseCommonMessages.UNKNOWN_ERROR)
+                    Log.e("e", viewModel.firebaseMessage.value.toString())
+                    toast.show()
                 }
             }
         }

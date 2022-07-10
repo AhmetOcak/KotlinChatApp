@@ -7,8 +7,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.ahmet.core.base.BaseViewModel
 import com.ahmet.core.utils.EmailController
+import com.ahmet.data.mapper.UserMapper
 import com.ahmet.data.usecase.GetUserData
 import com.ahmet.data.usecase.Login
+import com.ahmet.domain.model.User
 import com.ahmet.features.utils.Constants
 import com.ahmet.features.utils.Status
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
@@ -18,7 +20,11 @@ import java.lang.Exception
 import javax.inject.Inject
 
 @HiltViewModel
-class LoginViewModel @Inject constructor(private val loginFirebase: Login, private val userData: GetUserData): BaseViewModel() {
+class LoginViewModel @Inject constructor(
+    private val loginFirebase: Login,
+    private val userData: GetUserData,
+    private val mapper: UserMapper
+) : BaseViewModel() {
 
     private val _progressBarVisibility = MutableLiveData(View.INVISIBLE)
     val progressBarVisibility: LiveData<Int> get() = _progressBarVisibility
@@ -71,10 +77,9 @@ class LoginViewModel @Inject constructor(private val loginFirebase: Login, priva
                         )
                     clearFields()
                     setProgBarVis(Status.DONE)
+                    // exception yazılacak
+                    //if(rememberMeCheckBox.value == true) saveUserData.saveUserData(getUserData()!!)
                 }
-            } catch (e: FirebaseAuthInvalidUserException) {
-                firebaseMessage.value = e.message
-                setProgBarVis(Status.ERROR)
             } catch (e: Exception) {
                 firebaseMessage.value = e.message
                 setProgBarVis(Status.ERROR)
@@ -82,14 +87,16 @@ class LoginViewModel @Inject constructor(private val loginFirebase: Login, priva
         }
     }
 
-    fun getUserData() {
+    fun getUserData(): User? {
+        var user: User? = null
         viewModelScope.launch {
             try {
-                val user = userData.getUserDoc(email.value.toString())
-            }catch (e: Exception) {
+                user = mapper.mapFromEntity(userData.getUserDoc(email.value.toString()))
+            } catch (e: Exception) {
                 Log.e("exception", e.message.toString())
             }
         }
+        return user
     }
 
     private fun setProgBarVis(status: Status) {
@@ -102,6 +109,5 @@ class LoginViewModel @Inject constructor(private val loginFirebase: Login, priva
         password.value = null
         message.value = null
     }
-
 
 }

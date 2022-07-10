@@ -6,5 +6,5 @@ interface ISharedPref {
 
     fun saveUserData(user: User)
 
-    fun readUserData(): User
+    fun getUserData(): User
 }

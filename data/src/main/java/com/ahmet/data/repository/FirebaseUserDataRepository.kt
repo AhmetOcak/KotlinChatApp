@@ -1,13 +1,15 @@
 package com.ahmet.data.repository
 
+import android.util.Log
 import com.ahmet.data.utils.UserKeys
 import com.ahmet.domain.interfaces.IFirebaseUserDataRepository
 import com.ahmet.domain.model.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
+import javax.inject.Inject
 
-class FirebaseUserDataRepository: IFirebaseUserDataRepository {
+class FirebaseUserDataRepository @Inject constructor(): IFirebaseUserDataRepository {
 
     private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
@@ -38,7 +40,8 @@ class FirebaseUserDataRepository: IFirebaseUserDataRepository {
             if (it.isSuccessful) {
                 resultMessage = "Login Successful"
             } else {
-                it.exception!!.toString()
+                resultMessage = it.exception!!.message
+                Log.e("e", resultMessage.toString())
             }
         }.await()
         return resultMessage
