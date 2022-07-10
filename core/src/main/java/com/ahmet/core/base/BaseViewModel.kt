@@ -2,4 +2,4 @@ package com.ahmet.core.base
 
 import androidx.lifecycle.ViewModel
 
-open class BaseViewModel: ViewModel() {}
+abstract class BaseViewModel: ViewModel() {}

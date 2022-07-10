@@ -6,14 +6,17 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.ahmet.core.base.BaseViewModel
 import com.ahmet.core.utils.EmailController
-import com.ahmet.data.usecase.FirebaseOperations
+import com.ahmet.data.usecase.Register
 import com.ahmet.features.utils.CollectionPaths
 import com.ahmet.features.utils.Constants
 import com.ahmet.features.utils.Status
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.lang.Exception
+import javax.inject.Inject
 
-class RegisterViewModel : BaseViewModel() {
+@HiltViewModel
+class RegisterViewModel @Inject constructor(private val registerFirebase: Register): BaseViewModel() {
 
     val userName = MutableLiveData<String?>()
     val email = MutableLiveData<String?>()
@@ -63,11 +66,10 @@ class RegisterViewModel : BaseViewModel() {
             try {
                 if (checkRegisterInfo()) {
                     setProgBarVis(Status.LOADING)
-                    firebaseMessage.value = FirebaseOperations().register(
+                    firebaseMessage.value = registerFirebase.register(
                         email.value.toString(),
                         password.value.toString(),
                         userName.value.toString(),
-                        CollectionPaths.USER
                     )
                     setProgBarVis(Status.DONE)
                     clearFields()

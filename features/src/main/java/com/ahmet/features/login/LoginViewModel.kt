@@ -7,14 +7,18 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.ahmet.core.base.BaseViewModel
 import com.ahmet.core.utils.EmailController
-import com.ahmet.data.usecase.FirebaseOperations
+import com.ahmet.data.usecase.GetUserData
+import com.ahmet.data.usecase.Login
 import com.ahmet.features.utils.Constants
 import com.ahmet.features.utils.Status
 import com.google.firebase.auth.FirebaseAuthInvalidUserException
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.lang.Exception
+import javax.inject.Inject
 
-class LoginViewModel : BaseViewModel() {
+@HiltViewModel
+class LoginViewModel @Inject constructor(private val loginFirebase: Login, private val userData: GetUserData): BaseViewModel() {
 
     private val _progressBarVisibility = MutableLiveData(View.INVISIBLE)
     val progressBarVisibility: LiveData<Int> get() = _progressBarVisibility
@@ -61,7 +65,7 @@ class LoginViewModel : BaseViewModel() {
                 if (checkLoginInfo()) {
                     setProgBarVis(Status.LOADING)
                     firebaseMessage.value =
-                        FirebaseOperations().login(
+                        loginFirebase.login(
                             email.value.toString(),
                             password.value.toString()
                         )
@@ -81,7 +85,7 @@ class LoginViewModel : BaseViewModel() {
     fun getUserData() {
         viewModelScope.launch {
             try {
-                val user = FirebaseOperations().getUserDoc(email.value.toString())
+                val user = userData.getUserDoc(email.value.toString())
             }catch (e: Exception) {
                 Log.e("exception", e.message.toString())
             }

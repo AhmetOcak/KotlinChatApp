@@ -1,13 +1,13 @@
 package com.ahmet.data.repository
 
 import com.ahmet.data.utils.UserKeys
-import com.ahmet.domain.interfaces.IFirebaseUserDataSource
+import com.ahmet.domain.interfaces.IFirebaseUserDataRepository
 import com.ahmet.domain.model.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 
-class FirebaseUserDataRepository: IFirebaseUserDataSource {
+class FirebaseUserDataRepository: IFirebaseUserDataRepository {
 
     private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()

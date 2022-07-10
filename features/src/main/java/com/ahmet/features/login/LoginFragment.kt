@@ -18,6 +18,7 @@ class LoginFragment : BaseFragment<LoginViewModel, FragmentLoginBinding>() {
 
     @Inject lateinit var toast: Toast
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.viewModel = viewModel
