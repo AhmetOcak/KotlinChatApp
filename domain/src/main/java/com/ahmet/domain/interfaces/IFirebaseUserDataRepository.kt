@@ -2,16 +2,15 @@ package com.ahmet.domain.interfaces
 
 import com.ahmet.domain.model.User
 
-interface IFirebaseOperations {
+interface IFirebaseUserDataRepository {
 
     suspend fun register(
         email: String,
         password: String,
-        userName: String,
-        collectionPath: String
+        userName: String
     ): String?
 
-    fun saveFirestore(
+    fun saveUserDoc(
         email: String,
         password: String,
         userName: String,
