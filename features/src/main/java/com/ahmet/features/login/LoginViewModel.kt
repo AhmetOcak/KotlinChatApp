@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.ahmet.core.base.BaseViewModel
 import com.ahmet.core.utils.EmailController
 import com.ahmet.data.mapper.UserMapper
+import com.ahmet.data.usecase.AddUserToDb
 import com.ahmet.data.usecase.GetUserData
 import com.ahmet.data.usecase.Login
 import com.ahmet.domain.model.User
@@ -23,7 +24,8 @@ import javax.inject.Inject
 class LoginViewModel @Inject constructor(
     private val loginFirebase: Login,
     private val userData: GetUserData,
-    private val mapper: UserMapper
+    private val mapper: UserMapper,
+    private val addUserToDb: AddUserToDb
 ) : BaseViewModel() {
 
     private val _progressBarVisibility = MutableLiveData(View.INVISIBLE)
@@ -75,13 +77,13 @@ class LoginViewModel @Inject constructor(
                             email.value.toString(),
                             password.value.toString()
                         )
+
                     clearFields()
                     setProgBarVis(Status.DONE)
-                    // exception yazılacak
-                    //if(rememberMeCheckBox.value == true) saveUserData.saveUserData(getUserData()!!)
                 }
             } catch (e: Exception) {
                 firebaseMessage.value = e.message
+                Log.e("e", e.toString())
                 setProgBarVis(Status.ERROR)
             }
         }
