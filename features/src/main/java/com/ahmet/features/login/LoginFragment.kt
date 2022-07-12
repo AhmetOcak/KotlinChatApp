@@ -68,6 +68,15 @@ class LoginFragment : BaseFragment<LoginViewModel, FragmentLoginBinding>() {
                     toast.setText(FirebaseCommonMessages.NETWORK_ERROR)
                     toast.show()
                 }
+                viewModel.firebaseMessage.value == FirebaseLoginMessages.BLOCKED_ERROR_MESSAGE -> {
+                    toast.setText(
+                        FirebaseLoginMessages.BLOCKED_ERROR_MESSAGE.substring(
+                            0,
+                            FirebaseLoginMessages.BLOCKED_ERROR_MESSAGE.indexOf('[')
+                        )
+                    )
+                    toast.show()
+                }
                 viewModel.firebaseMessage.value == FirebaseLoginMessages.SUCCESSFUL -> {
                     toast.setText(FirebaseLoginMessages.SUCCESSFUL)
                     toast.show()
@@ -75,7 +84,6 @@ class LoginFragment : BaseFragment<LoginViewModel, FragmentLoginBinding>() {
                 }
                 else -> {
                     toast.setText(FirebaseCommonMessages.UNKNOWN_ERROR)
-                    Log.e("e", viewModel.firebaseMessage.value.toString())
                     toast.show()
                 }
             }

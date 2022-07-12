@@ -62,10 +62,14 @@ class RegisterFragment : BaseFragment<RegisterViewModel, FragmentRegisterBinding
                     toast.setText(FirebaseCommonMessages.NETWORK_ERROR)
                     toast.show()
                 }
-                else -> {
+                viewModel.firebaseMessage.value.toString() == FirebaseRegisterMessages.SUCCESSFUL -> {
                     toast.setText(FirebaseRegisterMessages.SUCCESSFUL)
                     toast.show()
                     goToNextScreen(R.id.action_registerFragment_to_loginFragment)
+                }
+                else -> {
+                    toast.setText(FirebaseCommonMessages.UNKNOWN_ERROR)
+                    toast.show()
                 }
             }
         }
