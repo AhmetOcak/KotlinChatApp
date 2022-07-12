@@ -49,8 +49,8 @@ dependencies {
     androidTestImplementation (Libs.espresso)
 
     // Firebase
-    implementation 'com.google.firebase:firebase-auth-ktx:21.0.1'
-    implementation 'com.google.firebase:firebase-firestore:21.4.0'
+    implementation 'com.google.firebase:firebase-auth-ktx:21.0.6'
+    implementation 'com.google.firebase:firebase-firestore:24.2.0'
 
     // Room
     implementation (Libs.room)
