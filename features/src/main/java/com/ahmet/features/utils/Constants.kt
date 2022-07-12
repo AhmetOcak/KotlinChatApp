@@ -22,6 +22,10 @@ object FirebaseLoginMessages {
     const val SUCCESSFUL = "Login Successful"
     const val LOGIN_ERROR = "Login Failed: Your user e-mail or password is incorrect"
     const val LOGIN_PASSWORD_ERROR = "The password is invalid or the user does not have a password."
+    const val BLOCKED_ERROR_MESSAGE =
+        "We have blocked all requests from this device due to unusual activity. Try again later. " +
+                "[ Access to this account has been temporarily disabled due to many failed login attempts. " +
+                "You can immediately restore it by resetting your password or you can try again later. ]"
 
     const val ERROR_MESSAGE =
         "There is no user record corresponding to this identifier. The user may have been deleted."
