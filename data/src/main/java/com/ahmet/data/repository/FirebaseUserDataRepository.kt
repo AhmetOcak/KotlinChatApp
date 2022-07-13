@@ -18,6 +18,7 @@ class FirebaseUserDataRepository @Inject constructor(): IFirebaseUserDataReposit
         email: String,
         password: String,
         userName: String,
+        userFriends: List<String>
     ): String? {
         var resultMessage: String? = null
 
@@ -25,7 +26,7 @@ class FirebaseUserDataRepository @Inject constructor(): IFirebaseUserDataReposit
             .addOnCompleteListener {
                 if (it.isSuccessful) {
                     resultMessage = "Register Successful"
-                    saveUserDoc(email, password, userName, "users")
+                    saveUserDoc(email, password, userName, userFriends, "users")
                 } else {
                     resultMessage = it.exception!!.toString()
                 }
@@ -51,14 +52,16 @@ class FirebaseUserDataRepository @Inject constructor(): IFirebaseUserDataReposit
         email: String,
         password: String,
         userName: String,
+        userFriends: List<String>,
         collectionPath: String
     ) {
-        val user = User(userName, email, password)
-        val userData: MutableMap<String, String> = HashMap()
+        val user = User(userName, email, password, userFriends)
+        val userData: MutableMap<String, Any> = HashMap()
 
         userData[UserKeys.USERNAME] = user.userName
         userData[UserKeys.EMAIL] = user.emailAddress
         userData[UserKeys.PASSWORD] = user.password
+        userData[UserKeys.USER_FRIENDS] = user.userFriends
 
         db.collection(collectionPath)
             .document(user.emailAddress).set(userData)
@@ -73,7 +76,8 @@ class FirebaseUserDataRepository @Inject constructor(): IFirebaseUserDataReposit
                 user = User(
                     it.data!![UserKeys.USERNAME].toString(),
                     it.data!![UserKeys.EMAIL].toString(),
-                    it.data!![UserKeys.PASSWORD].toString()
+                    it.data!![UserKeys.PASSWORD].toString(),
+                    listOf(it.data!![UserKeys.USER_FRIENDS].toString())
                 )
             }
         }.await()

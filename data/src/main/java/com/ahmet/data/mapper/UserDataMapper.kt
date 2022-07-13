@@ -9,7 +9,8 @@ class UserDataMapper: IEntityMapper<UserDataEntity, User> {
         return User(
             entity.userName,
             entity.userEmail,
-            entity.password
+            entity.password,
+            entity.userFriends
         )
     }
 
@@ -18,7 +19,8 @@ class UserDataMapper: IEntityMapper<UserDataEntity, User> {
             0,
             model.userName,
             model.emailAddress,
-            model.password
+            model.password,
+            model.userFriends
         )
     }
 }

@@ -86,16 +86,22 @@ class LoginViewModel @Inject constructor(
                                 updateUserDb.updateUserDb(
                                     user.userName,
                                     user.emailAddress,
-                                    user.password
+                                    user.password,
+                                    user.userFriends
                                 )
                             } else {
-                                addUserToDb.addUser(user.userName, user.emailAddress, user.password)
+                                addUserToDb.addUser(
+                                    user.userName,
+                                    user.emailAddress,
+                                    user.password,
+                                    user.userFriends
+                                )
                             }
                         } else {
                             throw Exception()
                         }
-                    }else {
-                        if(getUserDb.getUser() != null) {
+                    } else {
+                        if (getUserDb.getUser() != null) {
                             deleteUserFromDb.deleteUserFromDb()
                         }
                     }

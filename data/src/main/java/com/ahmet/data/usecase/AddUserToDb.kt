@@ -7,9 +7,9 @@ import javax.inject.Inject
 
 class AddUserToDb @Inject constructor(private val db: UserDatabase) {
 
-    fun addUser(userName: String, email: String, password: String) {
+    fun addUser(userName: String, email: String, password: String, userFriends: List<String>) {
         try {
-            db.userDao().addUser(UserDataEntity(0, userName, email, password))
+            db.userDao().addUser(UserDataEntity(0, userName, email, password, userFriends))
         }catch (e: Exception){
             Log.e("db_exception", e.toString())
         }

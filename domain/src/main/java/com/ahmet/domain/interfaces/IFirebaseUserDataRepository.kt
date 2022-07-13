@@ -7,13 +7,15 @@ interface IFirebaseUserDataRepository {
     suspend fun register(
         email: String,
         password: String,
-        userName: String
+        userName: String,
+        userFriends: List<String>,
     ): String?
 
     fun saveUserDoc(
         email: String,
         password: String,
         userName: String,
+        userFriends: List<String>,
         collectionPath: String
     )
 

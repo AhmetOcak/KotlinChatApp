@@ -5,7 +5,7 @@ import javax.inject.Inject
 
 class Register @Inject constructor(private val repository: FirebaseUserDataRepository) {
 
-    suspend fun register(email: String, password: String, username: String): String? {
-        return repository.register(email, password, username)
+    suspend fun register(email: String, password: String, username: String, userFriends: List<String>): String? {
+        return repository.register(email, password, username, userFriends)
     }
 }

@@ -19,5 +19,8 @@ data class UserDataEntity(
     var userEmail: String,
 
     @ColumnInfo(name = "password")
-    var password: String
+    var password: String,
+
+    @ColumnInfo(name = "user_friends")
+    var userFriends: List<String>
 )
