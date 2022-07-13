@@ -56,6 +56,9 @@ dependencies {
     implementation (Libs.room)
     kapt (Libs.roomCompiler)
 
+    // Gson
+    implementation 'com.google.code.gson:gson:2.9.0'
+
     // Dependency Injection
     implementation (Libs.hilt)
     kapt (Libs.hiltCompiler)
