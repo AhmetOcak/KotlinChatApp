@@ -8,13 +8,13 @@ import com.ahmet.data.utils.UserDatabase
 interface UserDao {
 
     @Insert
-    fun addUser(user: UserDataEntity)
+    fun addUser(user: UserDataEntity?)
 
     @Update
-    fun updateUser(user: UserDataEntity)
+    fun updateUser(user: UserDataEntity?)
 
     @Query("SELECT * FROM user")
-    fun getUser(): UserDataEntity
+    fun getUser(): UserDataEntity?
 
     @Query("DELETE FROM ${UserDatabase.TABLE_NAME}")
     fun deleteUser()
