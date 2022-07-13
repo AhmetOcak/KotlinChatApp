@@ -6,7 +6,7 @@ import javax.inject.Inject
 
 class GetUserFromDb @Inject constructor(private val db: UserDatabase) {
 
-    fun getUser(): UserDataEntity {
+    fun getUser(): UserDataEntity? {
         return db.userDao().getUser()
     }
 }
