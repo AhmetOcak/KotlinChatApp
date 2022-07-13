@@ -5,6 +5,7 @@ object Constants {
     const val EMAIL_MESSAGE = "Please enter a valid e-mail address"
     const val PASSWORD_LENGTH_MESSAGE = "Password length cannot be less than 5"
     const val PASSWORD_MATCH_MESSAGE = "Password does not match"
+    const val IS_COME_FROM_APP = "isComeFromApp"
 }
 
 object FirebaseCommonMessages {
