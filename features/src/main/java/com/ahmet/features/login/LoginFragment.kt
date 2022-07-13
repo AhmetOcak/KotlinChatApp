@@ -29,7 +29,6 @@ class LoginFragment : BaseFragment<LoginViewModel, FragmentLoginBinding>() {
         }
         binding.loginButton.setOnClickListener {
             viewModel.login()
-            viewModel.getUserData()
             setToastMessage()
             viewModel.message.value = null
         }
