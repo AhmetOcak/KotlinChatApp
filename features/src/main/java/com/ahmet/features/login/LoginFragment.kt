@@ -1,7 +1,6 @@
 package com.ahmet.features.login
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import com.ahmet.core.base.BaseFragment
@@ -23,6 +22,10 @@ class LoginFragment : BaseFragment<LoginViewModel, FragmentLoginBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.viewModel = viewModel
+
+        if (viewModel.isUserCached() && !requireArguments().getBoolean(Constants.IS_COME_FROM_APP)) {
+            goToNextScreen(R.id.action_loginFragment_to_messagesFragment)
+        }
 
         binding.signUp.setOnClickListener {
             goToNextScreen(R.id.action_loginFragment_to_registerFragment)
@@ -88,4 +91,5 @@ class LoginFragment : BaseFragment<LoginViewModel, FragmentLoginBinding>() {
             }
         }
     }
+
 }

@@ -12,7 +12,6 @@ import com.ahmet.data.usecase.*
 import com.ahmet.domain.model.User
 import com.ahmet.features.utils.Constants
 import com.ahmet.features.utils.Status
-import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.lang.Exception
@@ -25,7 +24,8 @@ class LoginViewModel @Inject constructor(
     private val mapper: UserMapper,
     private val addUserToDb: AddUserToDb,
     private val updateUserDb: UpdateUserDb,
-    private val getUserDb: GetUserFromDb
+    private val getUserDb: GetUserFromDb,
+    private val deleteUserFromDb: DeleteUserFromDb
 ) : BaseViewModel() {
 
     private val _progressBarVisibility = MutableLiveData(View.INVISIBLE)
@@ -94,6 +94,10 @@ class LoginViewModel @Inject constructor(
                         } else {
                             throw Exception()
                         }
+                    }else {
+                        if(getUserDb.getUser() != null) {
+                            deleteUserFromDb.deleteUserFromDb()
+                        }
                     }
 
                     clearFields()
@@ -128,6 +132,10 @@ class LoginViewModel @Inject constructor(
         email.value = null
         password.value = null
         message.value = null
+    }
+
+    fun isUserCached(): Boolean {
+        return getUserDb.getUser() != null
     }
 
 }

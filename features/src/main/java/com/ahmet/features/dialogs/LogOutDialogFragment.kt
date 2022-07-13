@@ -10,6 +10,7 @@ import android.widget.Button
 import androidx.fragment.app.DialogFragment
 import androidx.navigation.fragment.findNavController
 import com.ahmet.features.R
+import com.ahmet.features.utils.Constants
 import javax.inject.Inject
 
 class LogOutDialogFragment @Inject constructor() : DialogFragment() {
@@ -41,7 +42,9 @@ class LogOutDialogFragment @Inject constructor() : DialogFragment() {
     }
 
     private fun goToLoginScreen() {
-        findNavController().navigate(R.id.action_accountSettingsFragment_to_loginFragment)
+        findNavController().navigate(
+            R.id.action_accountSettingsFragment_to_loginFragment,
+            Bundle().apply { putBoolean(Constants.IS_COME_FROM_APP, true) })
     }
 }
 
