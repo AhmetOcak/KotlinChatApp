@@ -11,3 +11,7 @@ object UserDatabase {
     const val TABLE_NAME = "user"
     const val DATABASE_NAME = "user_data"
 }
+
+object Firebase {
+    const val USER_COLLECTION_PATH = "users"
+}
