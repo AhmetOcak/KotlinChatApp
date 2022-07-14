@@ -6,8 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.ahmet.core.base.BaseViewModel
 import com.ahmet.core.utils.EmailController
-import com.ahmet.data.usecase.Register
-import com.ahmet.features.utils.CollectionPaths
+import com.ahmet.data.usecase.auth.Register
 import com.ahmet.features.utils.Constants
 import com.ahmet.features.utils.Status
 import dagger.hilt.android.lifecycle.HiltViewModel
