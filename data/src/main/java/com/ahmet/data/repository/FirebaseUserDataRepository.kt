@@ -1,15 +1,18 @@
 package com.ahmet.data.repository
 
 import android.util.Log
+import com.ahmet.data.utils.Firebase
 import com.ahmet.data.utils.UserKeys
 import com.ahmet.domain.interfaces.IFirebaseUserDataRepository
 import com.ahmet.domain.model.User
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.SetOptions
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
-class FirebaseUserDataRepository @Inject constructor(): IFirebaseUserDataRepository {
+class FirebaseUserDataRepository @Inject constructor() : IFirebaseUserDataRepository {
 
     private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
@@ -26,7 +29,13 @@ class FirebaseUserDataRepository @Inject constructor(): IFirebaseUserDataReposit
             .addOnCompleteListener {
                 if (it.isSuccessful) {
                     resultMessage = "Register Successful"
-                    saveUserDoc(email, password, userName, userFriends, "users")
+                    saveUserDoc(
+                        email,
+                        password,
+                        userName,
+                        userFriends,
+                        Firebase.USER_COLLECTION_PATH
+                    )
                 } else {
                     resultMessage = it.exception!!.toString()
                 }
@@ -82,5 +91,28 @@ class FirebaseUserDataRepository @Inject constructor(): IFirebaseUserDataReposit
             }
         }.await()
         return user
+    }
+
+    override suspend fun addUser(friendEmail: String, userEmail: String): String? {
+        val userRef = db.collection(Firebase.USER_COLLECTION_PATH).document(userEmail)
+        var resultMessage: String? = null
+
+        val data: MutableMap<String, List<String>> = HashMap()
+        data[UserKeys.USER_FRIENDS] = listOf(friendEmail)
+
+        db.collection(Firebase.USER_COLLECTION_PATH)
+            .whereArrayContains("user_friends", friendEmail)
+            .get()
+            .addOnSuccessListener {
+                if(it.documents.isEmpty()) {
+                    userRef.update("user_friends", FieldValue.arrayUnion(friendEmail))
+                        .addOnSuccessListener { resultMessage = "Successful" }
+                        .addOnFailureListener { resultMessage = "Unsuccessful" }
+                }else {
+                    resultMessage = "You already added this account"
+                }
+            }.await()
+        
+        return resultMessage
     }
 }
