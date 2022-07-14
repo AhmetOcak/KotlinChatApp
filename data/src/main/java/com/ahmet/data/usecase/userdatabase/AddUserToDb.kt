@@ -1,4 +1,4 @@
-package com.ahmet.data.usecase
+package com.ahmet.data.usecase.userdatabase
 
 import android.util.Log
 import com.ahmet.data.local.db.UserDatabase

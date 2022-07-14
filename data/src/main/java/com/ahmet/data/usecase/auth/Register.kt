@@ -1,4 +1,4 @@
-package com.ahmet.data.usecase
+package com.ahmet.data.usecase.auth
 
 import com.ahmet.data.repository.FirebaseUserDataRepository
 import javax.inject.Inject

@@ -1,4 +1,4 @@
-package com.ahmet.data.usecase
+package com.ahmet.data.usecase.firebase
 
 import com.ahmet.data.mapper.UserMapper
 import com.ahmet.data.model.UserEntity

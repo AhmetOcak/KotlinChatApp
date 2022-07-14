@@ -1,4 +1,4 @@
-package com.ahmet.data.usecase
+package com.ahmet.data.usecase.userdatabase
 
 import com.ahmet.data.local.db.UserDatabase
 import javax.inject.Inject
