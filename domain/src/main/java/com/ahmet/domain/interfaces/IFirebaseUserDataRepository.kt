@@ -22,4 +22,6 @@ interface IFirebaseUserDataRepository {
     suspend fun login(email: String, password: String): String?
 
     suspend fun getUserDoc(email: String): User?
+
+    suspend fun addUser(friendEmail: String, userEmail: String): String?
 }
