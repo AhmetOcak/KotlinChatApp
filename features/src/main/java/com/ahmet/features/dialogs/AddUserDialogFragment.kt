@@ -3,17 +3,27 @@ package com.ahmet.features.dialogs
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
+import android.widget.Toast
 import androidx.fragment.app.DialogFragment
-import com.ahmet.features.R
+import androidx.fragment.app.viewModels
+import com.ahmet.features.databinding.CustomAdduserDialogBinding
+import com.ahmet.features.utils.Constants
+import com.ahmet.features.utils.FirebaseCommonMessages
+import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
-class AddUserDialogFragment @Inject constructor() : DialogFragment() {
+@AndroidEntryPoint
+class AddUserDialogFragment @Inject constructor(): DialogFragment() {
 
-    private lateinit var rootView: View
+    private lateinit var binding: CustomAdduserDialogBinding
+    private val viewmodel : AddUserDialogViewModel by viewModels()
+
+    @Inject
+    lateinit var toast: Toast
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -21,20 +31,67 @@ class AddUserDialogFragment @Inject constructor() : DialogFragment() {
         savedInstanceState: Bundle?
     ): View? {
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        rootView = inflater.inflate(R.layout.custom_adduser_dialog, container, false)
-        return rootView
+
+        binding = CustomAdduserDialogBinding.inflate(layoutInflater)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        rootView.findViewById<Button>(R.id.dialogAddUserButtonAUD).setOnClickListener {
-            // add user
+        binding.lifecycleOwner = viewLifecycleOwner
+        binding.viewModel = viewmodel
+
+        binding.dialogAddUserButtonAUD.setOnClickListener {
+            viewmodel.addFriend()
+            setToastMessage()
+            viewmodel.errorMessage.value = null
+        }
+        observeFirebaseResponse()
+
+        binding.dialogCancelButtonAUD.setOnClickListener {
             dismiss()
         }
+    }
 
-        rootView.findViewById<Button>(R.id.dialogCancelButtonAUD).setOnClickListener {
-            dismiss()
+    private fun setToastMessage() {
+        when {
+            viewmodel.errorMessage.value.toString() == Constants.EMPTY_FIELD_MESSAGE -> {
+                toast.setText(Constants.EMPTY_FIELD_MESSAGE)
+                toast.show()
+            }
+            viewmodel.errorMessage.value.toString() == Constants.EMAIL_MESSAGE -> {
+                toast.setText(Constants.EMAIL_MESSAGE)
+                toast.show()
+            }
+            viewmodel.errorMessage.value.toString() == "You can't add yourself" -> {
+                toast.setText("You can't add yourself")
+                toast.show()
+            }
+        }
+    }
+
+    private fun observeFirebaseResponse() {
+        viewmodel.firebaseMessage.observe(viewLifecycleOwner) {
+            when {
+                viewmodel.firebaseMessage.value.toString() == FirebaseCommonMessages.NETWORK_ERROR -> {
+                    toast.setText(FirebaseCommonMessages.NETWORK_ERROR)
+                    toast.show()
+                }
+                viewmodel.firebaseMessage.value.toString() == FirebaseCommonMessages.UNKNOWN_ERROR -> {
+                    toast.setText(FirebaseCommonMessages.UNKNOWN_ERROR)
+                    toast.show()
+                }
+                viewmodel.firebaseMessage.value.toString() == "You already added this account" -> {
+                    toast.setText("You already added this account")
+                    toast.show()
+                }
+                else -> {
+                    toast.setText("Friend added successfully")
+                    toast.show()
+                    dismiss()
+                }
+            }
         }
     }
 }
