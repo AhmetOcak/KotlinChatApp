@@ -26,7 +26,6 @@ import javax.inject.Inject
 class LoginViewModel @Inject constructor(
     private val loginFirebase: Login,
     private val userData: GetUserData,
-    private val mapper: UserMapper,
     private val addUserToDb: AddUserToDb,
     private val updateUserDb: UpdateUserDb,
     private val getUserDb: GetUserFromDb,
@@ -84,7 +83,6 @@ class LoginViewModel @Inject constructor(
                         )
 
                     val user = getUserData()
-                    Log.e("user", user.toString())
                     if (rememberMeCheckBox.value == true) {
                         if (user != null) {
                             if (getUserDb.getUser() != null) {
@@ -126,7 +124,7 @@ class LoginViewModel @Inject constructor(
         var user: User? = null
 
         try {
-            user = mapper.mapFromEntity(userData.getUserDoc(email.value.toString()))
+            user = userData.getUserDoc(email.value.toString())
         } catch (e: Exception) {
             Log.e("exception", e.message.toString())
         }

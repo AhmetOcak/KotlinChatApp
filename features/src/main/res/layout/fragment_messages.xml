@@ -74,7 +74,7 @@
                 app:tint="@color/white" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/messages_recylerview"
+                android:id="@+id/friends_recylerview"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_margin="24dp"

@@ -43,7 +43,7 @@ class AddUserDialogViewModel @Inject constructor(
 
     // user can't add himself/herself :D
     private fun isUserEmail(): Boolean {
-        return if(getUserFromDb.getUser()!!.userEmail == friendEmail.value.toString()) {
+        return if(getUserFromDb.getUser()!!.emailAddress == friendEmail.value.toString()) {
             errorMessage.value = "You can't add yourself"
             false
         }else {
@@ -57,7 +57,7 @@ class AddUserDialogViewModel @Inject constructor(
                 if (checkEmailField() && checkEmail() && isUserEmail()) {
                     firebaseMessage.value = addUser.addUser(
                         friendEmail.value.toString(),
-                        getUserFromDb.getUser()!!.userEmail
+                        getUserFromDb.getUser()!!.emailAddress
                     )
                     clearFields()
                 }
