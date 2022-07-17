@@ -29,8 +29,12 @@ abstract class BaseFragment<ViewModel : BaseViewModel, VB : ViewDataBinding> : F
         return binding.root
     }
 
-    protected fun goToNextScreen(resId: Int) {
-        findNavController().navigate(resId)
+    protected fun goToNextScreen(resId: Int, args: String?, argName: String?) {
+        if(args == null) {
+            findNavController().navigate(resId)
+        }else {
+            findNavController().navigate(resId, Bundle().apply { putString(argName, args) })
+        }
     }
 
     override fun onDestroy() {

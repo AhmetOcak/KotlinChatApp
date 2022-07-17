@@ -23,7 +23,7 @@ class AccountSettingsFragment : BaseFragment<AccountSettingsViewModel, FragmentA
         super.onViewCreated(view, savedInstanceState)
 
         binding.back.setOnClickListener {
-            goToNextScreen(R.id.action_accountSettingsFragment_to_messagesFragment)
+            goToNextScreen(R.id.action_accountSettingsFragment_to_messagesFragment, null, null)
         }
 
         binding.logOutButton.setOnClickListener {
