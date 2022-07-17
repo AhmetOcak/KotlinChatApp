@@ -21,6 +21,9 @@
         <action
             android:id="@+id/action_messagesFragment_to_accountSettingsFragment"
             app:destination="@id/accountSettingsFragment" />
+        <argument
+            android:name="userEmail"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
