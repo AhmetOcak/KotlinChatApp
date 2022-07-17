@@ -37,7 +37,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/unread_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
@@ -49,7 +49,7 @@
             app:layout_constraintTop_toBottomOf="@+id/user_name" />
 
         <TextView
-            android:id="@+id/textView4"
+            android:id="@+id/unread_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text=" 3 mins ago"
