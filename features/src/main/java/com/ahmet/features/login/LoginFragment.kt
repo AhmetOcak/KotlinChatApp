@@ -24,11 +24,11 @@ class LoginFragment : BaseFragment<LoginViewModel, FragmentLoginBinding>() {
         binding.viewModel = viewModel
 
         if (viewModel.isUserCached() && !requireArguments().getBoolean(Constants.IS_COME_FROM_APP)) {
-            goToNextScreen(R.id.action_loginFragment_to_messagesFragment)
+            goToNextScreen(R.id.action_loginFragment_to_messagesFragment, null, null)
         }
 
         binding.signUp.setOnClickListener {
-            goToNextScreen(R.id.action_loginFragment_to_registerFragment)
+            goToNextScreen(R.id.action_loginFragment_to_registerFragment, null, null)
         }
         binding.loginButton.setOnClickListener {
             viewModel.login()
@@ -82,7 +82,20 @@ class LoginFragment : BaseFragment<LoginViewModel, FragmentLoginBinding>() {
                 viewModel.firebaseMessage.value == FirebaseLoginMessages.SUCCESSFUL -> {
                     toast.setText(FirebaseLoginMessages.SUCCESSFUL)
                     toast.show()
-                    goToNextScreen(R.id.action_loginFragment_to_messagesFragment)
+
+                    if(viewModel.rememberMeCheckBox.value == false) {
+                        goToNextScreen(
+                            R.id.action_loginFragment_to_messagesFragment,
+                            viewModel.email.value.toString(),
+                            Constants.USER_EMAIL_ARG_NAME
+                        )
+                    }else {
+                        goToNextScreen(
+                            R.id.action_loginFragment_to_messagesFragment,
+                            null,
+                            null
+                        )
+                    }
                 }
                 else -> {
                     toast.setText(FirebaseCommonMessages.UNKNOWN_ERROR)
