@@ -9,13 +9,19 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.DialogFragment
 import androidx.navigation.fragment.findNavController
+import com.ahmet.data.usecase.userdatabase.DeleteUserFromDb
 import com.ahmet.features.R
 import com.ahmet.features.utils.Constants
+import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Inject
 
 class LogOutDialogFragment @Inject constructor() : DialogFragment() {
 
     private lateinit var rootView: View
+
+    @Inject
+    lateinit var deleteUserFromDb: DeleteUserFromDb
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -31,7 +37,7 @@ class LogOutDialogFragment @Inject constructor() : DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         rootView.findViewById<Button>(R.id.dialogLogOutButtonDAD).setOnClickListener {
-            // logout
+            deleteUserFromDb.deleteUserFromDb()
             goToLoginScreen()
             dismiss()
         }
