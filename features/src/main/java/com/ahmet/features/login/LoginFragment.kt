@@ -83,13 +83,27 @@ class LoginFragment : BaseFragment<LoginViewModel, FragmentLoginBinding>() {
                     toast.setText(FirebaseLoginMessages.SUCCESSFUL)
                     toast.show()
 
-                    if(viewModel.rememberMeCheckBox.value == false) {
+                    observeResponseStatus()
+                }
+                else -> {
+                    toast.setText(FirebaseCommonMessages.UNKNOWN_ERROR)
+                    toast.show()
+                }
+            }
+        }
+    }
+
+    private fun observeResponseStatus() {
+        viewModel.status.observe(viewLifecycleOwner) {
+            when (viewModel.status.value) {
+                Status.DONE -> {
+                    if (viewModel.rememberMeCheckBox.value == false) {
                         goToNextScreen(
                             R.id.action_loginFragment_to_messagesFragment,
                             viewModel.email.value.toString(),
                             Constants.USER_EMAIL_ARG_NAME
                         )
-                    }else {
+                    } else {
                         goToNextScreen(
                             R.id.action_loginFragment_to_messagesFragment,
                             null,
@@ -97,10 +111,7 @@ class LoginFragment : BaseFragment<LoginViewModel, FragmentLoginBinding>() {
                         )
                     }
                 }
-                else -> {
-                    toast.setText(FirebaseCommonMessages.UNKNOWN_ERROR)
-                    toast.show()
-                }
+                else -> {}
             }
         }
     }
