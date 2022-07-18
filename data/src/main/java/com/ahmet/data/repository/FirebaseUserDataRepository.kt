@@ -82,11 +82,12 @@ class FirebaseUserDataRepository @Inject constructor() : IFirebaseUserDataReposi
 
         userDoc.get().addOnSuccessListener {
             if (!it.data.isNullOrEmpty()) {
+                val userFriendsList = it.get("user_friends") as List<String>
                 user = User(
                     it.data!![UserKeys.USERNAME].toString(),
                     it.data!![UserKeys.EMAIL].toString(),
                     it.data!![UserKeys.PASSWORD].toString(),
-                    listOf(it.data!![UserKeys.USER_FRIENDS].toString())
+                    userFriendsList
                 )
             }
         }.await()
