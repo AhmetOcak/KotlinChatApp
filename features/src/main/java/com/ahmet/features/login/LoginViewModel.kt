@@ -41,6 +41,7 @@ class LoginViewModel @Inject constructor(
 
     var message = MutableLiveData<String?>()
     var firebaseMessage = MutableLiveData<String?>()
+    var status = MutableLiveData<Status>()
 
     private fun checkFields(): Boolean {
         return if (!email.value.isNullOrEmpty() && !password.value.isNullOrEmpty()) {
@@ -75,6 +76,7 @@ class LoginViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 if (checkLoginInfo()) {
+                    status.value = Status.LOADING
                     setProgBarVis(Status.LOADING)
                     firebaseMessage.value =
                         loginFirebase.login(
@@ -109,12 +111,13 @@ class LoginViewModel @Inject constructor(
                         }
                     }
 
-                    clearFields()
+                    status.value = Status.DONE
                     setProgBarVis(Status.DONE)
+                    message.value = null
                 }
             } catch (e: Exception) {
                 firebaseMessage.value = e.message
-                Log.e("loginerror", e.toString())
+                status.value = Status.ERROR
                 setProgBarVis(Status.ERROR)
             }
         }
@@ -135,12 +138,6 @@ class LoginViewModel @Inject constructor(
     private fun setProgBarVis(status: Status) {
         if (status == Status.LOADING) _progressBarVisibility.value = View.VISIBLE
         else _progressBarVisibility.value = View.INVISIBLE
-    }
-
-    private fun clearFields() {
-        email.value = null
-        password.value = null
-        message.value = null
     }
 
     fun isUserCached(): Boolean {
