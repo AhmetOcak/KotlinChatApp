@@ -6,12 +6,12 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.navigation.NavController
 import androidx.recyclerview.widget.RecyclerView
-import com.ahmet.core.databinding.MessageBinding
 import com.ahmet.domain.model.User
 import com.ahmet.features.R
+import com.ahmet.features.databinding.MessageBinding
 
 class UserAdapter(
-    private val friends: List<User>,
+    private val friends: MutableList<User>?,
     private var findNavController: NavController
 ) : RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
 
@@ -26,7 +26,7 @@ class UserAdapter(
         UserViewHolder(MessageBinding.inflate(LayoutInflater.from(parent.context)))
 
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
-        holder.userName.text = friends[position].userName
+        holder.userName.text = friends?.get(position)?.userName ?: ""
         holder.unreadMessage.text = "test message"
         holder.unreadTime.text = "test date"
 
@@ -37,6 +37,6 @@ class UserAdapter(
         }
     }
 
-    override fun getItemCount(): Int = friends.size
+    override fun getItemCount(): Int = friends?.size ?: 0
 
 }
