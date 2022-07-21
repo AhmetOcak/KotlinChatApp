@@ -6,6 +6,7 @@ import com.ahmet.data.utils.UserKeys
 import com.ahmet.domain.interfaces.IFirebaseUserDataRepository
 import com.ahmet.domain.model.User
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
@@ -101,19 +102,61 @@ class FirebaseUserDataRepository @Inject constructor() : IFirebaseUserDataReposi
         val data: MutableMap<String, List<String>> = HashMap()
         data[UserKeys.USER_FRIENDS] = listOf(friendEmail)
 
-        db.collection(Firebase.USER_COLLECTION_PATH)
-            .whereArrayContains("user_friends", friendEmail)
-            .get()
-            .addOnSuccessListener {
-                if(it.documents.isEmpty()) {
-                    userRef.update("user_friends", FieldValue.arrayUnion(friendEmail))
-                        .addOnSuccessListener { resultMessage = "Successful" }
-                        .addOnFailureListener { resultMessage = "Unsuccessful" }
-                }else {
-                    resultMessage = "You already added this account"
-                }
-            }.await()
-        
+        val isUserAlreadyAdded = isUserAlreadyAdded(userEmail, friendEmail)
+
+        if (isUserExist(friendEmail) == true) {
+            db.collection(Firebase.USER_COLLECTION_PATH)
+                .whereArrayContains("user_friends", friendEmail)
+                .get()
+                .addOnSuccessListener {
+                    if (isUserAlreadyAdded == true) {
+                        resultMessage = "You already added this account"
+                    } else {
+                        userRef.update("user_friends", FieldValue.arrayUnion(friendEmail))
+                            .addOnSuccessListener { resultMessage = "Successful" }
+                            .addOnFailureListener { resultMessage = "Unsuccessful" }
+                    }
+                }.await()
+        } else {
+            resultMessage = "There is no such account"
+        }
+
         return resultMessage
+    }
+
+    // created for addUser function
+    private suspend fun isUserExist(friendEmail: String): Boolean? {
+        val friendRef = db.collection(Firebase.USER_COLLECTION_PATH).document(friendEmail)
+        var exist: Boolean? = null
+
+        friendRef.get().addOnSuccessListener { document ->
+            exist = document.exists()
+        }.await()
+
+        return exist
+    }
+
+    // created for addUser function
+    private suspend fun isUserAlreadyAdded(userEmail: String, friendEmail: String): Boolean? {
+        var queryResult: Boolean? = null
+        val user = getUserDoc(userEmail)
+
+        if (user != null) {
+            if(user.userFriends.isNullOrEmpty()) {
+                queryResult = false
+            }else {
+                for (friend in user.userFriends) {
+                    if(friend == friendEmail) {
+                        queryResult = true
+                        break
+                    }
+                    queryResult = false
+                }
+            }
+        }else {
+            queryResult = true
+        }
+
+        return queryResult
     }
 }

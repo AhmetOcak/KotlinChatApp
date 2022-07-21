@@ -20,6 +20,7 @@ class AddUserDialogViewModel @Inject constructor(
 ) : ViewModel() {
 
     val friendEmail = MutableLiveData<String?>()
+    val userEmail = MutableLiveData<String?>()
     var errorMessage = MutableLiveData<String?>()
     var firebaseMessage = MutableLiveData<String?>()
 
@@ -43,7 +44,7 @@ class AddUserDialogViewModel @Inject constructor(
 
     // user can't add himself/herself :D
     private fun isUserEmail(): Boolean {
-        return if(getUserFromDb.getUser()!!.emailAddress == friendEmail.value.toString()) {
+        return if(checkIsUserCached() == friendEmail.value.toString()) {
             errorMessage.value = "You can't add yourself"
             false
         }else {
@@ -57,17 +58,27 @@ class AddUserDialogViewModel @Inject constructor(
                 if (checkEmailField() && checkEmail() && isUserEmail()) {
                     firebaseMessage.value = addUser.addUser(
                         friendEmail.value.toString(),
-                        getUserFromDb.getUser()!!.emailAddress
+                        checkIsUserCached()
                     )
                     clearFields()
                 }
             } catch (e: Exception) {
-                Log.e("add user ex", e.toString())
+                Log.e("add user exception", e.toString())
             }
         }
     }
 
     private fun clearFields() {
         friendEmail.value = null
+    }
+
+    // if user clicked remember me box then the user is cached. The user email will received from database
+    // if not then user not cached. The user email will come with arg
+    private fun checkIsUserCached(): String {
+        return if(userEmail.value.toString() != "null") {
+            userEmail.value.toString()
+        }else {
+            getUserFromDb.getUser()?.emailAddress.toString()
+        }
     }
 }
