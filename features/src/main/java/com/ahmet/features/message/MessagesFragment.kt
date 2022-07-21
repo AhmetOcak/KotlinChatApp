@@ -1,5 +1,7 @@
 package com.ahmet.features.message
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -25,17 +27,26 @@ class MessagesFragment : BaseFragment<MessageViewModel, FragmentMessagesBinding>
 
     private lateinit var adapter: UserAdapter
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        viewModel.userEmail.value = requireArguments().getString(Constants.USER_EMAIL_ARG_NAME)
-    }
+    // created for cache user email
+    private lateinit var sharedPref: SharedPreferences
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         onBackHandler()
         binding.viewModel = viewModel
 
+        sharedPref =
+            activity?.getSharedPreferences("user_cache", Context.MODE_PRIVATE)!!
+
+        // init user email
+        viewModel.userEmail.value =
+            requireArguments().getString(Constants.USER_EMAIL_ARG_NAME) ?: sharedPref.getString(
+                Constants.SHARED_PREF_KEY,
+                null
+            )
+
         viewModel.setUserData()
+        cacheUserEmail()
 
         viewModel.progressBarVisibility.observe(viewLifecycleOwner) {
             // if progress bar gone, then our data is ready
@@ -66,6 +77,15 @@ class MessagesFragment : BaseFragment<MessageViewModel, FragmentMessagesBinding>
             }
         }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
+    }
+
+    private fun cacheUserEmail() {
+        if (viewModel.userEmail.value != null) {
+            with(sharedPref.edit()) {
+                putString(Constants.SHARED_PREF_KEY, viewModel.userEmail.value.toString())
+                apply()
+            }
+        }
     }
 
 }
