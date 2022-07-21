@@ -1,8 +1,10 @@
 package com.ahmet.features.dialogs
 
+import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,6 +25,21 @@ class AddUserDialogFragment @Inject constructor(): DialogFragment() {
 
     @Inject
     lateinit var toast: Toast
+
+    companion object {
+        fun newInstance(userEmail: String): AddUserDialogFragment {
+            val f = AddUserDialogFragment()
+            val args = Bundle()
+            args.putString("userEmail", userEmail)
+            f.arguments = args
+            return f
+        }
+    }
+
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        viewmodel.userEmail.value = arguments?.getString("userEmail").toString()
+        return super.onCreateDialog(savedInstanceState)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -83,6 +100,10 @@ class AddUserDialogFragment @Inject constructor(): DialogFragment() {
                 }
                 viewmodel.firebaseMessage.value.toString() == "You already added this account" -> {
                     toast.setText("You already added this account")
+                    toast.show()
+                }
+                viewmodel.firebaseMessage.value.toString() == "There is no such account" -> {
+                    toast.setText("There is no such account")
                     toast.show()
                 }
                 else -> {

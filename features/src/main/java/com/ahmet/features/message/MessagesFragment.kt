@@ -25,9 +25,6 @@ class MessagesFragment : BaseFragment<MessageViewModel, FragmentMessagesBinding>
 
     private lateinit var adapter: UserAdapter
 
-    @Inject
-    lateinit var addUserDialogFragment: AddUserDialogFragment
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.userEmail.value = requireArguments().getString(Constants.USER_EMAIL_ARG_NAME)
@@ -41,10 +38,8 @@ class MessagesFragment : BaseFragment<MessageViewModel, FragmentMessagesBinding>
         viewModel.setUserData()
 
         viewModel.progressBarVisibility.observe(viewLifecycleOwner) {
-
             // if progress bar gone, then our data is ready
-            if(viewModel.progressBarVisibility.value == View.INVISIBLE) {
-                Log.e("e", viewModel.userFriends.value.toString())
+            if (viewModel.progressBarVisibility.value == View.INVISIBLE) {
                 binding.friendsRecylerview.layoutManager = LinearLayoutManager(activity)
                 adapter = UserAdapter(viewModel.userFriends.value, findNavController())
                 binding.friendsRecylerview.adapter = adapter
@@ -57,7 +52,10 @@ class MessagesFragment : BaseFragment<MessageViewModel, FragmentMessagesBinding>
             goToNextScreen(R.id.action_messagesFragment_to_accountSettingsFragment, null, null)
         }
         binding.addUser.setOnClickListener {
-            addUserDialogFragment.show(parentFragmentManager, "Add User")
+            val fragment = AddUserDialogFragment.newInstance(
+                viewModel.userEmail.value.toString()
+            )
+            fragment.show(parentFragmentManager, "Add User")
         }
     }
 
