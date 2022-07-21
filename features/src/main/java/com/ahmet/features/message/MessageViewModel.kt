@@ -58,9 +58,22 @@ class MessageViewModel @Inject constructor(
         }
     }
 
+    suspend fun refreshUserFriends() {
+        clearFriends()
+        _user.value = getUser.getUserDoc(userEmail.value.toString())
+        for (i in 0 until (_user.value?.userFriends?.size ?: 0)) {
+            getUser.getUserDoc(_user.value!!.userFriends[i])
+                ?.let { _userFriends.value?.add(it) }
+        }
+    }
+
     private fun setProgBarVis(status: Status) {
         if (status == Status.LOADING) _progressBarVisibility.value = View.VISIBLE
         else _progressBarVisibility.value = View.INVISIBLE
+    }
+
+    private fun clearFriends() {
+        _userFriends.value?.clear()
     }
 }
 

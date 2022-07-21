@@ -2,13 +2,16 @@ package com.ahmet.features.message
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.core.app.ActivityCompat
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.ahmet.core.base.BaseFragment
 import com.ahmet.features.R
 import com.ahmet.features.adapter.UserAdapter
@@ -17,6 +20,7 @@ import com.ahmet.features.dialogs.AddUserDialogFragment
 import com.ahmet.features.utils.Constants
 import com.ahmet.features.utils.Status
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -26,6 +30,7 @@ class MessagesFragment : BaseFragment<MessageViewModel, FragmentMessagesBinding>
     override fun getViewDataBinding() = FragmentMessagesBinding.inflate(layoutInflater)
 
     private lateinit var adapter: UserAdapter
+    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
 
     // created for cache user email
     private lateinit var sharedPref: SharedPreferences
@@ -34,6 +39,10 @@ class MessagesFragment : BaseFragment<MessageViewModel, FragmentMessagesBinding>
         super.onViewCreated(view, savedInstanceState)
         onBackHandler()
         binding.viewModel = viewModel
+
+        swipeRefreshLayout = binding.refreshLayout
+        swipeRefreshLayout.setProgressBackgroundColorSchemeColor(Color.rgb(255, 119, 0))
+        swipeRefreshLayout.setColorSchemeColors(Color.rgb(30, 25, 64))
 
         sharedPref =
             activity?.getSharedPreferences("user_cache", Context.MODE_PRIVATE)!!
@@ -57,17 +66,19 @@ class MessagesFragment : BaseFragment<MessageViewModel, FragmentMessagesBinding>
             }
         }
 
-        binding.friendsRecylerview.layoutManager = LinearLayoutManager(activity)
-
-        binding.currentUserImage.setOnClickListener {
-            goToNextScreen(R.id.action_messagesFragment_to_accountSettingsFragment, null, null)
-        }
         binding.addUser.setOnClickListener {
             val fragment = AddUserDialogFragment.newInstance(
                 viewModel.userEmail.value.toString()
             )
             fragment.show(parentFragmentManager, "Add User")
         }
+
+        binding.friendsRecylerview.layoutManager = LinearLayoutManager(activity)
+        binding.currentUserImage.setOnClickListener {
+            goToNextScreen(R.id.action_messagesFragment_to_accountSettingsFragment, null, null)
+        }
+
+        setRefreshListener()
     }
 
     private fun onBackHandler() {
@@ -84,6 +95,17 @@ class MessagesFragment : BaseFragment<MessageViewModel, FragmentMessagesBinding>
             with(sharedPref.edit()) {
                 putString(Constants.SHARED_PREF_KEY, viewModel.userEmail.value.toString())
                 apply()
+            }
+        }
+    }
+
+    // refresh user friends in recylerview
+    private fun setRefreshListener() {
+        binding.refreshLayout.setOnRefreshListener {
+            lifecycleScope.launch {
+                viewModel.refreshUserFriends()
+                adapter.notifyDataSetChanged()
+                swipeRefreshLayout.isRefreshing = false
             }
         }
     }
