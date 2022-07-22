@@ -1,4 +1,4 @@
-package com.ahmet.features.dialogs
+package com.ahmet.features.dialogs.deleteaccount
 
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable

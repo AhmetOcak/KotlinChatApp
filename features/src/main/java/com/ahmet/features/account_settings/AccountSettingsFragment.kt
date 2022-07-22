@@ -3,8 +3,8 @@ package com.ahmet.features.account_settings
 import android.os.Bundle
 import android.view.View
 import com.ahmet.core.base.BaseFragment
-import com.ahmet.features.dialogs.DeleteAccountDialogFragment
-import com.ahmet.features.dialogs.LogOutDialogFragment
+import com.ahmet.features.dialogs.deleteaccount.DeleteAccountDialogFragment
+import com.ahmet.features.dialogs.logout.LogOutDialogFragment
 import com.ahmet.features.R
 import com.ahmet.features.databinding.FragmentAccountSettingsBinding
 import dagger.hilt.android.AndroidEntryPoint

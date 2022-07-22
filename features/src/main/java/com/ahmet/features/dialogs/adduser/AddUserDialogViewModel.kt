@@ -1,8 +1,7 @@
-package com.ahmet.features.dialogs
+package com.ahmet.features.dialogs.adduser
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ahmet.core.base.BaseViewModel
 import com.ahmet.core.utils.EmailController

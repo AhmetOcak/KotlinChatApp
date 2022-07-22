@@ -1,4 +1,4 @@
-package com.ahmet.features.dialogs
+package com.ahmet.features.dialogs.logout
 
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -12,8 +12,6 @@ import androidx.navigation.fragment.findNavController
 import com.ahmet.data.usecase.userdatabase.DeleteUserFromDb
 import com.ahmet.features.R
 import com.ahmet.features.utils.Constants
-import dagger.hilt.android.AndroidEntryPoint
-import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Inject
 
 class LogOutDialogFragment @Inject constructor() : DialogFragment() {

@@ -1,4 +1,4 @@
-package com.ahmet.features.dialogs
+package com.ahmet.features.dialogs.adduser
 
 import android.app.Dialog
 import android.os.Bundle
