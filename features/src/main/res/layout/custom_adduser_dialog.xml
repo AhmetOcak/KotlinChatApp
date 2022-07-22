@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.ahmet.features.dialogs.AddUserDialogViewModel" />
+            type="com.ahmet.features.dialogs.adduser.AddUserDialogViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout 
