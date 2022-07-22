@@ -1,46 +1,40 @@
 package com.ahmet.features.dialogs.logout
 
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.widget.Button
-import androidx.fragment.app.DialogFragment
+import android.widget.Toast
 import androidx.navigation.fragment.findNavController
+import com.ahmet.core.base.BaseDialogFragment
 import com.ahmet.data.usecase.userdatabase.DeleteUserFromDb
 import com.ahmet.features.R
+import com.ahmet.features.databinding.CustomLogoutDialogBinding
 import com.ahmet.features.utils.Constants
 import javax.inject.Inject
 
-class LogOutDialogFragment @Inject constructor() : DialogFragment() {
+class LogOutDialogFragment @Inject constructor() :
+    BaseDialogFragment<LogOutViewModel, CustomLogoutDialogBinding>() {
 
-    private lateinit var rootView: View
+    override fun getViewModelClass(): Class<LogOutViewModel> = LogOutViewModel::class.java
+    override fun getViewDataBinding(): CustomLogoutDialogBinding =
+        CustomLogoutDialogBinding.inflate(layoutInflater)
 
     @Inject
     lateinit var deleteUserFromDb: DeleteUserFromDb
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        rootView = inflater.inflate(R.layout.custom_logout_dialog, container, false)
-        return rootView
-    }
+    @Inject
+    lateinit var toast: Toast
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.viewModel = viewModel
 
-        rootView.findViewById<Button>(R.id.dialogLogOutButtonDAD).setOnClickListener {
+        binding.dialogLogOutButtonDAD.setOnClickListener {
             deleteUserFromDb.deleteUserFromDb()
+            showToastMessage()
             goToLoginScreen()
             dismiss()
         }
 
-        rootView.findViewById<Button>(R.id.dialogCancelButtonDAD).setOnClickListener {
+        binding.dialogCancelButtonDAD.setOnClickListener {
             dismiss()
         }
     }
@@ -49,6 +43,11 @@ class LogOutDialogFragment @Inject constructor() : DialogFragment() {
         findNavController().navigate(
             R.id.action_accountSettingsFragment_to_loginFragment,
             Bundle().apply { putBoolean(Constants.IS_COME_FROM_APP, true) })
+    }
+
+    override fun showToastMessage() {
+        toast.setText("You have successfully logged out")
+        toast.show()
     }
 }
 
