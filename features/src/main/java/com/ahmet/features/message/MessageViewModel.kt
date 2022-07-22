@@ -1,11 +1,11 @@
 package com.ahmet.features.message
 
-import android.util.Log
 import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.ahmet.core.base.BaseViewModel
+import com.ahmet.data.usecase.firebase.GetCurrentUserEmail
 import com.ahmet.data.usecase.firebase.GetUserData
 import com.ahmet.data.usecase.userdatabase.GetUserFromDb
 import com.ahmet.domain.model.User
@@ -17,10 +17,15 @@ import javax.inject.Inject
 @HiltViewModel
 class MessageViewModel @Inject constructor(
     private val getUser: GetUserData,
-    private val getUserFromDb: GetUserFromDb
+    private val getUserFromDb: GetUserFromDb,
+    getCurrentUserEmail: GetCurrentUserEmail
 ) : BaseViewModel() {
 
-    var userEmail = MutableLiveData<String>()
+    private val userEmail = MutableLiveData<String>()
+
+    init {
+        userEmail.value = getCurrentUserEmail.getCurrentUser()
+    }
 
     private val _user = MutableLiveData<User>()
     val user: LiveData<User> get() = _user

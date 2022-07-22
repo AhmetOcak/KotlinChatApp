@@ -1,10 +1,7 @@
 package com.ahmet.features.message
 
-import android.content.Context
-import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.core.app.ActivityCompat
@@ -16,9 +13,7 @@ import com.ahmet.core.base.BaseFragment
 import com.ahmet.features.R
 import com.ahmet.features.adapter.UserAdapter
 import com.ahmet.features.databinding.FragmentMessagesBinding
-import com.ahmet.features.dialogs.AddUserDialogFragment
-import com.ahmet.features.utils.Constants
-import com.ahmet.features.utils.Status
+import com.ahmet.features.dialogs.adduser.AddUserDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -32,8 +27,8 @@ class MessagesFragment : BaseFragment<MessageViewModel, FragmentMessagesBinding>
     private lateinit var adapter: UserAdapter
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
 
-    // created for cache user email
-    private lateinit var sharedPref: SharedPreferences
+    @Inject
+    lateinit var addUserDialogFragment: AddUserDialogFragment
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -44,18 +39,7 @@ class MessagesFragment : BaseFragment<MessageViewModel, FragmentMessagesBinding>
         swipeRefreshLayout.setProgressBackgroundColorSchemeColor(Color.rgb(255, 119, 0))
         swipeRefreshLayout.setColorSchemeColors(Color.rgb(30, 25, 64))
 
-        sharedPref =
-            activity?.getSharedPreferences("user_cache", Context.MODE_PRIVATE)!!
-
-        // init user email
-        viewModel.userEmail.value =
-            requireArguments().getString(Constants.USER_EMAIL_ARG_NAME) ?: sharedPref.getString(
-                Constants.SHARED_PREF_KEY,
-                null
-            )
-
         viewModel.setUserData()
-        cacheUserEmail()
 
         viewModel.progressBarVisibility.observe(viewLifecycleOwner) {
             // if progress bar gone, then our data is ready
@@ -67,10 +51,7 @@ class MessagesFragment : BaseFragment<MessageViewModel, FragmentMessagesBinding>
         }
 
         binding.addUser.setOnClickListener {
-            val fragment = AddUserDialogFragment.newInstance(
-                viewModel.userEmail.value.toString()
-            )
-            fragment.show(parentFragmentManager, "Add User")
+            addUserDialogFragment.show(parentFragmentManager, "Add User")
         }
 
         binding.friendsRecylerview.layoutManager = LinearLayoutManager(activity)
@@ -88,15 +69,6 @@ class MessagesFragment : BaseFragment<MessageViewModel, FragmentMessagesBinding>
             }
         }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
-    }
-
-    private fun cacheUserEmail() {
-        if (viewModel.userEmail.value != null) {
-            with(sharedPref.edit()) {
-                putString(Constants.SHARED_PREF_KEY, viewModel.userEmail.value.toString())
-                apply()
-            }
-        }
     }
 
     // refresh user friends in recylerview

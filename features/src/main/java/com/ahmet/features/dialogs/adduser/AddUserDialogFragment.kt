@@ -1,6 +1,5 @@
 package com.ahmet.features.dialogs.adduser
 
-import android.app.Dialog
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -17,26 +16,12 @@ class AddUserDialogFragment @Inject constructor() :
 
     override fun getViewModelClass(): Class<AddUserDialogViewModel> =
         AddUserDialogViewModel::class.java
+
     override fun getViewDataBinding(): CustomAdduserDialogBinding =
         CustomAdduserDialogBinding.inflate(layoutInflater)
 
     @Inject
     lateinit var toast: Toast
-
-    companion object {
-        fun newInstance(userEmail: String): AddUserDialogFragment {
-            val f = AddUserDialogFragment()
-            val args = Bundle()
-            args.putString("userEmail", userEmail)
-            f.arguments = args
-            return f
-        }
-    }
-
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        viewModel.userEmail.value = arguments?.getString("userEmail").toString()
-        return super.onCreateDialog(savedInstanceState)
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -44,7 +29,7 @@ class AddUserDialogFragment @Inject constructor() :
 
         binding.dialogAddUserButtonAUD.setOnClickListener {
             viewModel.addFriend()
-            setToastMessage()
+            showToastMessage()
             viewModel.errorMessage.value = null
         }
         observeFirebaseResponse()
@@ -54,7 +39,7 @@ class AddUserDialogFragment @Inject constructor() :
         }
     }
 
-    override fun setToastMessage() {
+    override fun showToastMessage() {
         when {
             viewModel.errorMessage.value.toString() == Constants.EMPTY_FIELD_MESSAGE -> {
                 toast.setText(Constants.EMPTY_FIELD_MESSAGE)

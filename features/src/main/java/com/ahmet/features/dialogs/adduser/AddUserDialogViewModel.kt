@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.ahmet.core.base.BaseViewModel
 import com.ahmet.core.utils.EmailController
 import com.ahmet.data.usecase.firebase.AddUser
+import com.ahmet.data.usecase.firebase.GetCurrentUserEmail
 import com.ahmet.data.usecase.userdatabase.GetUserFromDb
 import com.ahmet.features.utils.Constants
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,13 +17,18 @@ import javax.inject.Inject
 @HiltViewModel
 class AddUserDialogViewModel @Inject constructor(
     private val addUser: AddUser,
-    private val getUserFromDb: GetUserFromDb
+    private val getUserFromDb: GetUserFromDb,
+    getCurrentUserEmail: GetCurrentUserEmail
 ) : BaseViewModel() {
 
     val friendEmail = MutableLiveData<String?>()
-    val userEmail = MutableLiveData<String?>()
+    private val userEmail = MutableLiveData<String?>()
     var errorMessage = MutableLiveData<String?>()
     var firebaseMessage = MutableLiveData<String?>()
+
+    init {
+        userEmail.value = getCurrentUserEmail.getCurrentUser()
+    }
 
     private fun checkEmailField(): Boolean {
         return if (friendEmail.value.isNullOrEmpty()) {
