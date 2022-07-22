@@ -14,4 +14,5 @@ object UserDatabase {
 
 object Firebase {
     const val USER_COLLECTION_PATH = "users"
+    const val MESSAGES_COLLECTION_PATH = "messages"
 }

@@ -8,6 +8,8 @@ object Constants {
     const val IS_COME_FROM_APP = "isComeFromApp"
 
     const val USER_EMAIL_ARG_NAME = "userName"
+
+    const val USER_FRIEND_ARG_KEY = "friend_email"
 }
 
 object FirebaseCommonMessages {
