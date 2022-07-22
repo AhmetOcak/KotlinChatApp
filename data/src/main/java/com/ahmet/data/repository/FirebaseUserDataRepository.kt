@@ -5,7 +5,9 @@ import com.ahmet.data.utils.Firebase
 import com.ahmet.data.utils.UserKeys
 import com.ahmet.domain.interfaces.IFirebaseUserDataRepository
 import com.ahmet.domain.model.User
+import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
@@ -142,21 +144,57 @@ class FirebaseUserDataRepository @Inject constructor() : IFirebaseUserDataReposi
         val user = getUserDoc(userEmail)
 
         if (user != null) {
-            if(user.userFriends.isNullOrEmpty()) {
+            if (user.userFriends.isNullOrEmpty()) {
                 queryResult = false
-            }else {
+            } else {
                 for (friend in user.userFriends) {
-                    if(friend == friendEmail) {
+                    if (friend == friendEmail) {
                         queryResult = true
                         break
                     }
                     queryResult = false
                 }
             }
-        }else {
+        } else {
             queryResult = true
         }
 
         return queryResult
+    }
+
+    override suspend fun deleteUser(): String? {
+        var result: String? = null
+
+        auth.currentUser!!.delete().addOnSuccessListener {
+            result = "Successful"
+        }.await()
+
+        return result
+    }
+
+    override suspend fun deleteUserDoc(email: String): Boolean {
+        var status = false
+
+        db.collection(Firebase.USER_COLLECTION_PATH).document(email).delete()
+            .addOnSuccessListener {
+                status = true
+            }.await()
+
+        return status
+    }
+
+    override suspend fun reauthenticate(email: String, password: String): Boolean {
+        var status = false
+        val credential = EmailAuthProvider.getCredential(email, password)
+
+        auth.currentUser!!.reauthenticate(credential).addOnSuccessListener {
+            status = true
+        }.await()
+
+        return status
+    }
+
+    fun getCurrentUserEmail(): String? {
+        return auth.currentUser?.email
     }
 }

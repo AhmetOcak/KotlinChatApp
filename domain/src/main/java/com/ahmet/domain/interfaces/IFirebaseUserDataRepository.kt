@@ -24,4 +24,10 @@ interface IFirebaseUserDataRepository {
     suspend fun getUserDoc(email: String): User?
 
     suspend fun addUser(friendEmail: String, userEmail: String): String?
+
+    suspend fun deleteUser(): String?
+
+    suspend fun deleteUserDoc(email: String) : Boolean
+
+    suspend fun reauthenticate(email: String, password: String) : Boolean
 }
