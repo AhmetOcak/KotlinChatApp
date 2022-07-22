@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ahmet.core.base.BaseViewModel
 import com.ahmet.core.utils.EmailController
 import com.ahmet.data.usecase.firebase.AddUser
 import com.ahmet.data.usecase.userdatabase.GetUserFromDb
@@ -17,7 +18,7 @@ import javax.inject.Inject
 class AddUserDialogViewModel @Inject constructor(
     private val addUser: AddUser,
     private val getUserFromDb: GetUserFromDb
-) : ViewModel() {
+) : BaseViewModel() {
 
     val friendEmail = MutableLiveData<String?>()
     val userEmail = MutableLiveData<String?>()
