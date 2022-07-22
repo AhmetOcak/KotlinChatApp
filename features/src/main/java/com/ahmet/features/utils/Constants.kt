@@ -8,8 +8,6 @@ object Constants {
     const val IS_COME_FROM_APP = "isComeFromApp"
 
     const val USER_EMAIL_ARG_NAME = "userName"
-
-    const val SHARED_PREF_KEY = "user_email"
 }
 
 object FirebaseCommonMessages {
@@ -34,6 +32,11 @@ object FirebaseLoginMessages {
 
     const val ERROR_MESSAGE =
         "There is no user record corresponding to this identifier. The user may have been deleted."
+}
+
+object FirebaseDeleteMessages {
+    const val WRONG_PASSWORD = "The password is invalid or the user does not have a password."
+    const val DEL_SUCCESSFUL = "Your account deleted successfully"
 }
 
 object CollectionPaths {
