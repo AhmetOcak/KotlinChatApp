@@ -7,6 +7,7 @@ import com.ahmet.core.base.BaseViewModel
 import com.ahmet.core.utils.EmailController
 import com.ahmet.data.usecase.firebase.AddUser
 import com.ahmet.data.usecase.firebase.GetCurrentUserEmail
+import com.ahmet.data.usecase.messages.CreateMessageDoc
 import com.ahmet.data.usecase.userdatabase.GetUserFromDb
 import com.ahmet.features.utils.Constants
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,7 +19,8 @@ import javax.inject.Inject
 class AddUserDialogViewModel @Inject constructor(
     private val addUser: AddUser,
     private val getUserFromDb: GetUserFromDb,
-    getCurrentUserEmail: GetCurrentUserEmail
+    private val createMessageDoc: CreateMessageDoc,
+    getCurrentUserEmail: GetCurrentUserEmail,
 ) : BaseViewModel() {
 
     val friendEmail = MutableLiveData<String?>()
@@ -50,10 +52,10 @@ class AddUserDialogViewModel @Inject constructor(
 
     // user can't add himself/herself :D
     private fun isUserEmail(): Boolean {
-        return if(checkIsUserCached() == friendEmail.value.toString()) {
+        return if (userEmail.value == friendEmail.value) {
             errorMessage.value = "You can't add yourself"
             false
-        }else {
+        } else {
             return true
         }
     }
@@ -64,7 +66,11 @@ class AddUserDialogViewModel @Inject constructor(
                 if (checkEmailField() && checkEmail() && isUserEmail()) {
                     firebaseMessage.value = addUser.addUser(
                         friendEmail.value.toString(),
-                        checkIsUserCached()
+                        userEmail.value.toString()
+                    )
+                    createMessageDoc.createMessageDoc(
+                        userEmail.value.toString(),
+                        friendEmail.value.toString()
                     )
                     clearFields()
                 }
@@ -78,13 +84,4 @@ class AddUserDialogViewModel @Inject constructor(
         friendEmail.value = null
     }
 
-    // if user clicked remember me box then the user is cached. The user email will received from database
-    // if not then user not cached. The user email will come with arg
-    private fun checkIsUserCached(): String {
-        return if(userEmail.value.toString() != "null") {
-            userEmail.value.toString()
-        }else {
-            getUserFromDb.getUser()?.emailAddress.toString()
-        }
-    }
 }
