@@ -1,5 +1,6 @@
 package com.ahmet.features.adapter
 
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -9,10 +10,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ahmet.domain.model.User
 import com.ahmet.features.R
 import com.ahmet.features.databinding.MessageBinding
+import com.ahmet.features.utils.Constants
 
 class UserAdapter(
     private val friends: MutableList<User>?,
-    private var findNavController: NavController
+    private val findNavController: NavController,
 ) : RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
 
     class UserViewHolder(binding: MessageBinding) : RecyclerView.ViewHolder(binding.root) {
@@ -32,7 +34,13 @@ class UserAdapter(
 
         holder.itemView.setOnClickListener {
             findNavController.navigate(
-                R.id.action_messagesFragment_to_chatFragment
+                R.id.action_messagesFragment_to_chatFragment,
+                Bundle().apply {
+                    putString(
+                        Constants.USER_FRIEND_ARG_KEY,
+                        friends?.get(position)!!.emailAddress
+                    )
+                }
             )
         }
     }
