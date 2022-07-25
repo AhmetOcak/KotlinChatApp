@@ -64,10 +64,12 @@ class AddUserDialogViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 if (checkEmailField() && checkEmail() && isUserEmail()) {
-                    firebaseMessage.value = addUser.addUser(
-                        friendEmail.value.toString(),
-                        userEmail.value.toString()
-                    )
+                    viewModelScope.launch {
+                        firebaseMessage.value = addUser.addUser(
+                            friendEmail.value.toString(),
+                            userEmail.value.toString()
+                        )
+                    }
                     createMessageDoc.createMessageDoc(
                         userEmail.value.toString(),
                         friendEmail.value.toString()
