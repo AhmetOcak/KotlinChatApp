@@ -1,6 +1,7 @@
 package com.ahmet.data.repository
 
 import android.util.Log
+import com.ahmet.data.utils.EditEmail
 import com.ahmet.data.utils.Firebase
 import com.ahmet.data.utils.UserKeys
 import com.ahmet.domain.interfaces.IFirebaseUserDataRepository
@@ -139,7 +140,7 @@ class FirebaseUserDataRepository @Inject constructor() : IFirebaseUserDataReposi
     }
 
     // created for addUser function
-    private suspend fun isUserAlreadyAdded(userEmail: String, friendEmail: String): Boolean? {
+    suspend fun isUserAlreadyAdded(userEmail: String, friendEmail: String): Boolean? {
         var queryResult: Boolean? = null
         val user = getUserDoc(userEmail)
 
@@ -148,7 +149,7 @@ class FirebaseUserDataRepository @Inject constructor() : IFirebaseUserDataReposi
                 queryResult = false
             } else {
                 for (friend in user.userFriends) {
-                    if (friend == friendEmail) {
+                    if (EditEmail.edit(friend) == EditEmail.edit(friendEmail)) {
                         queryResult = true
                         break
                     }
