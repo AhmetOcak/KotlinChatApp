@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.ahmet.core.base.BaseViewModel
+import com.ahmet.data.repository.FirebaseMessagesRepository
 import com.ahmet.data.usecase.firebase.GetCurrentUserEmail
 import com.ahmet.data.usecase.firebase.GetUserData
 import com.ahmet.data.usecase.userdatabase.GetUserFromDb
@@ -53,12 +54,20 @@ class MessageViewModel @Inject constructor(
 
     private fun getUserFriendsData() {
         viewModelScope.launch {
+            val friend = FirebaseMessagesRepository().searchUserFriends(userEmail.value.toString())
+
             if (_user.value != null && _userFriends.value.isNullOrEmpty()) {
                 for (i in 0 until (_user.value?.userFriends?.size ?: 0)) {
                     getUser.getUserDoc(_user.value!!.userFriends[i])
                         ?.let { _userFriends.value?.add(it) }
                 }
+                if (friend != "null") {
+                    getUser.getUserDoc(friend)?.let {
+                        _userFriends.value?.add(it)
+                    }
+                }
             }
+
             setProgBarVis(Status.DONE)
         }
     }
