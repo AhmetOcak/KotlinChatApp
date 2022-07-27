@@ -1,5 +1,6 @@
 package com.ahmet.features.chat
 
+import android.annotation.SuppressLint
 import android.util.Log
 import android.view.View
 import androidx.lifecycle.LiveData
@@ -13,6 +14,7 @@ import com.ahmet.domain.model.Message
 import com.ahmet.features.utils.Status
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import java.time.Instant
 import javax.inject.Inject
 
 @HiltViewModel
@@ -29,6 +31,9 @@ class ChatViewModel @Inject constructor(
     init {
         userEmail.value = getCurrentUserEmail.getCurrentUser()
     }
+
+    /*private val _messageDocumentId = MutableLiveData<String>()
+    val messageDocumentId: LiveData<String> get() = _messageDocumentId*/
 
     private val _progressBarVisibility = MutableLiveData(View.GONE)
     val progressBarVisibility: LiveData<Int> get() = _progressBarVisibility
@@ -54,6 +59,7 @@ class ChatViewModel @Inject constructor(
         }
     }
 
+    @SuppressLint("NewApi")
     fun sendMessageData() {
         if (checkMessage()) {
             viewModelScope.launch {
@@ -62,7 +68,7 @@ class ChatViewModel @Inject constructor(
                         message.value.toString(),
                         userEmail.value!!,
                         friendEmail.value!!,
-                        1658742397
+                        Instant.now().epochSecond
                     )
                 } catch (e: Exception) {
                     Log.e("message send exception", e.message.toString())
