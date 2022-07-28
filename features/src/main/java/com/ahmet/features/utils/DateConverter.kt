@@ -17,8 +17,7 @@ object DateConverter {
             .atZone(ZoneId.systemDefault())
             .toLocalDateTime()
 
-        // +3 for the utc
-        return "${date.hour + 3}:${date.minute}"
+        return "${date.hour}:${date.minute}"
     }
 
     fun currentTimeToLong(): Long {

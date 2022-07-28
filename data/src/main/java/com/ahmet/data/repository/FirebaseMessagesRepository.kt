@@ -18,11 +18,11 @@ class FirebaseMessagesRepository @Inject constructor() : IFirebaseMessagesReposi
         val isExist = isMessageDocCreated(userEmail, friendEmail)
 
         if (!isExist) {
-            val message = Message(listOf(), listOf())
+            val message = Message(mutableListOf(), mutableListOf())
             val data: MutableMap<String, Any> = HashMap()
 
-            data[EditEmail.edit(userEmail)] = message.userMessage!!
-            data[EditEmail.edit(friendEmail)] = message.friendMessage!!
+            data[EditEmail.removeDot(userEmail)] = message.userMessage!!
+            data[EditEmail.removeDot(friendEmail)] = message.friendMessage!!
 
             db.collection(Firebase.MESSAGES_COLLECTION_PATH).document(userEmail + " " + friendEmail)
                 .set(data)
@@ -45,13 +45,13 @@ class FirebaseMessagesRepository @Inject constructor() : IFirebaseMessagesReposi
             if (value != null) {
                 if (!value.data.isNullOrEmpty()) {
                     val userData =
-                        value.data!!.getValue(EditEmail.edit(userEmail)) as List<Map<String, Any>>?
+                        value.data!!.getValue(EditEmail.removeDot(userEmail)) as MutableList<MutableMap<String, Any>>?
                     val friendData =
-                        value.data!!.getValue(EditEmail.edit(friendEmail)) as List<Map<String, Any>>?
+                        value.data!!.getValue(EditEmail.removeDot(friendEmail)) as MutableList<MutableMap<String, Any>>?
                     callback(Message(userData, friendData))
                 } else {
-                    val userData = listOf<Map<String, Any>>()
-                    val friendData = listOf<Map<String, Any>>()
+                    val userData = mutableListOf<MutableMap<String, Any>>()
+                    val friendData = mutableListOf<MutableMap<String, Any>>()
                     callback(Message(userData, friendData))
                 }
             }
@@ -71,12 +71,11 @@ class FirebaseMessagesRepository @Inject constructor() : IFirebaseMessagesReposi
                 "date" to Timestamp(messageDate, 15000)
             )
         )
-        messagesRef.update(EditEmail.edit(userEmail), FieldValue.arrayUnion(messageData[0]))
+        messagesRef.update(EditEmail.removeDot(userEmail), FieldValue.arrayUnion(messageData[0]))
     }
 
     private suspend fun isMessageDocCreated(userEmail: String, friendEmail: String): Boolean {
         var exist = false
-        Log.e("first phase", exist.toString())
 
         db.collection(Firebase.MESSAGES_COLLECTION_PATH).document(friendEmail + " " + userEmail)
             .get()
@@ -91,21 +90,31 @@ class FirebaseMessagesRepository @Inject constructor() : IFirebaseMessagesReposi
         userEmail: String,
         friendEmail: String
     ): DocumentReference {
-        return if (!isMessageDocCreated(userEmail, friendEmail)) {
-            db.collection(Firebase.MESSAGES_COLLECTION_PATH).document(userEmail + " " + friendEmail)
-        } else {
+        var docId: DocumentReference? = null
+
+        while (docId == null) {
             db.collection(Firebase.MESSAGES_COLLECTION_PATH).document(friendEmail + " " + userEmail)
+                .get()
+                .addOnCompleteListener {
+                    docId = if (it.result.exists()) {
+                        db.collection(Firebase.MESSAGES_COLLECTION_PATH).document(friendEmail + " " + userEmail)
+                    } else {
+                        db.collection(Firebase.MESSAGES_COLLECTION_PATH).document(userEmail + " " + friendEmail)
+                    }
+                }.await()
         }
+
+        return docId!!
     }
 
-    private suspend fun receiveMessageFromNonFriend(userEmail: String): String {
-        var userFriend = "null"
+    private suspend fun receiveMessageFromNonFriend(userEmail: String): MutableList<String> {
+        val userFriend: MutableList<String> = mutableListOf()
 
         db.collection(Firebase.MESSAGES_COLLECTION_PATH).get().addOnCompleteListener {
             for (doc in it.result.documents) {
                 if (doc.id.findWord(userEmail)) {
-                    if (doc.data?.get(doc.data?.keys!!.first()).toString() != "[]") {
-                        userFriend = doc.data!!.keys.first()
+                    if (doc.data?.get(doc.data?.keys!!.first()).toString() != "[]" && doc.data?.keys!!.first() != EditEmail.removeDot(userEmail)) {
+                        userFriend.add(doc.data!!.keys.first())
                     }
                 }
             }
@@ -114,24 +123,23 @@ class FirebaseMessagesRepository @Inject constructor() : IFirebaseMessagesReposi
         return userFriend
     }
 
-
     // if return "null" -> the user has already been added to friends or the user has not received any messages.
     // if return "{user email}" -> the user is not added in friends or the user has a message.
-    suspend fun searchUserFriends(userEmail: String): String {
-        var friendEmail = receiveMessageFromNonFriend(userEmail)
-        var queryResult = true
+    suspend fun searchUserFriends(userEmail: String): MutableList<String> {
+        val friendEmail = receiveMessageFromNonFriend(userEmail)
+        val nonFriends: MutableList<String> = mutableListOf()
+        var queryResult: Boolean
 
-        if (friendEmail != "null") {
+        for (i in 0 until friendEmail.size) {
             queryResult =
-                FirebaseUserDataRepository().isUserAlreadyAdded(userEmail, friendEmail) ?: true
+                FirebaseUserDataRepository().isUserAlreadyAdded(userEmail, friendEmail[i]) ?: true
+
+            if(!queryResult) {
+                nonFriends.add(EditEmail.addDot(friendEmail[i]))
+            }
         }
 
-        return if (queryResult) {
-            friendEmail = "null"
-            friendEmail
-        } else {
-            EditEmail.addDot(friendEmail)
-        }
+        return nonFriends
     }
 
     private fun String.findWord(word: String) = "\\b$word\\b".toRegex().containsMatchIn(this)

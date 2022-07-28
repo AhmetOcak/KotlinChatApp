@@ -149,7 +149,7 @@ class FirebaseUserDataRepository @Inject constructor() : IFirebaseUserDataReposi
                 queryResult = false
             } else {
                 for (friend in user.userFriends) {
-                    if (EditEmail.edit(friend) == EditEmail.edit(friendEmail)) {
+                    if (EditEmail.removeDot(friend) == EditEmail.removeDot(friendEmail)) {
                         queryResult = true
                         break
                     }

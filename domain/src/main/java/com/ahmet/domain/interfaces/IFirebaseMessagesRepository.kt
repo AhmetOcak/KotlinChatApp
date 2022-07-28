@@ -1,7 +1,6 @@
 package com.ahmet.domain.interfaces
 
 import com.ahmet.domain.model.Message
-import kotlin.coroutines.CoroutineContext
 
 interface IFirebaseMessagesRepository {
 
