@@ -32,20 +32,17 @@ class ChatViewModel @Inject constructor(
         userEmail.value = getCurrentUserEmail.getCurrentUser()
     }
 
-    /*private val _messageDocumentId = MutableLiveData<String>()
-    val messageDocumentId: LiveData<String> get() = _messageDocumentId*/
-
     private val _progressBarVisibility = MutableLiveData(View.GONE)
     val progressBarVisibility: LiveData<Int> get() = _progressBarVisibility
 
     private val _messageData = MutableLiveData<Message>()
     val messageData: LiveData<Message> get() = _messageData
 
-    private val _userMessages = MutableLiveData<List<Map<String, Any>>>()
-    val userMessages: LiveData<List<Map<String, Any>>> get() = _userMessages
+    private val _userMessages = MutableLiveData<MutableList<MutableMap<String, Any>>>()
+    val userMessages: LiveData<MutableList<MutableMap<String, Any>>> get() = _userMessages
 
-    private val _friendMessages = MutableLiveData<List<Map<String, Any>>>()
-    val friendMessages: LiveData<List<Map<String, Any>>> get() = _friendMessages
+    private val _friendMessages = MutableLiveData<MutableList<MutableMap<String, Any>>>()
+    val friendMessages: LiveData<MutableList<MutableMap<String, Any>>> get() = _friendMessages
 
     fun getMessageData() {
         setProgressBarVis(Status.LOADING)
@@ -83,9 +80,13 @@ class ChatViewModel @Inject constructor(
     }
 
     private fun callbackFun(message: Message?) {
-        _messageData.value = message ?: Message(listOf(), listOf())
-        _userMessages.value = _messageData.value?.userMessage ?: listOf()
-        _friendMessages.value = _messageData.value?.friendMessage ?: listOf()
+        _messageData.value = message ?: Message(mutableListOf(), mutableListOf())
+        _userMessages.value = _messageData.value?.userMessage ?: mutableListOf()
+        _friendMessages.value = _messageData.value?.friendMessage ?: mutableListOf()
+
+        for (i in 0 until _userMessages.value!!.size) {
+            _userMessages.value!![i]["isMe"] = true
+        }
         setProgressBarVis(Status.DONE)
     }
 
