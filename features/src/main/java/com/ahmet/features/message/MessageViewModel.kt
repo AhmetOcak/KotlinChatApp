@@ -52,32 +52,51 @@ class MessageViewModel @Inject constructor(
         }
     }
 
+    // [EN] If user friends are not empty, we don't need to retrieve user friends data recursively.
+    // [TR] userFriends value'sünün null ya da boş olup olmamasını kontrol ederek
+    // sayfa değişiklikleri sırasında verinin tekrar tekrar alınmasını engelliyoruz.
     private fun getUserFriendsData() {
-        viewModelScope.launch {
-            val friend = FirebaseMessagesRepository().searchUserFriends(userEmail.value.toString())
+        if(_userFriends.value.isNullOrEmpty()) {
+            viewModelScope.launch {
+                val friend = FirebaseMessagesRepository().searchUserFriends(userEmail.value.toString())
 
-            if (_user.value != null && _userFriends.value.isNullOrEmpty()) {
-                for (i in 0 until (_user.value?.userFriends?.size ?: 0)) {
-                    getUser.getUserDoc(_user.value!!.userFriends[i])
-                        ?.let { _userFriends.value?.add(it) }
-                }
-                if (friend != "null") {
-                    getUser.getUserDoc(friend)?.let {
-                        _userFriends.value?.add(it)
+                if (_user.value != null && _userFriends.value.isNullOrEmpty()) {
+                    for (i in 0 until (_user.value?.userFriends?.size ?: 0)) {
+                        getUser.getUserDoc(_user.value!!.userFriends[i])
+                            ?.let { _userFriends.value?.add(it) }
+                    }
+                    if (friend.isNotEmpty()) {
+                        for (element in friend) {
+                            getUser.getUserDoc(element)?.let {
+                                it.userName = it.userName + " (not your friend)"
+                                _userFriends.value?.add(it)
+                            }
+                        }
                     }
                 }
+                setProgBarVis(Status.DONE)
             }
-
+        }else {
             setProgBarVis(Status.DONE)
         }
     }
 
     suspend fun refreshUserFriends() {
+        val friend = FirebaseMessagesRepository().searchUserFriends(userEmail.value.toString())
         clearFriends()
+
         _user.value = getUser.getUserDoc(userEmail.value.toString())
         for (i in 0 until (_user.value?.userFriends?.size ?: 0)) {
             getUser.getUserDoc(_user.value!!.userFriends[i])
                 ?.let { _userFriends.value?.add(it) }
+        }
+        if (friend.isNotEmpty()) {
+            for (element in friend) {
+                getUser.getUserDoc(element)?.let {
+                    it.userName = it.userName + " (not your friend)"
+                    _userFriends.value?.add(it)
+                }
+            }
         }
     }
 
