@@ -12,6 +12,7 @@ import com.ahmet.data.usecase.messages.ListenMessageData
 import com.ahmet.data.usecase.messages.SendMessage
 import com.ahmet.domain.model.Message
 import com.ahmet.features.utils.Status
+import com.google.firebase.Timestamp
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.time.Instant
@@ -26,6 +27,7 @@ class ChatViewModel @Inject constructor(
 
     private val userEmail = MutableLiveData<String>()
     val friendEmail = MutableLiveData<String>()
+    val friendUserName = MutableLiveData<String>()
     val message = MutableLiveData<String>()
 
     init {
@@ -67,6 +69,7 @@ class ChatViewModel @Inject constructor(
                         friendEmail.value!!,
                         Instant.now().epochSecond
                     )
+                    clearChatField()
                 } catch (e: Exception) {
                     Log.e("message send exception", e.message.toString())
                 }
@@ -92,6 +95,10 @@ class ChatViewModel @Inject constructor(
 
     private fun checkMessage(): Boolean {
         return !(message.value.isNullOrEmpty() || message.value == "null" || message.value == " ")
+    }
+
+    private fun clearChatField() {
+        message.value = ""
     }
 
 }
