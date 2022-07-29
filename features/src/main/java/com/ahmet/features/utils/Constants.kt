@@ -10,6 +10,7 @@ object Constants {
     const val USER_EMAIL_ARG_NAME = "userName"
 
     const val USER_FRIEND_ARG_KEY = "friend_email"
+    const val USER_FRIEND_NAME_ARG_KEY = "friend_user_name"
 }
 
 object FirebaseCommonMessages {
