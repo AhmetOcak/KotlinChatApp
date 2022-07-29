@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="viewModel"
             type="com.ahmet.features.chat.ChatViewModel" />
@@ -24,9 +23,8 @@
                 android:id="@+id/current_user"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
+                android:layout_marginHorizontal="12dp"
                 android:layout_marginTop="32dp"
-                android:layout_marginEnd="24dp"
                 android:background="@color/dark_purple"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -52,16 +50,17 @@
                         android:id="@+id/chat_user_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:text="Dasia Patrick"
+                        android:layout_marginStart="24dp"
+                        android:text="@{viewModel.friendUserName}"
                         android:textAppearance="@style/TextAppearance.AppCompat.Small"
                         android:textColor="@color/white"
                         android:textSize="16sp"
                         android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/current_user_image"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <TextView
+                    <!--                    <TextView
                         android:id="@+id/status"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -69,30 +68,7 @@
                         android:text="Online Now"
                         android:textColor="@color/green"
                         app:layout_constraintStart_toEndOf="@+id/current_user_image"
-                        app:layout_constraintTop_toBottomOf="@+id/chat_user_name" />
-
-                    <ImageButton
-                        android:id="@+id/video_call"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:background="@drawable/ic_baseline_videocam"
-                        android:contentDescription="@string/video_call"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:ignore="TouchTargetSizeCheck" />
-
-                    <ImageButton
-                        android:id="@+id/call"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:layout_marginEnd="8dp"
-                        android:background="@drawable/ic_baseline_call"
-                        android:contentDescription="@string/call"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/video_call"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:ignore="TouchTargetSizeCheck" />
+                        app:layout_constraintTop_toBottomOf="@+id/chat_user_name" />-->
 
                     <ImageView
                         android:id="@+id/back"
@@ -103,7 +79,6 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
-
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -121,33 +96,21 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent">
 
-                <ImageButton
-                    android:id="@+id/emoji"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:background="@drawable/ic_baseline_emoji_emotions"
-                    android:contentDescription="@string/emoji"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:ignore="TouchTargetSizeCheck" />
-
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="0dp"
                     android:layout_height="60dp"
-                    android:layout_marginStart="12dp"
-                    android:background="@color/light_purple"
+                    android:background="@drawable/const_layout_bg"
                     android:hint="@string/type_a_message"
+                    android:paddingStart="16dp"
                     android:text="@={viewModel.message}"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:theme="@style/CustomEditTextTheme"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/camera"
-                    app:layout_constraintStart_toEndOf="@+id/emoji"
+                    app:layout_constraintEnd_toStartOf="@+id/send"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <ImageButton
+<!--                <ImageButton
                     android:id="@+id/camera"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -157,7 +120,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/send"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:ignore="TouchTargetSizeCheck" />
+                    tools:ignore="TouchTargetSizeCheck" />-->
 
                 <ImageButton
                     android:id="@+id/send"
@@ -190,10 +153,13 @@
                 android:id="@+id/chat_recylerview"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
+                android:layout_margin="12dp"
                 app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/current_user" />
+                app:layout_constraintTop_toBottomOf="@+id/current_user"
+                app:layout_constraintVertical_bias="0.625" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </FrameLayout>

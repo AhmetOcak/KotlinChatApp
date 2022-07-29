@@ -48,6 +48,7 @@
         <entry key="..\:/Users/ahmet/ChatApp/core/src/main/res/drawable/const_layout_bg.xml" value="0.2485" />
         <entry key="..\:/Users/ahmet/ChatApp/core/src/main/res/drawable/dialog_background.xml" value="0.3535" />
         <entry key="..\:/Users/ahmet/ChatApp/core/src/main/res/drawable/divider.xml" value="0.3535" />
+        <entry key="..\:/Users/ahmet/ChatApp/core/src/main/res/drawable/edit_text_bg.xml" value="0.3705" />
         <entry key="..\:/Users/ahmet/ChatApp/core/src/main/res/drawable/ic_baseline_key.xml" value="0.3535" />
         <entry key="..\:/Users/ahmet/ChatApp/core/src/main/res/drawable/incoming_message_bg.xml" value="0.2485" />
         <entry key="..\:/Users/ahmet/ChatApp/core/src/main/res/drawable/messages_date_bg.xml" value="0.2485" />
@@ -69,9 +70,9 @@
         <entry key="..\:/Users/ahmet/ChatApp/features/src/main/res/layout/custom_delete_account_dialog.xml" value="0.3697916666666667" />
         <entry key="..\:/Users/ahmet/ChatApp/features/src/main/res/layout/custom_logout_dialog.xml" value="0.3697916666666667" />
         <entry key="..\:/Users/ahmet/ChatApp/features/src/main/res/layout/fragment_account_settings.xml" value="0.3541666666666667" />
-        <entry key="..\:/Users/ahmet/ChatApp/features/src/main/res/layout/fragment_chat.xml" value="0.3541666666666667" />
+        <entry key="..\:/Users/ahmet/ChatApp/features/src/main/res/layout/fragment_chat.xml" value="0.3697916666666667" />
         <entry key="..\:/Users/ahmet/ChatApp/features/src/main/res/layout/fragment_login.xml" value="0.3541666666666667" />
-        <entry key="..\:/Users/ahmet/ChatApp/features/src/main/res/layout/fragment_messages.xml" value="0.25" />
+        <entry key="..\:/Users/ahmet/ChatApp/features/src/main/res/layout/fragment_messages.xml" value="0.3697916666666667" />
         <entry key="..\:/Users/ahmet/ChatApp/features/src/main/res/layout/fragment_register.xml" value="0.23986486486486486" />
         <entry key="..\:/Users/ahmet/ChatApp/features/src/main/res/layout/message.xml" value="0.5" />
         <entry key="..\:/Users/ahmet/ChatApp/features/src/main/res/layout/toast_custom_error.xml" value="0.3697916666666667" />

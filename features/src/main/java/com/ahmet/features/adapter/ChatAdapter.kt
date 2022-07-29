@@ -1,22 +1,18 @@
 package com.ahmet.features.adapter
 
 import android.os.Build
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.annotation.RequiresApi
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.ahmet.core.databinding.IncomingMessagesBinding
 import com.ahmet.core.databinding.OutgoingMessagesBinding
 import com.ahmet.features.utils.DateConverter
 import com.google.firebase.Timestamp
 
-class ChatAdapter(
-    private val chat: MutableList<MutableMap<String, Any>>
-) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class ChatAdapter(private val chat: MutableList<MutableMap<String, Any>>) :
+    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val VIEW_TYPE_USER = 1
     private val VIEW_TYPE_OTHER = 0
