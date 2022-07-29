@@ -13,6 +13,14 @@
         <argument
             android:name="friend_email"
             app:argType="string" />
+        <argument
+            android:name="friend_user_name"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_chatFragment_to_messagesFragment"
+            app:destination="@id/messagesFragment"
+            app:popUpTo="@id/chatFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/messagesFragment"
