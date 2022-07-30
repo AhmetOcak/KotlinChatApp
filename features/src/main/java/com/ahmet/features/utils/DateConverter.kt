@@ -19,14 +19,4 @@ object DateConverter {
 
         return "${date.hour}:${date.minute}"
     }
-
-    fun currentTimeToLong(): Long {
-        return System.currentTimeMillis()
-    }
-
-    @SuppressLint("SimpleDateFormat")
-    fun convertDateToLong(date: String): Long {
-        val df = SimpleDateFormat("yyyy.MM.dd HH:mm")
-        return df.parse(date).time
-    }
 }
