@@ -25,6 +25,7 @@
     <string name="account_settings">Account Settings</string>
     <string name="sign_out">LOG OUT</string>
     <string name="delete_account">Delete Account</string>
+    <string name="edit_profile">Edit Profile</string>
     <string name="log_out_message">Oh no! You\'re leaving…\n Are you sure ?</string>
     <string name="log_out">Log Out</string>
     <string name="cancel">Cancel</string>
