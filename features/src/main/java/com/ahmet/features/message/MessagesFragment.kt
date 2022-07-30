@@ -4,12 +4,14 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import androidx.activity.OnBackPressedCallback
+import androidx.appcompat.widget.SearchView
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.ahmet.core.base.BaseFragment
+import com.ahmet.domain.model.User
 import com.ahmet.features.R
 import com.ahmet.features.adapter.UserAdapter
 import com.ahmet.features.databinding.FragmentMessagesBinding
@@ -35,6 +37,18 @@ class MessagesFragment : BaseFragment<MessageViewModel, FragmentMessagesBinding>
         onBackHandler()
         binding.viewModel = viewModel
 
+        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
+            android.widget.SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                filterList(newText!!)
+                return false
+            }
+        })
+
         swipeRefreshLayout = binding.refreshLayout
         swipeRefreshLayout.setProgressBackgroundColorSchemeColor(Color.rgb(255, 119, 0))
         swipeRefreshLayout.setColorSchemeColors(Color.rgb(30, 25, 64))
@@ -47,6 +61,7 @@ class MessagesFragment : BaseFragment<MessageViewModel, FragmentMessagesBinding>
                 binding.friendsRecylerview.layoutManager = LinearLayoutManager(activity)
                 adapter = UserAdapter(viewModel.userFriends.value, findNavController())
                 binding.friendsRecylerview.adapter = adapter
+                binding.searchView.setQuery("", false)
             }
         }
 
@@ -76,10 +91,22 @@ class MessagesFragment : BaseFragment<MessageViewModel, FragmentMessagesBinding>
         binding.refreshLayout.setOnRefreshListener {
             lifecycleScope.launch {
                 viewModel.refreshUserFriends()
+                adapter.filterList(viewModel.userFriends.value) // for the update recylerview
                 adapter.notifyDataSetChanged()
                 swipeRefreshLayout.isRefreshing = false
             }
         }
+    }
+
+    private fun filterList(friendName: String) {
+        val filteredList: MutableList<User> = mutableListOf()
+
+        for (elem in viewModel.userFriends.value!!) {
+            if (elem.userName.contains(friendName)) {
+                filteredList.add(0, elem)
+            }
+        }
+        adapter.filterList(filteredList)
     }
 
 }

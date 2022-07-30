@@ -13,7 +13,7 @@ import com.ahmet.features.databinding.MessageBinding
 import com.ahmet.features.utils.Constants
 
 class UserAdapter(
-    private val friends: MutableList<User>?,
+    private var friends: MutableList<User>?,
     private val findNavController: NavController,
 ) : RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
 
@@ -22,6 +22,12 @@ class UserAdapter(
         val userName: TextView = binding.userName
         val unreadTime: TextView = binding.unreadTime
         val unreadMessage: TextView = binding.unreadMessage
+    }
+
+    // problem :(
+    fun filterList(filterList: MutableList<User>?) {
+        friends = filterList
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder =
@@ -39,6 +45,10 @@ class UserAdapter(
                     putString(
                         Constants.USER_FRIEND_ARG_KEY,
                         friends?.get(position)!!.emailAddress
+                    )
+                    putString(
+                        Constants.USER_FRIEND_NAME_ARG_KEY,
+                        friends!![position].userName
                     )
                 }
             )
