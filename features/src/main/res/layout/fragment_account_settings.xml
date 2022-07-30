@@ -95,6 +95,14 @@
                     android:backgroundTint="@color/light_purple_100"
                     android:drawableLeft="@drawable/ic_baseline_delete"
                     android:text="@string/delete_account" />
+
+                <Button
+                    android:id="@+id/editProfile"
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp"
+                    android:backgroundTint="@color/light_purple_100"
+                    android:drawableLeft="@drawable/ic_baseline_edit_24"
+                    android:text="@string/edit_profile" />
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </FrameLayout>
