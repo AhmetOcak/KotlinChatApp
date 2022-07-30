@@ -33,5 +33,9 @@ class AccountSettingsFragment : BaseFragment<AccountSettingsViewModel, FragmentA
         binding.deleteAccount.setOnClickListener {
             deleteAccount.show(parentFragmentManager, "Delete Account")
         }
+
+        binding.editProfile.setOnClickListener {
+            goToNextScreen(R.id.action_accountSettingsFragment_to_editProfile2, null, null)
+        }
     }
 }
