@@ -79,5 +79,12 @@
             app:destination="@id/loginFragment"
             app:popUpTo="@id/nav_graph"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_accountSettingsFragment_to_editProfile2"
+            app:destination="@id/editProfile2" />
     </fragment>
+    <fragment
+        android:id="@+id/editProfile2"
+        android:name="com.ahmet.features.edit_profile.EditProfile"
+        android:label="EditProfile" />
 </navigation>
