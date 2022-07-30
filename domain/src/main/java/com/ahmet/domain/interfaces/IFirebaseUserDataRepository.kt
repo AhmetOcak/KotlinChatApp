@@ -1,5 +1,6 @@
 package com.ahmet.domain.interfaces
 
+import android.net.Uri
 import com.ahmet.domain.model.User
 
 interface IFirebaseUserDataRepository {
@@ -30,4 +31,8 @@ interface IFirebaseUserDataRepository {
     suspend fun deleteUserDoc(email: String) : Boolean
 
     suspend fun reauthenticate(email: String, password: String) : Boolean
+
+    suspend fun uploadImage(filePath: Uri) : String?
+
+    suspend fun getUserImage(filePath: Uri) : String?
 }

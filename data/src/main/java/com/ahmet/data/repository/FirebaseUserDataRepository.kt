@@ -1,5 +1,7 @@
 package com.ahmet.data.repository
 
+import android.graphics.BitmapFactory
+import android.net.Uri
 import android.util.Log
 import com.ahmet.data.utils.EditEmail
 import com.ahmet.data.utils.Firebase
@@ -8,12 +10,12 @@ import com.ahmet.domain.interfaces.IFirebaseUserDataRepository
 import com.ahmet.domain.model.User
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.SetOptions
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.ktx.storage
 import kotlinx.coroutines.tasks.await
+import java.io.File
 import javax.inject.Inject
 
 class FirebaseUserDataRepository @Inject constructor() : IFirebaseUserDataRepository {
@@ -197,5 +199,38 @@ class FirebaseUserDataRepository @Inject constructor() : IFirebaseUserDataReposi
 
     fun getCurrentUserEmail(): String? {
         return auth.currentUser?.email
+    }
+
+    override suspend fun uploadImage(filePath: Uri): String? {
+        var resultMessage: String? = null
+        val imagesRef = FirebaseStorage.getInstance().reference.child(("${auth.currentUser?.email}/${auth.currentUser?.email}.png"))
+
+        imagesRef.putFile(filePath).addOnCompleteListener {
+            resultMessage = if(it.isSuccessful) {
+                "Successful"
+            }else {
+                it.exception?.message
+            }
+        }.await()
+
+        return resultMessage
+    }
+
+    override suspend fun getUserImage(filePath: Uri): String? {
+        var resultMessage: String? = null
+        val imagesRef = FirebaseStorage.getInstance().reference.child(("${auth.currentUser?.email}/${auth.currentUser?.email}.png"))
+        val localFile = File.createTempFile("userImage", "png")
+
+        imagesRef.getFile(localFile).addOnCompleteListener {
+            if(it.isSuccessful) {
+                resultMessage = "Download Successful"
+                Log.e("result", "successful")
+            }else {
+                resultMessage = "Download Failed"
+                Log.e("result", "successful")
+            }
+        }.await()
+
+        return resultMessage
     }
 }
