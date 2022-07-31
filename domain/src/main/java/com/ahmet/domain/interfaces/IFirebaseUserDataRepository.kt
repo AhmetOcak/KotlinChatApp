@@ -34,5 +34,5 @@ interface IFirebaseUserDataRepository {
 
     suspend fun uploadImage(filePath: Uri) : String?
 
-    suspend fun getUserImage(filePath: Uri) : String?
+    suspend fun getUserImage(email: String) : String?
 }

@@ -36,10 +36,11 @@
                     android:background="@color/dark_purple">
 
                     <com.google.android.material.imageview.ShapeableImageView
-                        android:id="@+id/current_user_image"
+                        android:id="@+id/friend_image"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:layout_marginStart="8dp"
+                        android:scaleType="fitXY"
                         android:src="@drawable/blank_profile_picture"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toEndOf="@id/back"
@@ -57,7 +58,7 @@
                         android:textSize="16sp"
                         android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/current_user_image"
+                        app:layout_constraintStart_toEndOf="@+id/friend_image"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <!--                    <TextView

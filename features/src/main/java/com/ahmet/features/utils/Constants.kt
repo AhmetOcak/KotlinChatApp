@@ -42,6 +42,3 @@ object FirebaseDeleteMessages {
     const val DEL_SUCCESSFUL = "Your account deleted successfully"
 }
 
-object CollectionPaths {
-    const val USER = "users"
-}

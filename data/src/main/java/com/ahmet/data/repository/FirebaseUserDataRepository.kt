@@ -1,6 +1,5 @@
 package com.ahmet.data.repository
 
-import android.graphics.BitmapFactory
 import android.net.Uri
 import android.util.Log
 import com.ahmet.data.utils.EditEmail
@@ -216,21 +215,19 @@ class FirebaseUserDataRepository @Inject constructor() : IFirebaseUserDataReposi
         return resultMessage
     }
 
-    override suspend fun getUserImage(filePath: Uri): String? {
-        var resultMessage: String? = null
-        val imagesRef = FirebaseStorage.getInstance().reference.child(("${auth.currentUser?.email}/${auth.currentUser?.email}.png"))
+    override suspend fun getUserImage(email: String): String? {
+        val imagesRef = FirebaseStorage.getInstance().reference.child(("${email}/${email}.png"))
         val localFile = File.createTempFile("userImage", "png")
 
         imagesRef.getFile(localFile).addOnCompleteListener {
             if(it.isSuccessful) {
-                resultMessage = "Download Successful"
                 Log.e("result", "successful")
             }else {
-                resultMessage = "Download Failed"
                 Log.e("result", "successful")
             }
         }.await()
 
-        return resultMessage
+        return localFile.path
     }
+
 }
