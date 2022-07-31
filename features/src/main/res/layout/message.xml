@@ -21,10 +21,11 @@
                 android:id="@+id/person_image_card"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/blank_profile_picture"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:shapeAppearanceOverlay="@style/Circular"
-                android:src="@drawable/blank_profile_picture" />
+                app:shapeAppearanceOverlay="@style/Circular" />
 
             <TextView
                 android:id="@+id/user_name"
