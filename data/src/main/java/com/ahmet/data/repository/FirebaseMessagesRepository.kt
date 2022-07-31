@@ -19,17 +19,19 @@ class FirebaseMessagesRepository @Inject constructor() : IFirebaseMessagesReposi
 
         if (!isExist) {
             val message = Message(mutableListOf(), mutableListOf())
+            val users = mutableListOf(userEmail, friendEmail)
             val data: MutableMap<String, Any> = HashMap()
 
             data[EditEmail.removeDot(userEmail)] = message.userMessage!!
             data[EditEmail.removeDot(friendEmail)] = message.friendMessage!!
+            data["users"] = users
 
             db.collection(Firebase.MESSAGES_COLLECTION_PATH).document(userEmail + " " + friendEmail)
                 .set(data)
         }
     }
 
-    override suspend fun listenMessages(
+    override suspend fun listenPrivateMessages(
         userEmail: String,
         friendEmail: String,
         callback: (messages: Message?) -> Unit
@@ -56,6 +58,21 @@ class FirebaseMessagesRepository @Inject constructor() : IFirebaseMessagesReposi
                 }
             }
         }
+    }
+
+    override fun listenAllMessages(userEmail: String, callback: (messages: List<DocumentSnapshot>) -> Unit) {
+        db.collection(Firebase.MESSAGES_COLLECTION_PATH)
+            .whereArrayContainsAny("users", mutableListOf(userEmail))
+            .addSnapshotListener { value, error ->
+                if (error != null) {
+                    Log.e("listen all messages exception", error.toString())
+                    return@addSnapshotListener
+                }
+
+                if (value != null) {
+                    callback(value.documents)
+                }
+            }
     }
 
     override suspend fun sendMessage(
@@ -97,9 +114,11 @@ class FirebaseMessagesRepository @Inject constructor() : IFirebaseMessagesReposi
                 .get()
                 .addOnCompleteListener {
                     docId = if (it.result.exists()) {
-                        db.collection(Firebase.MESSAGES_COLLECTION_PATH).document(friendEmail + " " + userEmail)
+                        db.collection(Firebase.MESSAGES_COLLECTION_PATH)
+                            .document(friendEmail + " " + userEmail)
                     } else {
-                        db.collection(Firebase.MESSAGES_COLLECTION_PATH).document(userEmail + " " + friendEmail)
+                        db.collection(Firebase.MESSAGES_COLLECTION_PATH)
+                            .document(userEmail + " " + friendEmail)
                     }
                 }.await()
         }
@@ -134,7 +153,7 @@ class FirebaseMessagesRepository @Inject constructor() : IFirebaseMessagesReposi
             queryResult =
                 FirebaseUserDataRepository().isUserAlreadyAdded(userEmail, friendEmail[i]) ?: true
 
-            if(!queryResult) {
+            if (!queryResult) {
                 nonFriends.add(EditEmail.addDot(friendEmail[i]))
             }
         }
