@@ -1,6 +1,7 @@
 package com.ahmet.features.chat
 
 import android.annotation.SuppressLint
+import android.content.SharedPreferences
 import android.util.Log
 import android.view.View
 import androidx.lifecycle.LiveData
@@ -12,7 +13,6 @@ import com.ahmet.data.usecase.messages.ListenMessageData
 import com.ahmet.data.usecase.messages.SendMessage
 import com.ahmet.domain.model.Message
 import com.ahmet.features.utils.Status
-import com.google.firebase.Timestamp
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.time.Instant
@@ -20,9 +20,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ChatViewModel @Inject constructor(
-    getCurrentUserEmail: GetCurrentUserEmail,
-    private val listenMessageData: ListenMessageData,
-    private val sendMessage: SendMessage
+    private val getCurrentUserEmail: GetCurrentUserEmail,
+    private val listenPrivateMessages: ListenMessageData,
+    private val sendMessage: SendMessage,
+    private val sharedPreferences: SharedPreferences,
 ) : BaseViewModel() {
 
     private val userEmail = MutableLiveData<String>()
@@ -46,11 +47,11 @@ class ChatViewModel @Inject constructor(
     private val _friendMessages = MutableLiveData<MutableList<MutableMap<String, Any>>>()
     val friendMessages: LiveData<MutableList<MutableMap<String, Any>>> get() = _friendMessages
 
-    fun getMessageData() {
+    fun listenMessageData() {
         setProgressBarVis(Status.LOADING)
 
         viewModelScope.launch {
-            listenMessageData.listenData(
+            listenPrivateMessages.listenPrivateData(
                 userEmail.value.toString(),
                 friendEmail.value.toString(),
                 ::callbackFun
@@ -100,5 +101,7 @@ class ChatViewModel @Inject constructor(
     private fun clearChatField() {
         message.value = ""
     }
+
+    fun getUserImageFromSharedPref(): String? = sharedPreferences.getString(friendEmail.value, null)
 
 }

@@ -10,6 +10,7 @@ import com.ahmet.features.R
 import com.ahmet.features.adapter.ChatAdapter
 import com.ahmet.features.databinding.FragmentChatBinding
 import com.ahmet.features.utils.Constants
+import com.ahmet.features.utils.resource.ImpUserImage
 import com.google.firebase.Timestamp
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -35,7 +36,9 @@ class ChatFragment : BaseFragment<ChatViewModel, FragmentChatBinding>() {
         viewModel.friendEmail.value = requireArguments().getString(Constants.USER_FRIEND_ARG_KEY)
         viewModel.friendUserName.value = requireArguments().getString(Constants.USER_FRIEND_NAME_ARG_KEY)
 
-        viewModel.getMessageData()
+        initUserImage()
+
+        viewModel.listenMessageData()
 
         viewModel.progressBarVisibility.observe(viewLifecycleOwner) {
             if (viewModel.progressBarVisibility.value == View.INVISIBLE) {
@@ -90,6 +93,16 @@ class ChatFragment : BaseFragment<ChatViewModel, FragmentChatBinding>() {
         } else {
             chatAdapter?.notifyItemInserted(chat.size)
             binding.chatRecylerview.scrollToPosition(chat.size - 1)
+        }
+    }
+
+    private fun initUserImage() {
+        val path = viewModel.getUserImageFromSharedPref()
+        if(path != null) {
+            val bitmap = ImpUserImage.implementUserImage(path)
+            binding.friendImage.setImageBitmap(bitmap)
+        }else {
+            binding.friendImage.setImageResource(com.ahmet.core.R.drawable.blank_profile_picture)
         }
     }
 
