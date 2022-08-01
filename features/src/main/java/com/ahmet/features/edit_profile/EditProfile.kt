@@ -43,7 +43,7 @@ class EditProfile : BaseFragment<EditViewModel, FragmentEditProfileBinding>() {
         binding.userImage.setOnClickListener { intent!!.launch("image/*") }
 
         binding.saveButton.setOnClickListener {
-            if(uri != null) {
+            if (uri != null) {
                 viewModel.uploadUserImage(uri ?: Uri.EMPTY)
             }
         }
@@ -51,14 +51,14 @@ class EditProfile : BaseFragment<EditViewModel, FragmentEditProfileBinding>() {
         binding.cancelButton.setOnClickListener { initUserImage() }
 
         viewModel.userImageFilePath.observe(viewLifecycleOwner) {
-            if(viewModel.userImageFilePath.value != null || viewModel.userImageFilePath.value != "null") {
+            if (viewModel.userImageFilePath.value != null || viewModel.userImageFilePath.value != "null") {
                 val bitmap = ImpUserImage.implementUserImage(viewModel.userImageFilePath.value)
                 binding.userImage.setImageBitmap(bitmap)
             }
         }
 
         viewModel.resultMessage.observe(viewLifecycleOwner) {
-            if(viewModel.resultMessage.value == "Successful") {
+            if (viewModel.resultMessage.value == "Successful") {
                 viewModel.getUserImage()
                 toast.setText("Upload Successful")
                 toast.show()
@@ -69,19 +69,20 @@ class EditProfile : BaseFragment<EditViewModel, FragmentEditProfileBinding>() {
     // preview for the image
     override fun onResume() {
         super.onResume()
-        if(isThisInit) {
+        if (isThisInit) {
             isThisInit = false
-        }else {
-            binding.userImage.setImageBitmap(MediaStore.Images.Media.getBitmap(context?.contentResolver, uri))
+        } else {
+            binding.userImage.setImageBitmap(MediaStore.Images.Media.getBitmap(context?.contentResolver, uri)
+            )
         }
     }
 
     private fun initUserImage() {
         val path = viewModel.getUserImageFromSharedPref()
-        if(path != null) {
+        if (path != null) {
             val bitmap = ImpUserImage.implementUserImage(path)
             binding.userImage.setImageBitmap(bitmap)
-        }else {
+        } else {
             binding.userImage.setImageResource(R.drawable.blank_profile_picture)
         }
     }

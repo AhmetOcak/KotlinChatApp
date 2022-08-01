@@ -62,6 +62,7 @@ class EditViewModel @Inject constructor(
         sharedPreferences.edit().putString(getCurrentUserEmail.getCurrentUser(), userImageFilePath.value).apply()
     }
 
-    fun getUserImageFromSharedPref(): String? = sharedPreferences.getString(getCurrentUserEmail.getCurrentUser(), null)
+    fun getUserImageFromSharedPref(): String? =
+        sharedPreferences.getString(getCurrentUserEmail.getCurrentUser(), null)
 
 }
