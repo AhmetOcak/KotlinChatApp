@@ -98,10 +98,10 @@ class ChatFragment : BaseFragment<ChatViewModel, FragmentChatBinding>() {
 
     private fun initUserImage() {
         val path = viewModel.getUserImageFromSharedPref()
-        if(path != null) {
+        if (path != null) {
             val bitmap = ImpUserImage.implementUserImage(path)
             binding.friendImage.setImageBitmap(bitmap)
-        }else {
+        } else {
             binding.friendImage.setImageResource(com.ahmet.core.R.drawable.blank_profile_picture)
         }
     }
