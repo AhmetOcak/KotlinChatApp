@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -33,7 +34,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="4dp"
-                android:text="Patrick Nelson"
+                android:text=""
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="@color/white"
                 android:textSize="21sp"
@@ -42,12 +43,12 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/unread_message"
+                android:id="@+id/message_preview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="4dp"
-                android:text="Wana go outside someday ?"
+                android:text=""
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textColor="@color/grey"
                 android:textSize="17sp"
@@ -58,12 +59,27 @@
                 android:id="@+id/unread_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=" 3 mins ago"
+                android:text=""
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textColor="@color/grey"
                 android:textSize="15sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/is_there_message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:text=""
+                android:background="@drawable/unread_message_count_bg"
+                android:textColor="@color/dark_purple"
+                android:textStyle="bold"
+                android:padding="3dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
