@@ -86,11 +86,15 @@ class MessageViewModel @Inject constructor(
             val tempMessagesSize = (tempMessages.value!![i]?.get(currentFriendEmail) as MutableList<MutableMap<String, Any>>).size
             val count = currentMessagesSize - tempMessagesSize
 
+            Log.e("count", unreadMessagesAlert.value.toString())
+
             // if not 0 then there are unread messages
             if(unreadMessagesAlert.value.isNullOrEmpty() || unreadMessagesAlert.value!!.size < _userFriends.value!!.size) {
                 unreadMessagesAlert.value?.add(i, count)
             }else {
-                unreadMessagesAlert.value!![i] = count
+                if(unreadMessagesAlert.value!![i] == 0) {
+                    unreadMessagesAlert.value!![i] = count
+                }
             }
         }
     }
