@@ -27,7 +27,8 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:shapeAppearanceOverlay="@style/Circular" />
+            app:shapeAppearanceOverlay="@style/Circular"
+            android:focusable="true" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/edit_user_name"
@@ -49,7 +50,7 @@
             app:layout_constraintTop_toBottomOf="@id/user_image">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/loginEmailEditText"
+                android:id="@+id/upload_username"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableEnd="@drawable/ic_baseline_person"
