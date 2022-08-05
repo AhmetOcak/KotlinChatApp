@@ -8,13 +8,13 @@ import androidx.lifecycle.viewModelScope
 import com.ahmet.core.base.BaseViewModel
 import com.ahmet.core.utils.EmailController
 import com.ahmet.data.mapper.UserMapper
+import com.ahmet.data.model.UserEntity
 import com.ahmet.data.usecase.auth.Login
 import com.ahmet.data.usecase.firebase.GetUserData
 import com.ahmet.data.usecase.userdatabase.AddUserToDb
 import com.ahmet.data.usecase.userdatabase.DeleteUserFromDb
 import com.ahmet.data.usecase.userdatabase.GetUserFromDb
 import com.ahmet.data.usecase.userdatabase.UpdateUserDb
-import com.ahmet.domain.model.User
 import com.ahmet.features.utils.Constants
 import com.ahmet.features.utils.Status
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -123,8 +123,8 @@ class LoginViewModel @Inject constructor(
         }
     }
 
-    private suspend fun getUserData(): User? {
-        var user: User? = null
+    private suspend fun getUserData(): UserEntity? {
+        var user: UserEntity? = null
 
         try {
             user = userData.getUserDoc(email.value.toString())

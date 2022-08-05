@@ -8,7 +8,6 @@ import com.ahmet.core.utils.EmailController
 import com.ahmet.data.usecase.firebase.AddUser
 import com.ahmet.data.usecase.firebase.GetCurrentUserEmail
 import com.ahmet.data.usecase.messages.CreateMessageDoc
-import com.ahmet.data.usecase.userdatabase.GetUserFromDb
 import com.ahmet.features.utils.Constants
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -18,7 +17,6 @@ import javax.inject.Inject
 @HiltViewModel
 class AddUserDialogViewModel @Inject constructor(
     private val addUser: AddUser,
-    private val getUserFromDb: GetUserFromDb,
     private val createMessageDoc: CreateMessageDoc,
     getCurrentUserEmail: GetCurrentUserEmail,
 ) : BaseViewModel() {

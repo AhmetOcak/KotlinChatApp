@@ -12,7 +12,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.ktx.storage
 import kotlinx.coroutines.tasks.await
 import java.io.File
 import javax.inject.Inject
@@ -205,9 +204,9 @@ class FirebaseUserDataRepository @Inject constructor() : IFirebaseUserDataReposi
         val imagesRef = FirebaseStorage.getInstance().reference.child(("${auth.currentUser?.email}/${auth.currentUser?.email}.png"))
 
         imagesRef.putFile(filePath).addOnCompleteListener {
-            resultMessage = if(it.isSuccessful) {
+            resultMessage = if (it.isSuccessful) {
                 "Successful"
-            }else {
+            } else {
                 it.exception?.message
             }
         }.await()
@@ -220,14 +219,13 @@ class FirebaseUserDataRepository @Inject constructor() : IFirebaseUserDataReposi
         val localFile = File.createTempFile("userImage", "png")
 
         imagesRef.getFile(localFile).addOnCompleteListener {
-            if(it.isSuccessful) {
+            if (it.isSuccessful) {
                 Log.e("result", "successful")
-            }else {
+            } else {
                 Log.e("result", "successful")
             }
         }.await()
 
         return localFile.path
     }
-
 }

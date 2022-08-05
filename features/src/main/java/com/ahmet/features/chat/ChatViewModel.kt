@@ -8,10 +8,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.ahmet.core.base.BaseViewModel
+import com.ahmet.data.model.MessageEntity
 import com.ahmet.data.usecase.firebase.GetCurrentUserEmail
 import com.ahmet.data.usecase.messages.ListenMessageData
 import com.ahmet.data.usecase.messages.SendMessage
-import com.ahmet.domain.model.Message
 import com.ahmet.features.utils.Status
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -38,8 +38,8 @@ class ChatViewModel @Inject constructor(
     private val _progressBarVisibility = MutableLiveData(View.GONE)
     val progressBarVisibility: LiveData<Int> get() = _progressBarVisibility
 
-    private val _messageData = MutableLiveData<Message>()
-    val messageData: LiveData<Message> get() = _messageData
+    private val _messageData = MutableLiveData<MessageEntity>()
+    val messageData: LiveData<MessageEntity> get() = _messageData
 
     private val _userMessages = MutableLiveData<MutableList<MutableMap<String, Any>>>()
     val userMessages: LiveData<MutableList<MutableMap<String, Any>>> get() = _userMessages
@@ -83,8 +83,8 @@ class ChatViewModel @Inject constructor(
         else _progressBarVisibility.value = View.INVISIBLE
     }
 
-    private fun callbackFun(message: Message?) {
-        _messageData.value = message ?: Message(mutableListOf(), mutableListOf())
+    private fun callbackFun(message: Any?) {
+        _messageData.value = (message ?: MessageEntity(mutableListOf(), mutableListOf())) as MessageEntity?
         _userMessages.value = _messageData.value?.userMessage ?: mutableListOf()
         _friendMessages.value = _messageData.value?.friendMessage ?: mutableListOf()
 

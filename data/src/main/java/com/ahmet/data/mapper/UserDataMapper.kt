@@ -3,8 +3,9 @@ package com.ahmet.data.mapper
 import com.ahmet.data.local.db.entity.UserDataEntity
 import com.ahmet.domain.interfaces.IEntityMapper
 import com.ahmet.domain.model.User
+import javax.inject.Inject
 
-class UserDataMapper: IEntityMapper<UserDataEntity, User> {
+class UserDataMapper @Inject constructor(): IEntityMapper<UserDataEntity, User> {
     override fun mapFromEntity(entity: UserDataEntity): User {
         return User(
             entity.userName,
