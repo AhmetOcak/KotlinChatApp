@@ -50,8 +50,14 @@
         <entry key="..\:/Users/ahmet/ChatApp/core/src/main/res/drawable/divider.xml" value="0.3535" />
         <entry key="..\:/Users/ahmet/ChatApp/core/src/main/res/drawable/edit_text_bg.xml" value="0.3705" />
         <entry key="..\:/Users/ahmet/ChatApp/core/src/main/res/drawable/ic_baseline_camera_alt.xml" value="0.362" />
+        <entry key="..\:/Users/ahmet/ChatApp/core/src/main/res/drawable/ic_baseline_check.xml" value="0.3705" />
+        <entry key="..\:/Users/ahmet/ChatApp/core/src/main/res/drawable/ic_baseline_clear.xml" value="0.3705" />
+        <entry key="..\:/Users/ahmet/ChatApp/core/src/main/res/drawable/ic_baseline_close.xml" value="0.3705" />
         <entry key="..\:/Users/ahmet/ChatApp/core/src/main/res/drawable/ic_baseline_edit_24.xml" value="0.362" />
+        <entry key="..\:/Users/ahmet/ChatApp/core/src/main/res/drawable/ic_baseline_emoji_emotions.xml" value="0.3705" />
+        <entry key="..\:/Users/ahmet/ChatApp/core/src/main/res/drawable/ic_baseline_friend_request.xml" value="0.3705" />
         <entry key="..\:/Users/ahmet/ChatApp/core/src/main/res/drawable/ic_baseline_key.xml" value="0.3535" />
+        <entry key="..\:/Users/ahmet/ChatApp/core/src/main/res/drawable/ic_baseline_person_add_alt_1.xml" value="0.3705" />
         <entry key="..\:/Users/ahmet/ChatApp/core/src/main/res/drawable/incoming_message_bg.xml" value="0.2485" />
         <entry key="..\:/Users/ahmet/ChatApp/core/src/main/res/drawable/messages_date_bg.xml" value="0.2485" />
         <entry key="..\:/Users/ahmet/ChatApp/core/src/main/res/layout/incoming_messages.xml" value="0.3695652173913043" />
@@ -75,9 +81,11 @@
         <entry key="..\:/Users/ahmet/ChatApp/features/src/main/res/layout/fragment_account_settings.xml" value="0.3541666666666667" />
         <entry key="..\:/Users/ahmet/ChatApp/features/src/main/res/layout/fragment_chat.xml" value="0.3697916666666667" />
         <entry key="..\:/Users/ahmet/ChatApp/features/src/main/res/layout/fragment_edit_profile.xml" value="0.35572916666666665" />
+        <entry key="..\:/Users/ahmet/ChatApp/features/src/main/res/layout/fragment_friend_requests.xml" value="0.3697916666666667" />
         <entry key="..\:/Users/ahmet/ChatApp/features/src/main/res/layout/fragment_login.xml" value="0.3541666666666667" />
         <entry key="..\:/Users/ahmet/ChatApp/features/src/main/res/layout/fragment_messages.xml" value="0.3697916666666667" />
         <entry key="..\:/Users/ahmet/ChatApp/features/src/main/res/layout/fragment_register.xml" value="0.23986486486486486" />
+        <entry key="..\:/Users/ahmet/ChatApp/features/src/main/res/layout/friend_request.xml" value="0.3697916666666667" />
         <entry key="..\:/Users/ahmet/ChatApp/features/src/main/res/layout/message.xml" value="0.67" />
         <entry key="..\:/Users/ahmet/ChatApp/features/src/main/res/layout/toast_custom_error.xml" value="0.3697916666666667" />
       </map>
