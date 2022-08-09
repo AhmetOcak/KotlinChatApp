@@ -5,6 +5,7 @@ object UserKeys {
     const val EMAIL = "email"
     const val PASSWORD = "password"
     const val USER_FRIENDS = "user_friends"
+    const val FRIEND_REQUESTS = "friends_requests"
 }
 
 object UserDatabase {
