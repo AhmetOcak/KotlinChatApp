@@ -92,14 +92,16 @@ class LoginViewModel @Inject constructor(
                                     user.userName,
                                     user.emailAddress,
                                     user.password,
-                                    user.userFriends
+                                    user.userFriends,
+                                    user.friendRequests
                                 )
                             } else {
                                 addUserToDb.addUser(
                                     user.userName,
                                     user.emailAddress,
                                     user.password,
-                                    user.userFriends
+                                    user.userFriends,
+                                    user.friendRequests
                                 )
                             }
                         } else {

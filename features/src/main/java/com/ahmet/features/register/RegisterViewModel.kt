@@ -69,6 +69,7 @@ class RegisterViewModel @Inject constructor(private val registerFirebase: Regist
                         email.value.toString(),
                         password.value.toString(),
                         userName.value.toString(),
+                        listOf(),
                         listOf()
                     )
                     setProgBarVis(Status.DONE)

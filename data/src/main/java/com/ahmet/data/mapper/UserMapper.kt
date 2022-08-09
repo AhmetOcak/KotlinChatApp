@@ -11,7 +11,8 @@ class UserMapper @Inject constructor() : IEntityMapper<UserEntity, User> {
             entity.userName,
             entity.emailAddress,
             entity.password,
-            entity.userFriends
+            entity.userFriends,
+            entity.friendRequests
         )
     }
 
@@ -20,7 +21,8 @@ class UserMapper @Inject constructor() : IEntityMapper<UserEntity, User> {
             model.userName,
             model.emailAddress,
             model.password,
-            model.userFriends
+            model.userFriends,
+            model.friendRequest
         )
     }
 }

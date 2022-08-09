@@ -22,5 +22,8 @@ data class UserDataEntity(
     var password: String,
 
     @ColumnInfo(name = "user_friends")
-    var userFriends: List<String>
+    var userFriends: List<String>,
+
+    @ColumnInfo(name = "friend_requests")
+    var friendRequests: List<String>
 )

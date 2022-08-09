@@ -6,7 +6,7 @@ import javax.inject.Inject
 
 class UpdateUserDb @Inject constructor(private val db: UserDatabase) {
 
-    fun updateUserDb(username: String, email: String, password: String, userFriends: List<String>) {
-        db.userDao().updateUser(UserDataEntity(0, username, email, password, userFriends))
+    fun updateUserDb(username: String, email: String, password: String, userFriends: List<String>, friendRequests: List<String>) {
+        db.userDao().updateUser(UserDataEntity(0, username, email, password, userFriends, friendRequests))
     }
 }
