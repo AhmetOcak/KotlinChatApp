@@ -37,5 +37,9 @@ class AccountSettingsFragment : BaseFragment<AccountSettingsViewModel, FragmentA
         binding.editProfile.setOnClickListener {
             goToNextScreen(R.id.action_accountSettingsFragment_to_editProfile2, null, null)
         }
+
+        binding.friendRequests.setOnClickListener {
+            goToNextScreen(R.id.action_accountSettingsFragment_to_friendRequests, null, null)
+        }
     }
 }

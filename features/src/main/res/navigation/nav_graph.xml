@@ -82,9 +82,20 @@
         <action
             android:id="@+id/action_accountSettingsFragment_to_editProfile2"
             app:destination="@id/editProfile2" />
+        <action
+            android:id="@+id/action_accountSettingsFragment_to_friendRequests"
+            app:destination="@id/friendRequests" />
     </fragment>
     <fragment
         android:id="@+id/editProfile2"
         android:name="com.ahmet.features.edit_profile.EditProfile"
         android:label="EditProfile" />
+    <fragment
+        android:id="@+id/friendRequests"
+        android:name="com.ahmet.features.friend_requests.FriendRequests"
+        android:label="FriendRequests" >
+        <action
+            android:id="@+id/action_friendRequests_to_accountSettingsFragment"
+            app:destination="@id/accountSettingsFragment" />
+    </fragment>
 </navigation>
