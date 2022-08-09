@@ -1,6 +1,7 @@
 package com.ahmet.data.repository
 
 import android.util.Log
+import com.ahmet.data.model.MessageEntity
 import com.ahmet.data.utils.EditEmail
 import com.ahmet.data.utils.Firebase
 import com.ahmet.domain.interfaces.IFirebaseMessagesRepository
@@ -34,7 +35,7 @@ class FirebaseMessagesRepository @Inject constructor() : IFirebaseMessagesReposi
     override suspend fun listenPrivateMessages(
         userEmail: String,
         friendEmail: String,
-        callback: (messages: Message?) -> Unit
+        callback: (messages: Any?) -> Unit
     ) {
         val messagesRef = setMessageDocRef(userEmail, friendEmail)
 
@@ -46,15 +47,13 @@ class FirebaseMessagesRepository @Inject constructor() : IFirebaseMessagesReposi
 
             if (value != null) {
                 if (!value.data.isNullOrEmpty()) {
-                    val userData =
-                        value.data!!.getValue(EditEmail.removeDot(userEmail)) as MutableList<MutableMap<String, Any>>?
-                    val friendData =
-                        value.data!!.getValue(EditEmail.removeDot(friendEmail)) as MutableList<MutableMap<String, Any>>?
-                    callback(Message(userData, friendData))
+                    val userData = value.data!!.getValue(EditEmail.removeDot(userEmail)) as MutableList<MutableMap<String, Any>>?
+                    val friendData = value.data!!.getValue(EditEmail.removeDot(friendEmail)) as MutableList<MutableMap<String, Any>>?
+                    callback(MessageEntity(userData, friendData))
                 } else {
                     val userData = mutableListOf<MutableMap<String, Any>>()
                     val friendData = mutableListOf<MutableMap<String, Any>>()
-                    callback(Message(userData, friendData))
+                    callback(MessageEntity(userData, friendData))
                 }
             }
         }
@@ -70,7 +69,8 @@ class FirebaseMessagesRepository @Inject constructor() : IFirebaseMessagesReposi
                 }
 
                 if (value != null) {
-                    callback(value.documents)
+                    val data = value.documents.sortedByDescending { it.data?.keys.toString() }
+                    callback(data)
                 }
             }
     }
@@ -114,11 +114,9 @@ class FirebaseMessagesRepository @Inject constructor() : IFirebaseMessagesReposi
                 .get()
                 .addOnCompleteListener {
                     docId = if (it.result.exists()) {
-                        db.collection(Firebase.MESSAGES_COLLECTION_PATH)
-                            .document(friendEmail + " " + userEmail)
+                        db.collection(Firebase.MESSAGES_COLLECTION_PATH).document(friendEmail + " " + userEmail)
                     } else {
-                        db.collection(Firebase.MESSAGES_COLLECTION_PATH)
-                            .document(userEmail + " " + friendEmail)
+                        db.collection(Firebase.MESSAGES_COLLECTION_PATH).document(userEmail + " " + friendEmail)
                     }
                 }.await()
         }
@@ -126,6 +124,7 @@ class FirebaseMessagesRepository @Inject constructor() : IFirebaseMessagesReposi
         return docId!!
     }
 
+    // it will be remove
     private suspend fun receiveMessageFromNonFriend(userEmail: String): MutableList<String> {
         val userFriend: MutableList<String> = mutableListOf()
 
@@ -142,16 +141,17 @@ class FirebaseMessagesRepository @Inject constructor() : IFirebaseMessagesReposi
         return userFriend
     }
 
+
+    // IT WILL BE REMOVE
     // if return "null" -> the user has already been added to friends or the user has not received any messages.
     // if return "{user email}" -> the user is not added in friends or the user has a message.
-    suspend fun searchUserFriends(userEmail: String): MutableList<String> {
+    override suspend fun searchUserFriends(userEmail: String): MutableList<String> {
         val friendEmail = receiveMessageFromNonFriend(userEmail)
         val nonFriends: MutableList<String> = mutableListOf()
         var queryResult: Boolean
 
         for (i in 0 until friendEmail.size) {
-            queryResult =
-                FirebaseUserDataRepository().isUserAlreadyAdded(userEmail, friendEmail[i]) ?: true
+            queryResult = FirebaseUserDataRepository().isUserAlreadyAdded(userEmail, friendEmail[i]) ?: true
 
             if (!queryResult) {
                 nonFriends.add(EditEmail.addDot(friendEmail[i]))

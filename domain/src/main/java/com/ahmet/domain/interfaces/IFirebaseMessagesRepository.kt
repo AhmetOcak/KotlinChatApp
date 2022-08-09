@@ -1,6 +1,5 @@
 package com.ahmet.domain.interfaces
 
-import com.ahmet.domain.model.Message
 import com.google.firebase.firestore.DocumentSnapshot
 
 interface IFirebaseMessagesRepository {
@@ -10,7 +9,7 @@ interface IFirebaseMessagesRepository {
     suspend fun listenPrivateMessages(
         userEmail: String,
         friendEmail: String,
-        callback: (messages: Message?) -> Unit
+        callback: (messages: Any?) -> Unit
     )
 
     suspend fun sendMessage(
@@ -21,5 +20,7 @@ interface IFirebaseMessagesRepository {
     )
 
     fun listenAllMessages(userEmail: String, callback: (messages: List<DocumentSnapshot>) -> Unit)
+
+    suspend fun searchUserFriends(userEmail: String): MutableList<String>
 
 }
