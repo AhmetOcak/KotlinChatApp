@@ -5,4 +5,5 @@ data class User(
     val emailAddress: String,
     val password: String,
     val userFriends: List<String>,
+    val friendRequest: List<String>,
 )
