@@ -7,8 +7,7 @@ import com.ahmet.domain.model.User
 import javax.inject.Inject
 
 class GetUserFromDb @Inject constructor(private val db: UserDatabase) {
-
-    fun getUser(): User? {
-        return db.userDao().getUser()?.let { UserDataMapper().mapFromEntity(it) }
+    fun getUser(): UserDataEntity? {
+        return db.userDao().getUser()
     }
 }
