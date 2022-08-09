@@ -1,25 +1,19 @@
 package com.ahmet.features.message
 
-import android.app.ActivityManager
-import android.content.Context
 import android.content.SharedPreferences
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.widget.SearchView
 import androidx.core.app.ActivityCompat
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.ahmet.core.base.BaseFragment
-import com.ahmet.domain.model.User
+import com.ahmet.data.model.UserEntity
 import com.ahmet.features.R
 import com.ahmet.features.adapter.UserAdapter
 import com.ahmet.features.databinding.FragmentMessagesBinding
@@ -76,23 +70,7 @@ class MessagesFragment : BaseFragment<MessageViewModel, FragmentMessagesBinding>
         swipeRefreshLayout.setProgressBackgroundColorSchemeColor(Color.rgb(255, 119, 0))
         swipeRefreshLayout.setColorSchemeColors(Color.rgb(30, 25, 64))
 
-
-        viewModel.progressBarVisibility.observe(viewLifecycleOwner) {
-            // if progress bar gone, then our data is ready
-            if (viewModel.progressBarVisibility.value == View.INVISIBLE) {
-                binding.friendsRecylerview.layoutManager = LinearLayoutManager(activity)
-                adapter = UserAdapter(
-                    viewModel.userFriends.value,
-                    findNavController(),
-                    sharedPreferences,
-                    viewModel.currentMessages.value ?: listOf(),
-                    viewModel.unreadMessagesAlert.value ?: listOf(),
-                    ::callback
-                )
-                binding.friendsRecylerview.adapter = adapter
-                binding.searchView.setQuery("", false)
-            }
-        }
+        initAdapter()
 
         binding.addUser.setOnClickListener {
             addUserDialogFragment.show(parentFragmentManager, "Add User")
@@ -116,6 +94,29 @@ class MessagesFragment : BaseFragment<MessageViewModel, FragmentMessagesBinding>
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
     }
 
+    private fun initAdapter() {
+        viewModel.progressBarVisibility.observe(viewLifecycleOwner) {
+            // if progress bar gone, then our data is ready
+            if (viewModel.progressBarVisibility.value == View.INVISIBLE) {
+                binding.friendsRecylerview.layoutManager = LinearLayoutManager(activity)
+
+                // The new message will appear in descending order.
+                viewModel.userFriends.value?.sortByDescending { it.emailAddress }
+
+                adapter = UserAdapter(
+                    viewModel.userFriends.value,
+                    findNavController(),
+                    sharedPreferences,
+                    viewModel.currentMessages.value ?: listOf(),
+                    viewModel.unreadMessagesAlert.value ?: listOf(),
+                    ::callback
+                )
+                binding.friendsRecylerview.adapter = adapter
+                binding.searchView.setQuery("", false)
+            }
+        }
+    }
+
     // refresh user friends in recylerview
     private fun setRefreshListener() {
         binding.refreshLayout.setOnRefreshListener {
@@ -123,6 +124,7 @@ class MessagesFragment : BaseFragment<MessageViewModel, FragmentMessagesBinding>
                 viewModel.refreshUserFriends()
                 adapter.filterList(viewModel.userFriends.value) // for the update recylerview
                 adapter.takeUnreadMessages(viewModel.unreadMessagesAlert.value ?: listOf())
+                adapter.updateMessageData(viewModel.currentMessages.value ?: listOf())
                 adapter.notifyDataSetChanged()
                 swipeRefreshLayout.isRefreshing = false
             }
@@ -133,6 +135,7 @@ class MessagesFragment : BaseFragment<MessageViewModel, FragmentMessagesBinding>
     private fun notifyAdapter() {
         viewModel.currentMessages.observe(viewLifecycleOwner) {
             if (!viewModel.currentMessages.value.isNullOrEmpty() && this::adapter.isInitialized) {
+                adapter.filterList(viewModel.userFriends.value)
                 adapter.updateMessageData(viewModel.currentMessages.value ?: listOf())
                 adapter.takeUnreadMessages(viewModel.unreadMessagesAlert.value ?: listOf())
                 adapter.notifyDataSetChanged()
@@ -140,9 +143,8 @@ class MessagesFragment : BaseFragment<MessageViewModel, FragmentMessagesBinding>
         }
     }
 
-
     private fun filterList(friendName: String) {
-        val filteredList: MutableList<User> = mutableListOf()
+        val filteredList: MutableList<UserEntity> = mutableListOf()
 
         for (elem in viewModel.userFriends.value!!) {
             if (elem.userName.contains(friendName)) {
@@ -158,22 +160,12 @@ class MessagesFragment : BaseFragment<MessageViewModel, FragmentMessagesBinding>
             val bitmap = ImpUserImage.implementUserImage(path)
             view?.findViewById<ImageView>(R.id.current_user_image)?.setImageBitmap(bitmap)
         } else {
-            view?.findViewById<ImageView>(R.id.current_user_image)
-                ?.setImageResource(com.ahmet.core.R.drawable.blank_profile_picture)
+            view?.findViewById<ImageView>(R.id.current_user_image)?.setImageResource(com.ahmet.core.R.drawable.blank_profile_picture)
         }
     }
 
     private fun callback(pos: Int) {
-        if(!viewModel.unreadMessagesAlert.value.isNullOrEmpty()) viewModel.unreadMessagesAlert.value?.set(pos, 0)
+        if (!viewModel.unreadMessagesAlert.value.isNullOrEmpty()) viewModel.unreadMessagesAlert.value?.set(pos, 0)
     }
-
-    override fun onPause() {
-        super.onPause()
-        // it works if the app is not backgrounded.
-        if(activity?.lifecycle?.currentState != Lifecycle.State.STARTED) {
-            Log.e("state", "pause")
-        }
-    }
-
 
 }

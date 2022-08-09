@@ -12,8 +12,8 @@ import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.navigation.NavController
 import androidx.recyclerview.widget.RecyclerView
+import com.ahmet.data.model.UserEntity
 import com.ahmet.data.utils.EditEmail
-import com.ahmet.domain.model.User
 import com.ahmet.features.R
 import com.ahmet.features.databinding.MessageBinding
 import com.ahmet.features.utils.Constants
@@ -23,7 +23,7 @@ import com.google.firebase.Timestamp
 import com.google.firebase.firestore.DocumentSnapshot
 
 class UserAdapter(
-    private var friends: MutableList<User>?,
+    private var friends: MutableList<UserEntity>?,
     private val findNavController: NavController,
     private val sharedPreferences: SharedPreferences,
     private var currentData: List<DocumentSnapshot>,
@@ -39,8 +39,9 @@ class UserAdapter(
         val isThereUnreadMessage: TextView = binding.isThereMessage
     }
 
-    fun filterList(filterList: MutableList<User>?) {
+    fun filterList(filterList: MutableList<UserEntity>?) {
         friends = filterList
+        friends?.sortByDescending { it.emailAddress }
         notifyDataSetChanged()
     }
 
@@ -58,26 +59,30 @@ class UserAdapter(
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
+        var messageData: Any? = null
 
-        if(friends?.size ?: 0 == currentData.size) { // to avoid mistakes | possible error -> friends and currentData list may not be updated at the same time
-            val data =
-                if (currentData[position].data?.get(EditEmail.removeDot(friends?.get(position)!!.emailAddress)) == null) {
-                    friends?.reverse() // we are editing list order
-                    currentData[position].data?.get(EditEmail.removeDot(friends?.get(position)!!.emailAddress)) as MutableList<MutableMap<String, Any>>
-                } else {
-                    currentData[position].data?.get(EditEmail.removeDot(friends?.get(position)!!.emailAddress)) as MutableList<MutableMap<String, Any>>
+        // to avoid mistakes | possible error -> friends and currentData list may not be updated at the same time
+        if (friends?.size ?: 0 <= currentData.size && currentData.isNotEmpty()) {
+
+            for (piece in currentData) {
+                if (piece.data?.get(EditEmail.removeDot(friends?.get(position)!!.emailAddress)).toString() != "null"
+                    &&
+                    piece.data?.get(EditEmail.removeDot(friends?.get(position)!!.emailAddress)).toString() != "[]"
+                ) {
+                    messageData = piece.data?.get(EditEmail.removeDot(friends?.get(position)!!.emailAddress)) as List<Map<String, Any>>
                 }
+            }
 
-            if (data.size != 0) {
+            if (messageData != null && !(messageData as List<Map<String, Any>>).isNullOrEmpty()) {
                 holder.userName.text = friends?.get(position)?.userName ?: ""
-                holder.messagePreview.text = data[data.size - 1]["message"].toString()
-                holder.unreadTime.text = DateConverter.convertLongToTime((data[data.size - 1]["date"] as Timestamp).seconds)
-                if(!unreadMessages.isNullOrEmpty()) {
-                    if(unreadMessages[position] != 0) {
+                holder.messagePreview.text = messageData.last()["message"].toString()
+                holder.unreadTime.text = DateConverter.convertLongToTime((messageData.last()["date"] as Timestamp).seconds)
+                if (!unreadMessages.isNullOrEmpty()) {
+                    if (unreadMessages[position] != 0) {
                         holder.isThereUnreadMessage.text = "new messages"
                         holder.isThereUnreadMessage.visibility = View.VISIBLE
                     }
-                }else {
+                } else {
                     holder.isThereUnreadMessage.text = ""
                     holder.isThereUnreadMessage.visibility = View.GONE
                 }

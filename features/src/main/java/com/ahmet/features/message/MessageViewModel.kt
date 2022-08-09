@@ -7,14 +7,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.ahmet.core.base.BaseViewModel
-import com.ahmet.data.repository.FirebaseMessagesRepository
+import com.ahmet.data.model.UserEntity
 import com.ahmet.data.usecase.firebase.GetCurrentUserEmail
 import com.ahmet.data.usecase.firebase.GetUserData
 import com.ahmet.data.usecase.firebase.GetUserImage
 import com.ahmet.data.usecase.messages.ListenAllMessageData
+import com.ahmet.data.usecase.messages.SearchUserFriends
 import com.ahmet.data.usecase.userdatabase.GetUserFromDb
 import com.ahmet.data.utils.EditEmail
-import com.ahmet.domain.model.User
 import com.ahmet.features.utils.Status
 import com.google.firebase.firestore.DocumentSnapshot
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -36,14 +36,14 @@ class MessageViewModel @Inject constructor(
     private val tempMessages = MutableLiveData<List<DocumentSnapshot?>>()
     val unreadMessagesAlert = MutableLiveData<MutableList<Int>>(mutableListOf())
 
-    private val _user = MutableLiveData<User>()
-    val user: LiveData<User> get() = _user
+    private val _user = MutableLiveData<UserEntity>()
+    val user: LiveData<UserEntity> get() = _user
 
     private val _progressBarVisibility = MutableLiveData(View.INVISIBLE)
     val progressBarVisibility: LiveData<Int> get() = _progressBarVisibility
 
-    private val _userFriends = MutableLiveData<MutableList<User>>(mutableListOf())
-    val userFriends: LiveData<MutableList<User>> get() = _userFriends
+    private val _userFriends = MutableLiveData<MutableList<UserEntity>>(mutableListOf())
+    val userFriends: LiveData<MutableList<UserEntity>> get() = _userFriends
 
     private val userEmail = MutableLiveData<String>()
 
@@ -64,36 +64,43 @@ class MessageViewModel @Inject constructor(
     private fun callbackFun(message: List<DocumentSnapshot>) {
         currentMessages.value = message
 
-        Log.e("AA", "worked")
-
-        if(!_userFriends.value.isNullOrEmpty()) {
-            if(tempMessages.value.isNullOrEmpty()) {
+        if (!_userFriends.value.isNullOrEmpty()) {
+            if (tempMessages.value.isNullOrEmpty()) {
                 tempMessages.value = currentMessages.value
                 receiveUnreadMessages()
-            }else {
+            } else {
                 receiveUnreadMessages()
             }
         }
-
         tempMessages.value = currentMessages.value
     }
 
-    // kullanıcı listesi alfabetik sıralamada gider
     private fun receiveUnreadMessages() {
-        for (i in 0 until (_userFriends.value?.size ?: 0)) {
-            val currentFriendEmail = EditEmail.removeDot(_userFriends.value!![i].emailAddress)
-            val currentMessagesSize = (currentMessages.value!![i][currentFriendEmail] as MutableList<MutableMap<String, Any>>).size
-            val tempMessagesSize = (tempMessages.value!![i]?.get(currentFriendEmail) as MutableList<MutableMap<String, Any>>).size
-            val count = currentMessagesSize - tempMessagesSize
 
-            Log.e("count", unreadMessagesAlert.value.toString())
+        // counter
+        var s = 0
 
-            // if not 0 then there are unread messages
-            if(unreadMessagesAlert.value.isNullOrEmpty() || unreadMessagesAlert.value!!.size < _userFriends.value!!.size) {
-                unreadMessagesAlert.value?.add(i, count)
-            }else {
-                if(unreadMessagesAlert.value!![i] == 0) {
-                    unreadMessagesAlert.value!![i] = count
+        while (s < _userFriends.value?.size ?: 0) {
+
+            for (i in 0 until (_userFriends.value?.size ?: 0)) {
+                val currentFriendEmail = EditEmail.removeDot(_userFriends.value!![i].emailAddress)
+
+                if (currentMessages.value!![i].contains(currentFriendEmail)) {
+                    val currentMessagesSize = (currentMessages.value!![i][currentFriendEmail] as MutableList<MutableMap<String, Any>>).size
+                    val tempMessagesSize = (tempMessages.value!![i]?.get(currentFriendEmail) as MutableList<MutableMap<String, Any>>).size
+                    val count = currentMessagesSize - tempMessagesSize
+
+                    // if not 0 then there are unread messages
+                    if (unreadMessagesAlert.value.isNullOrEmpty() || unreadMessagesAlert.value!!.size < _userFriends.value!!.size) {
+                        unreadMessagesAlert.value?.add(s, count)
+                    } else {
+                        if (unreadMessagesAlert.value!![s] == 0) {
+                            unreadMessagesAlert.value!![s] = count
+                        }
+                    }
+
+                    // inc counter
+                    s++
                 }
             }
         }
@@ -109,7 +116,16 @@ class MessageViewModel @Inject constructor(
                 getUserFriendsData()
             }
         } else {
-            _user.value = getUserFromDb.getUser()
+            val userFromDatabase = getUserFromDb.getUser()
+            if (userFromDatabase != null) {
+                _user.value = UserEntity(
+                    userFromDatabase.userName,
+                    userFromDatabase.userEmail,
+                    userFromDatabase.password,
+                    userFromDatabase.userFriends,
+                    userFromDatabase.friendRequests
+                )
+            }
             getUserFriendsData()
         }
     }
@@ -120,25 +136,25 @@ class MessageViewModel @Inject constructor(
     private fun getUserFriendsData() {
         if (_userFriends.value.isNullOrEmpty()) {
             viewModelScope.launch {
-                val friend =
-                    FirebaseMessagesRepository().searchUserFriends(userEmail.value.toString())
+                //val friend = searchUserFriends.searchFriends(userEmail.value.toString())
 
                 if (_user.value != null && _userFriends.value.isNullOrEmpty()) {
                     for (i in 0 until (_user.value?.userFriends?.size ?: 0)) {
                         getUser.getUserDoc(_user.value!!.userFriends[i])
                             ?.let { _userFriends.value?.add(it) }
                     }
-                    if (friend.isNotEmpty()) {
+                    /*if (friend.isNotEmpty()) {
                         for (element in friend) {
                             getUser.getUserDoc(element)?.let {
                                 it.userName = it.userName + " (not your friend)"
                                 _userFriends.value?.add(it)
                             }
                         }
-                    }
+                    }*/
 
                     putUserFriendsImages()
                 }
+                _userFriends.value?.sortByDescending { it.emailAddress }
                 setProgBarVis(Status.DONE)
             }
         } else {
@@ -147,7 +163,7 @@ class MessageViewModel @Inject constructor(
     }
 
     suspend fun refreshUserFriends() {
-        val friend = FirebaseMessagesRepository().searchUserFriends(userEmail.value.toString())
+        //val friend = searchUserFriends.searchFriends(userEmail.value.toString())
         clearFriends()
 
         _user.value = getUser.getUserDoc(userEmail.value.toString())
@@ -155,14 +171,14 @@ class MessageViewModel @Inject constructor(
             getUser.getUserDoc(_user.value!!.userFriends[i])
                 ?.let { _userFriends.value?.add(it) }
         }
-        if (friend.isNotEmpty()) {
+/*        if (friend.isNotEmpty()) {
             for (element in friend) {
                 getUser.getUserDoc(element)?.let {
                     it.userName = it.userName + " (not your friend)"
                     _userFriends.value?.add(it)
                 }
             }
-        }
+        }*/
 
         putUserFriendsImages()
     }
@@ -172,8 +188,7 @@ class MessageViewModel @Inject constructor(
             try {
                 val image = getUserImage.getUserImage(_userFriends.value?.get(i)!!.emailAddress)
                 if (image != null) {
-                    sharedPreferences.edit()
-                        .putString(_userFriends.value?.get(i)!!.emailAddress, image).apply()
+                    sharedPreferences.edit().putString(_userFriends.value?.get(i)!!.emailAddress, image).apply()
                 }
             } catch (e: Exception) {
                 Log.e("storage exception", e.toString())
@@ -184,8 +199,7 @@ class MessageViewModel @Inject constructor(
     fun getUserImage() {
         viewModelScope.launch {
             try {
-                userImageFilePath.value =
-                    getUserImage.getUserImage(getCurrentUserEmail.getCurrentUser()!!)
+                userImageFilePath.value = getUserImage.getUserImage(getCurrentUserEmail.getCurrentUser()!!)
             } catch (e: java.lang.Exception) {
                 Log.e("get user image exception", e.toString())
             }
@@ -202,8 +216,7 @@ class MessageViewModel @Inject constructor(
     }
 
     fun putSharedPref() {
-        sharedPreferences.edit()
-            .putString(getCurrentUserEmail.getCurrentUser(), userImageFilePath.value).apply()
+        sharedPreferences.edit().putString(getCurrentUserEmail.getCurrentUser(), userImageFilePath.value).apply()
     }
 
     fun getUserImageFromSharedPref(): String? =
