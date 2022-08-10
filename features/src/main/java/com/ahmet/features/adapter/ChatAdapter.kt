@@ -56,12 +56,10 @@ class ChatAdapter(private val chat: MutableList<MutableMap<String, Any>>) :
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (holder.itemViewType == VIEW_TYPE_USER) {
             (holder as UserViewHolder).message.text = chat[position].getValue("message") as String
-            holder.date.text =
-                DateConverter.convertLongToTime((chat[position].getValue("date") as Timestamp).seconds)
+            holder.date.text = DateConverter.convertLongToTime((chat[position].getValue("date") as Timestamp).seconds)
         } else if (holder.itemViewType == VIEW_TYPE_OTHER) {
             (holder as OtherViewHolder).message.text = chat[position].getValue("message") as String
-            holder.date.text =
-                DateConverter.convertLongToTime((chat[position].getValue("date") as Timestamp).seconds)
+            holder.date.text = DateConverter.convertLongToTime((chat[position].getValue("date") as Timestamp).seconds)
         }
     }
 

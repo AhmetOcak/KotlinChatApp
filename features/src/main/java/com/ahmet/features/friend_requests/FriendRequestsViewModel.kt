@@ -25,8 +25,8 @@ class FriendRequestsViewModel @Inject constructor(
 
     private val _userEmail = MutableLiveData<String>()
 
-    private val _friendRequests = MutableLiveData<List<String>>(listOf())
-    val friendRequests: LiveData<List<String>> get() = _friendRequests
+    private val _friendRequests = MutableLiveData<MutableList<String>>(mutableListOf())
+    val friendRequests: LiveData<MutableList<String>> get() = _friendRequests
 
     private val _progressBarVis = MutableLiveData(View.GONE)
     val progressBarVis: LiveData<Int> get() = _progressBarVis
@@ -39,7 +39,7 @@ class FriendRequestsViewModel @Inject constructor(
     private fun getRequests() {
         setProgressBarVis(Status.LOADING)
         viewModelScope.launch {
-            _friendRequests.value = _userEmail.value?.let { getFriendRequests.getRequests(it) }
+            _friendRequests.value = _userEmail.value?.let { getFriendRequests.getRequests(it) as MutableList<String> }
             putUserFriendsImages()
             setProgressBarVis(Status.DONE)
         }
