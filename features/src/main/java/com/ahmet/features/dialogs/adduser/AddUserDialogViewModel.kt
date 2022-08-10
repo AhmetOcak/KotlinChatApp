@@ -5,9 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.ahmet.core.base.BaseViewModel
 import com.ahmet.core.utils.EmailController
-import com.ahmet.data.usecase.firebase.AddUser
 import com.ahmet.data.usecase.firebase.GetCurrentUserEmail
-import com.ahmet.data.usecase.messages.CreateMessageDoc
+import com.ahmet.data.usecase.firebase.SendFriendRequest
 import com.ahmet.features.utils.Constants
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -16,8 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AddUserDialogViewModel @Inject constructor(
-    private val addUser: AddUser,
-    private val createMessageDoc: CreateMessageDoc,
+    private val sendFriendRequest: SendFriendRequest,
     getCurrentUserEmail: GetCurrentUserEmail,
 ) : BaseViewModel() {
 
@@ -58,26 +56,16 @@ class AddUserDialogViewModel @Inject constructor(
         }
     }
 
-    fun addFriend() {
-        viewModelScope.launch {
-            try {
-                if (checkEmailField() && checkEmail() && isUserEmail()) {
-                    viewModelScope.launch {
-                        firebaseMessage.value = addUser.addUser(
-                            friendEmail.value.toString(),
-                            userEmail.value.toString()
-                        )
-                    }
-                    createMessageDoc.createMessageDoc(
-                        userEmail.value.toString(),
-                        friendEmail.value.toString()
-                    )
-                    clearFields()
-                }
-            } catch (e: Exception) {
-                Log.e("add user exception", e.toString())
+    suspend fun sendFriendRequest() {
+        try {
+            if (checkEmailField() && checkEmail() && isUserEmail()) {
+                firebaseMessage.value = sendFriendRequest.sendRequest(userEmail.value!!, friendEmail.value!!)
+                clearFields()
             }
+        } catch (e: Exception) {
+            Log.e("send friend request exception", e.toString())
         }
+
     }
 
     private fun clearFields() {

@@ -5,22 +5,21 @@ import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.lifecycle.lifecycleScope
 import com.ahmet.core.base.BaseDialogFragment
 import com.ahmet.features.databinding.CustomAdduserDialogBinding
 import com.ahmet.features.utils.Constants
 import com.ahmet.features.utils.FirebaseCommonMessages
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class AddUserDialogFragment @Inject constructor() :
     BaseDialogFragment<AddUserDialogViewModel, CustomAdduserDialogBinding>() {
 
-    override fun getViewModelClass(): Class<AddUserDialogViewModel> =
-        AddUserDialogViewModel::class.java
-
-    override fun getViewDataBinding(): CustomAdduserDialogBinding =
-        CustomAdduserDialogBinding.inflate(layoutInflater)
+    override fun getViewModelClass(): Class<AddUserDialogViewModel> = AddUserDialogViewModel::class.java
+    override fun getViewDataBinding(): CustomAdduserDialogBinding = CustomAdduserDialogBinding.inflate(layoutInflater)
 
     @Inject
     lateinit var toast: Toast
@@ -30,15 +29,16 @@ class AddUserDialogFragment @Inject constructor() :
         binding.viewModel = viewModel
 
         binding.dialogAddUserButtonAUD.setOnClickListener {
-            viewModel.addFriend()
-            showToastMessage()
-            viewModel.errorMessage.value = null
+            lifecycleScope.launch {
+                viewModel.sendFriendRequest()
+                showToastMessage()
+                viewModel.errorMessage.value = null
+            }
         }
         observeFirebaseResponse()
+        viewModel.firebaseMessage.value = null
 
-        binding.dialogCancelButtonAUD.setOnClickListener {
-            dismiss()
-        }
+        binding.dialogCancelButtonAUD.setOnClickListener { dismiss() }
     }
 
     override fun showToastMessage() {
@@ -77,11 +77,14 @@ class AddUserDialogFragment @Inject constructor() :
                     toast.setText("There is no such account")
                     toast.show()
                 }
-                else -> {
-                    toast.setText("Friend added successfully")
+                viewModel.firebaseMessage.value.toString() == "Successful" -> {
+                    toast.setText("Friend request sent successfully")
                     toast.show()
                     binding.dialogAddUserButtonAUD.hideKeyboard()
-                    dismiss()
+                }
+                viewModel.firebaseMessage.value.toString() == "Unsuccessful" -> {
+                    toast.setText("Something went wrong. Please try again later.")
+                    toast.show()
                 }
             }
         }
