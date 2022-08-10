@@ -12,6 +12,7 @@ import com.ahmet.features.databinding.CustomDeleteAccountDialogBinding
 import com.ahmet.features.utils.Constants
 import com.ahmet.features.utils.FirebaseCommonMessages
 import com.ahmet.features.utils.FirebaseDeleteMessages
+import com.ahmet.features.utils.ResultMessages
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -19,18 +20,13 @@ import javax.inject.Inject
 class DeleteAccountDialogFragment @Inject constructor() :
     BaseDialogFragment<DeleteAccountDialogViewModel, CustomDeleteAccountDialogBinding>() {
 
-    override fun getViewModelClass(): Class<DeleteAccountDialogViewModel> =
-        DeleteAccountDialogViewModel::class.java
-
-    override fun getViewDataBinding(): CustomDeleteAccountDialogBinding =
-        CustomDeleteAccountDialogBinding.inflate(layoutInflater)
+    override fun getViewModelClass(): Class<DeleteAccountDialogViewModel> = DeleteAccountDialogViewModel::class.java
+    override fun getViewDataBinding(): CustomDeleteAccountDialogBinding = CustomDeleteAccountDialogBinding.inflate(layoutInflater)
 
     @Inject
     lateinit var getUserFromDb: GetUserFromDb
-
     @Inject
     lateinit var deleteUserFromDb: DeleteUserFromDb
-
     @Inject
     lateinit var toast: Toast
 
@@ -42,7 +38,7 @@ class DeleteAccountDialogFragment @Inject constructor() :
             viewModel.deleteUserAccount()
 
             viewModel.resultMessage.observe(viewLifecycleOwner) {
-                if (viewModel.resultMessage.value == "Successful") {
+                if (viewModel.resultMessage.value == ResultMessages.SUCCESSFUL) {
                     if (getUserFromDb.getUser() != null) deleteUserFromDb.deleteUserFromDb()
                     toast.setText(FirebaseDeleteMessages.DEL_SUCCESSFUL)
                     toast.show()

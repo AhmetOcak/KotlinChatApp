@@ -1,4 +1,4 @@
-package com.ahmet.core.utils
+package com.ahmet.features.utils.helpers
 
 object EmailController {
 

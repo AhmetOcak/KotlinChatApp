@@ -3,7 +3,6 @@ package com.ahmet.features.edit_profile
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
@@ -11,7 +10,8 @@ import androidx.activity.result.contract.ActivityResultContracts
 import com.ahmet.core.R
 import com.ahmet.core.base.BaseFragment
 import com.ahmet.features.databinding.FragmentEditProfileBinding
-import com.ahmet.features.utils.resource.ImpUserImage
+import com.ahmet.features.utils.ResultMessages
+import com.ahmet.features.utils.helpers.ImpUserImage
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -58,7 +58,7 @@ class EditProfile : BaseFragment<EditViewModel, FragmentEditProfileBinding>() {
         }
 
         viewModel.resultMessage.observe(viewLifecycleOwner) {
-            if (viewModel.resultMessage.value == "Successful") {
+            if (viewModel.resultMessage.value == ResultMessages.SUCCESSFUL) {
                 viewModel.getUserImage()
                 toast.setText("Upload Successful")
                 toast.show()

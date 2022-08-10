@@ -3,7 +3,6 @@ package com.ahmet.features.adapter
 import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,7 +17,7 @@ import com.ahmet.features.R
 import com.ahmet.features.databinding.MessageBinding
 import com.ahmet.features.utils.Constants
 import com.ahmet.features.utils.DateConverter
-import com.ahmet.features.utils.resource.ImpUserImage
+import com.ahmet.features.utils.helpers.ImpUserImage
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.DocumentSnapshot
 

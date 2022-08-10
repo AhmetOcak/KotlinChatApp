@@ -18,8 +18,9 @@ import com.ahmet.features.R
 import com.ahmet.features.adapter.UserAdapter
 import com.ahmet.features.databinding.FragmentMessagesBinding
 import com.ahmet.features.dialogs.adduser.AddUserDialogFragment
+import com.ahmet.features.utils.DialogFragmentTags
 import com.ahmet.features.utils.Status
-import com.ahmet.features.utils.resource.ImpUserImage
+import com.ahmet.features.utils.helpers.ImpUserImage
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -67,6 +68,7 @@ class MessagesFragment : BaseFragment<MessageViewModel, FragmentMessagesBinding>
             }
         })
 
+        // swipe refresh layout init
         swipeRefreshLayout = binding.refreshLayout
         swipeRefreshLayout.setProgressBackgroundColorSchemeColor(Color.rgb(255, 119, 0))
         swipeRefreshLayout.setColorSchemeColors(Color.rgb(30, 25, 64))
@@ -74,7 +76,7 @@ class MessagesFragment : BaseFragment<MessageViewModel, FragmentMessagesBinding>
         initAdapter()
 
         binding.addUser.setOnClickListener {
-            addUserDialogFragment.show(parentFragmentManager, "Add User")
+            addUserDialogFragment.show(parentFragmentManager, DialogFragmentTags.ADD_USER)
         }
 
         binding.friendsRecylerview.layoutManager = LinearLayoutManager(activity)
@@ -160,6 +162,7 @@ class MessagesFragment : BaseFragment<MessageViewModel, FragmentMessagesBinding>
         }
     }
 
+    // user friends filtering
     private fun filterList(friendName: String) {
         val filteredList: MutableList<UserEntity> = mutableListOf()
 
@@ -181,6 +184,7 @@ class MessagesFragment : BaseFragment<MessageViewModel, FragmentMessagesBinding>
         }
     }
 
+    // if user read the message, then we remove unread message alert
     private fun callback(pos: Int) {
         if (!viewModel.unreadMessagesAlert.value.isNullOrEmpty()) viewModel.unreadMessagesAlert.value?.set(pos, 0)
     }

@@ -68,7 +68,7 @@ dependencies {
     kapt (Libs.hiltCompiler)
 
     // Firebase
-    implementation platform('com.google.firebase:firebase-bom:30.2.0')
+    implementation platform(Libs.firebaseBom)
 
     // Modules
     implementation project(':features')

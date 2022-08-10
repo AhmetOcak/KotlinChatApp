@@ -15,8 +15,7 @@ class LogOutDialogFragment @Inject constructor() :
     BaseDialogFragment<LogOutViewModel, CustomLogoutDialogBinding>() {
 
     override fun getViewModelClass(): Class<LogOutViewModel> = LogOutViewModel::class.java
-    override fun getViewDataBinding(): CustomLogoutDialogBinding =
-        CustomLogoutDialogBinding.inflate(layoutInflater)
+    override fun getViewDataBinding(): CustomLogoutDialogBinding = CustomLogoutDialogBinding.inflate(layoutInflater)
 
     @Inject
     lateinit var deleteUserFromDb: DeleteUserFromDb

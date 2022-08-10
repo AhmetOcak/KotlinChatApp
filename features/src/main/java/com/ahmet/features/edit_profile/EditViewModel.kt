@@ -38,7 +38,7 @@ class EditViewModel @Inject constructor(
                     resultMessage.value = uploadUserImage.uploadUserImage(filePath)
                     _progBarVisibility.value = View.GONE
                 } else {
-                    Log.e("message", "uri is empty")
+                    Log.e("edit profile message", "uri is empty")
                 }
             } catch (e: Exception) {
                 Log.e("upload user image exception", e.toString())
@@ -62,7 +62,6 @@ class EditViewModel @Inject constructor(
         sharedPreferences.edit().putString(getCurrentUserEmail.getCurrentUser(), userImageFilePath.value).apply()
     }
 
-    fun getUserImageFromSharedPref(): String? =
-        sharedPreferences.getString(getCurrentUserEmail.getCurrentUser(), null)
+    fun getUserImageFromSharedPref(): String? = sharedPreferences.getString(getCurrentUserEmail.getCurrentUser(), null)
 
 }

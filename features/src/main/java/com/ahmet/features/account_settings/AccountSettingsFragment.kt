@@ -7,6 +7,7 @@ import com.ahmet.features.dialogs.deleteaccount.DeleteAccountDialogFragment
 import com.ahmet.features.dialogs.logout.LogOutDialogFragment
 import com.ahmet.features.R
 import com.ahmet.features.databinding.FragmentAccountSettingsBinding
+import com.ahmet.features.utils.DialogFragmentTags
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -27,11 +28,11 @@ class AccountSettingsFragment : BaseFragment<AccountSettingsViewModel, FragmentA
         }
 
         binding.logOutButton.setOnClickListener {
-            logOut.show(parentFragmentManager, "Log Out")
+            logOut.show(parentFragmentManager, DialogFragmentTags.LOG_OUT)
         }
 
         binding.deleteAccount.setOnClickListener {
-            deleteAccount.show(parentFragmentManager, "Delete Account")
+            deleteAccount.show(parentFragmentManager, DialogFragmentTags.DELETE_ACCOUNT)
         }
 
         binding.editProfile.setOnClickListener {

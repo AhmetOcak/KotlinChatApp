@@ -2,14 +2,12 @@ package com.ahmet.features.dialogs.adduser
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
 import com.ahmet.core.base.BaseViewModel
-import com.ahmet.core.utils.EmailController
+import com.ahmet.features.utils.helpers.EmailController
 import com.ahmet.data.usecase.firebase.GetCurrentUserEmail
 import com.ahmet.data.usecase.firebase.SendFriendRequest
 import com.ahmet.features.utils.Constants
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
 import java.lang.Exception
 import javax.inject.Inject
 
@@ -65,7 +63,6 @@ class AddUserDialogViewModel @Inject constructor(
         } catch (e: Exception) {
             Log.e("send friend request exception", e.toString())
         }
-
     }
 
     private fun clearFields() {

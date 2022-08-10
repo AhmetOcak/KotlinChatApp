@@ -13,6 +13,7 @@ import javax.inject.Inject
 
 @Suppress("ConvertToStringTemplate")
 class FirebaseMessagesRepository @Inject constructor() : IFirebaseMessagesRepository {
+
     private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
 
     override suspend fun createMessageDoc(userEmail: String, friendEmail: String) {
@@ -27,8 +28,7 @@ class FirebaseMessagesRepository @Inject constructor() : IFirebaseMessagesReposi
             data[EditEmail.removeDot(friendEmail)] = message.friendMessage!!
             data["users"] = users
 
-            db.collection(Firebase.MESSAGES_COLLECTION_PATH).document(userEmail + " " + friendEmail)
-                .set(data)
+            db.collection(Firebase.MESSAGES_COLLECTION_PATH).document(userEmail + " " + friendEmail).set(data)
         }
     }
 
@@ -123,43 +123,4 @@ class FirebaseMessagesRepository @Inject constructor() : IFirebaseMessagesReposi
 
         return docId!!
     }
-
-    // it will be remove
-    private suspend fun receiveMessageFromNonFriend(userEmail: String): MutableList<String> {
-        val userFriend: MutableList<String> = mutableListOf()
-
-        db.collection(Firebase.MESSAGES_COLLECTION_PATH).get().addOnCompleteListener {
-            for (doc in it.result.documents) {
-                if (doc.id.findWord(userEmail)) {
-                    if (doc.data?.get(doc.data?.keys!!.first()).toString() != "[]" && doc.data?.keys!!.first() != EditEmail.removeDot(userEmail)) {
-                        userFriend.add(doc.data!!.keys.first())
-                    }
-                }
-            }
-        }.await()
-
-        return userFriend
-    }
-
-
-    // IT WILL BE REMOVE
-    // if return "null" -> the user has already been added to friends or the user has not received any messages.
-    // if return "{user email}" -> the user is not added in friends or the user has a message.
-    override suspend fun searchUserFriends(userEmail: String): MutableList<String> {
-        val friendEmail = receiveMessageFromNonFriend(userEmail)
-        val nonFriends: MutableList<String> = mutableListOf()
-        var queryResult: Boolean
-
-        for (i in 0 until friendEmail.size) {
-            queryResult = FirebaseUserDataRepository().isUserAlreadyAdded(userEmail, friendEmail[i]) ?: true
-
-            if (!queryResult) {
-                nonFriends.add(EditEmail.addDot(friendEmail[i]))
-            }
-        }
-
-        return nonFriends
-    }
-
-    private fun String.findWord(word: String) = "\\b$word\\b".toRegex().containsMatchIn(this)
 }

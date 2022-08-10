@@ -43,34 +43,34 @@ dependencies {
     implementation (Libs.appCompat)
     implementation (Libs.material)
     implementation (Libs.constraint)
-    implementation("androidx.legacy:legacy-support-v4:1.0.0")
+    implementation (Libs.androidxLegacy)
     testImplementation (Libs.junit)
     androidTestImplementation (Libs.junit_ext)
     androidTestImplementation (Libs.espresso)
 
     // Firebase
-    implementation 'com.google.firebase:firebase-auth-ktx:21.0.6'
-    implementation 'com.google.firebase:firebase-firestore:24.2.0'
-    implementation 'com.google.firebase:firebase-storage-ktx:20.0.1'
+    implementation (Libs.firebaseAuth)
+    implementation (Libs.firebaseFirestore)
+    implementation (Libs.firebaseStorage)
 
     // Room
     implementation (Libs.room)
     kapt (Libs.roomCompiler)
 
     // Gson
-    implementation 'com.google.code.gson:gson:2.9.0'
+    implementation (Libs.gson)
 
     // Dependency Injection
     implementation (Libs.hilt)
     kapt (Libs.hiltCompiler)
 
     // Coroutines
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.1'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.2.1'
+    implementation (Libs.coroutineCore)
+    implementation (Libs.coroutineAndroid)
+    implementation (Libs.coroutinePlayServices)
 
     // Firebase
-    implementation platform('com.google.firebase:firebase-bom:30.2.0')
+    implementation platform(Libs.firebaseBom)
 
     // Modules
     implementation project(':domain')

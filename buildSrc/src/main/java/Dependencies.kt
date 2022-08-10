@@ -15,6 +15,15 @@ object Versions {
     const val viewModelLifeCycle = "2.4.1"
     const val lifecyleExtension = "2.2.0"
     const val room = "2.4.2"
+    const val firebase_bom = "30.2.0"
+    const val androidx_legacy = "1.0.0"
+    const val firebase_auth = "21.0.6"
+    const val firebase_firestore = "24.2.0"
+    const val firebase_storage = "20.0.1"
+    const val gson = "2.9.0"
+    const val coroutine_core = "1.6.1"
+    const val coroutine_android = "1.6.1"
+    const val coroutine_play_services= "1.2.1"
 }
 
 object Libs {
@@ -33,6 +42,15 @@ object Libs {
     const val room = "androidx.room:room-ktx:${Versions.room}"
     const val roomCompiler = "androidx.room:room-compiler:${Versions.room}"
     const val lifecyleExtension = "androidx.lifecycle:lifecycle-extensions:${Versions.lifecyleExtension}"
+    const val firebaseBom = "com.google.firebase:firebase-bom:${Versions.firebase_bom}"
+    const val androidxLegacy = "androidx.legacy:legacy-support-v4:${Versions.androidx_legacy}"
+    const val firebaseAuth = "com.google.firebase:firebase-auth-ktx:${Versions.firebase_auth}"
+    const val firebaseFirestore = "com.google.firebase:firebase-firestore:${Versions.firebase_firestore}"
+    const val firebaseStorage = "com.google.firebase:firebase-storage-ktx:${Versions.firebase_storage}"
+    const val gson = "com.google.code.gson:gson:${Versions.gson}"
+    const val coroutineCore = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.coroutine_core}"
+    const val coroutineAndroid = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.coroutine_android}"
+    const val coroutinePlayServices = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:${Versions.coroutine_play_services}"
 }
 
 object Configs {

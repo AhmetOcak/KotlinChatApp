@@ -41,7 +41,7 @@ dependencies {
     implementation (Libs.appCompat)
     implementation (Libs.material)
     implementation (Libs.constraint)
-    implementation("androidx.legacy:legacy-support-v4:1.0.0")
+    implementation (Libs.androidxLegacy)
     implementation 'androidx.databinding:viewbinding:7.2.1'
     implementation 'androidx.databinding:databinding-runtime:7.2.1'
     testImplementation (Libs.junit)

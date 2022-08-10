@@ -14,8 +14,7 @@ object Constants {
 }
 
 object FirebaseCommonMessages {
-    const val NETWORK_ERROR =
-        "A network error (such as timeout, interrupted connection or unreachable host) has occurred."
+    const val NETWORK_ERROR = "A network error (such as timeout, interrupted connection or unreachable host) has occurred."
     const val UNKNOWN_ERROR = "Something went wrong, please try again later"
 }
 
@@ -40,5 +39,15 @@ object FirebaseLoginMessages {
 object FirebaseDeleteMessages {
     const val WRONG_PASSWORD = "The password is invalid or the user does not have a password."
     const val DEL_SUCCESSFUL = "Your account deleted successfully"
+}
+
+object DialogFragmentTags {
+    const val LOG_OUT = "Log Out"
+    const val DELETE_ACCOUNT = "Delete Account"
+    const val ADD_USER = "Add User"
+}
+
+object ResultMessages {
+    const val SUCCESSFUL = "Successful"
 }
 

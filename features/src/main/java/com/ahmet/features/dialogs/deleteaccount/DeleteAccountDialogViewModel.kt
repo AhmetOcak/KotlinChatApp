@@ -53,5 +53,5 @@ class DeleteAccountDialogViewModel @Inject constructor(
         }
     }
 
-    fun checkPasswordField() : Boolean = !userPassword.value.isNullOrEmpty()
+    private fun checkPasswordField() : Boolean = !userPassword.value.isNullOrEmpty()
 }

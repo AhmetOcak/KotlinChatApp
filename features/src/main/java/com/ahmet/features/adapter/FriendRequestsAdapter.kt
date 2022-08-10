@@ -14,7 +14,7 @@ import com.ahmet.data.usecase.firebase.DeleteFriendRequest
 import com.ahmet.data.usecase.firebase.GetCurrentUserEmail
 import com.ahmet.data.usecase.messages.CreateMessageDoc
 import com.ahmet.features.databinding.FriendRequestBinding
-import com.ahmet.features.utils.resource.ImpUserImage
+import com.ahmet.features.utils.helpers.ImpUserImage
 import kotlinx.coroutines.launch
 import java.lang.Exception
 import javax.inject.Inject

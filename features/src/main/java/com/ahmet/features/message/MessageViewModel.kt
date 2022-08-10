@@ -80,6 +80,7 @@ class MessageViewModel @Inject constructor(
         // counter
         var s = 0
 
+        // size PROBLEM
         // If current message size and user friends size are not equal, then new friend has been added.
         if(currentMessages.value?.size ?: 0 == _userFriends.value?.size ?: 0) {
             while (s < _userFriends.value?.size ?: 0) {
@@ -107,13 +108,15 @@ class MessageViewModel @Inject constructor(
                 }
             }
         }else {
+            // isNewFriendAdded variable observing from message fragment.
+            // When it changes, fragment will triggered and it will refresh the adapter   .
             isNewFriendAdded.value = true
             setProgBarVis(Status.LOADING)
         }
     }
 
-    // if mail not null --> the user has not checked the remember me box.
-    // if mail null --> the user has checked the remember me box.
+    // if mail not null --> the user has not checked the remember me box. User not cached
+    // if mail null --> the user has checked the remember me box. User cached.
     private fun setUserData() {
         setProgBarVis(Status.LOADING)
         if (!userEmail.value.isNullOrEmpty()) {
@@ -136,7 +139,7 @@ class MessageViewModel @Inject constructor(
         }
     }
 
-    // [EN] If user friends are not empty, we don't need to retrieve user friends data recursively.
+    // [EN] If user friends are not empty, then we don't need to retrieve user friends data recursively.
     // [TR] userFriends value'sünün null ya da boş olup olmamasını kontrol ederek
     // sayfa değişiklikleri sırasında verinin tekrar tekrar alınmasını engelliyoruz.
     private fun getUserFriendsData() {
@@ -206,7 +209,6 @@ class MessageViewModel @Inject constructor(
         sharedPreferences.edit().putString(getCurrentUserEmail.getCurrentUser(), userImageFilePath.value).apply()
     }
 
-    fun getUserImageFromSharedPref(): String? =
-        sharedPreferences.getString(getCurrentUserEmail.getCurrentUser(), null)
+    fun getUserImageFromSharedPref(): String? = sharedPreferences.getString(getCurrentUserEmail.getCurrentUser(), null)
 }
 

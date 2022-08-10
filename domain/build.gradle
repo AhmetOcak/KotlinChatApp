@@ -55,5 +55,5 @@ dependencies {
     kapt (Libs.hiltCompiler)
 
     // Firebase
-    implementation 'com.google.firebase:firebase-firestore:24.2.0'
+    implementation (Libs.firebaseFirestore)
 }

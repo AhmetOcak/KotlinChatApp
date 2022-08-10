@@ -12,15 +12,13 @@ interface IFirebaseMessagesRepository {
         callback: (messages: Any?) -> Unit
     )
 
+    fun listenAllMessages(userEmail: String, callback: (messages: List<DocumentSnapshot>) -> Unit)
+
     suspend fun sendMessage(
         message: String,
         userEmail: String,
         friendEmail: String,
         messageDate: Long
     )
-
-    fun listenAllMessages(userEmail: String, callback: (messages: List<DocumentSnapshot>) -> Unit)
-
-    suspend fun searchUserFriends(userEmail: String): MutableList<String>
 
 }

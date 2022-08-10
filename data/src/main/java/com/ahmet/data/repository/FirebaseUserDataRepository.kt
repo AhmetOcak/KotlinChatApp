@@ -21,6 +21,21 @@ class FirebaseUserDataRepository @Inject constructor() : IFirebaseUserDataReposi
     private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
 
+    override fun getCurrentUserEmail(): String? {
+        return auth.currentUser?.email
+    }
+
+    override suspend fun reauthenticate(email: String, password: String): Boolean {
+        var status = false
+        val credential = EmailAuthProvider.getCredential(email, password)
+
+        auth.currentUser!!.reauthenticate(credential).addOnSuccessListener {
+            status = true
+        }.await()
+
+        return status
+    }
+
     override suspend fun register(
         email: String,
         password: String,
@@ -55,7 +70,6 @@ class FirebaseUserDataRepository @Inject constructor() : IFirebaseUserDataReposi
         auth.signInWithEmailAndPassword(email, password).addOnCompleteListener {
             if (it.isSuccessful) {
                 resultMessage = "Login Successful"
-                Log.e("current user", auth.currentUser.toString())
             } else {
                 resultMessage = it.exception!!.message
             }
@@ -84,7 +98,7 @@ class FirebaseUserDataRepository @Inject constructor() : IFirebaseUserDataReposi
     }
 
     override suspend fun getUserDoc(email: String): User? {
-        val userDoc = db.collection("users").document(email)
+        val userDoc = db.collection(Firebase.USER_COLLECTION_PATH).document(email)
         var user: User? = null
 
         userDoc.get().addOnSuccessListener {
@@ -128,6 +142,22 @@ class FirebaseUserDataRepository @Inject constructor() : IFirebaseUserDataReposi
         return resultMessage
     }
 
+    override suspend fun getFriendRequests(email: String): List<String> {
+        val userRef = db.collection(Firebase.USER_COLLECTION_PATH).document(email)
+        var friendRequests: List<String> = listOf()
+
+        userRef.get().addOnCompleteListener {
+            if (it.isSuccessful) {
+                Log.e("result", "successful")
+                friendRequests = it.result.data?.get(UserKeys.FRIEND_REQUESTS) as List<String>
+            } else {
+                Log.e("result", "fail")
+            }
+        }.await()
+
+        return friendRequests
+    }
+
     override suspend fun addUser(friendEmail: String, userEmail: String): String? {
         val userRef = db.collection(Firebase.USER_COLLECTION_PATH).document(userEmail)
         var resultMessage: String? = null
@@ -144,7 +174,7 @@ class FirebaseUserDataRepository @Inject constructor() : IFirebaseUserDataReposi
         return resultMessage
     }
 
-    suspend fun deleteFriendRequest(friendEmail: String, userEmail: String): String? {
+    override suspend fun deleteFriendRequest(friendEmail: String, userEmail: String): String? {
         val userRef = db.collection(Firebase.USER_COLLECTION_PATH).document(userEmail)
         var resultMessage: String? = null
         
@@ -216,25 +246,9 @@ class FirebaseUserDataRepository @Inject constructor() : IFirebaseUserDataReposi
         return status
     }
 
-    override suspend fun reauthenticate(email: String, password: String): Boolean {
-        var status = false
-        val credential = EmailAuthProvider.getCredential(email, password)
-
-        auth.currentUser!!.reauthenticate(credential).addOnSuccessListener {
-            status = true
-        }.await()
-
-        return status
-    }
-
-    fun getCurrentUserEmail(): String? {
-        return auth.currentUser?.email
-    }
-
     override suspend fun uploadImage(filePath: Uri): String? {
         var resultMessage: String? = null
-        val imagesRef =
-            FirebaseStorage.getInstance().reference.child(("${auth.currentUser?.email}/${auth.currentUser?.email}.png"))
+        val imagesRef = FirebaseStorage.getInstance().reference.child(("${auth.currentUser?.email}/${auth.currentUser?.email}.png"))
 
         imagesRef.putFile(filePath).addOnCompleteListener {
             resultMessage = if (it.isSuccessful) {
@@ -261,23 +275,6 @@ class FirebaseUserDataRepository @Inject constructor() : IFirebaseUserDataReposi
 
         return localFile.path
     }
-
-    override suspend fun getFriendRequests(email: String): List<String> {
-        val userRef = db.collection(Firebase.USER_COLLECTION_PATH).document(email)
-        var friendRequests: List<String> = listOf()
-
-        userRef.get().addOnCompleteListener {
-            if (it.isSuccessful) {
-                Log.e("result", "successful")
-                friendRequests = it.result.data?.get(UserKeys.FRIEND_REQUESTS) as List<String>
-            } else {
-                Log.e("result", "fail")
-            }
-        }.await()
-
-        return friendRequests
-    }
-
 
 }
 

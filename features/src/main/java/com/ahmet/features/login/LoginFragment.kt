@@ -23,6 +23,7 @@ class LoginFragment : BaseFragment<LoginViewModel, FragmentLoginBinding>() {
         super.onViewCreated(view, savedInstanceState)
         binding.viewModel = viewModel
 
+        // if user cached, then we will directly going to message fragment
         if (viewModel.isUserCached() && !requireArguments().getBoolean(Constants.IS_COME_FROM_APP)) {
             goToNextScreen(R.id.action_loginFragment_to_messagesFragment, null, null)
         }
@@ -30,6 +31,7 @@ class LoginFragment : BaseFragment<LoginViewModel, FragmentLoginBinding>() {
         binding.signUp.setOnClickListener {
             goToNextScreen(R.id.action_loginFragment_to_registerFragment, null, null)
         }
+
         binding.loginButton.setOnClickListener {
             viewModel.login()
             setToastMessage()
@@ -71,12 +73,7 @@ class LoginFragment : BaseFragment<LoginViewModel, FragmentLoginBinding>() {
                     toast.show()
                 }
                 viewModel.firebaseMessage.value == FirebaseLoginMessages.BLOCKED_ERROR_MESSAGE -> {
-                    toast.setText(
-                        FirebaseLoginMessages.BLOCKED_ERROR_MESSAGE.substring(
-                            0,
-                            FirebaseLoginMessages.BLOCKED_ERROR_MESSAGE.indexOf('[')
-                        )
-                    )
+                    toast.setText(FirebaseLoginMessages.BLOCKED_ERROR_MESSAGE.substring(0, FirebaseLoginMessages.BLOCKED_ERROR_MESSAGE.indexOf('[')))
                     toast.show()
                 }
                 viewModel.firebaseMessage.value == FirebaseLoginMessages.SUCCESSFUL -> {

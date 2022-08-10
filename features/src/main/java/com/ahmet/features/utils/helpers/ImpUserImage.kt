@@ -1,4 +1,4 @@
-package com.ahmet.features.utils.resource
+package com.ahmet.features.utils.helpers
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory

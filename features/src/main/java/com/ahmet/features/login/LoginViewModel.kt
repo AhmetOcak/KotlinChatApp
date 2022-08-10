@@ -6,8 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.ahmet.core.base.BaseViewModel
-import com.ahmet.core.utils.EmailController
-import com.ahmet.data.mapper.UserMapper
+import com.ahmet.features.utils.helpers.EmailController
 import com.ahmet.data.model.UserEntity
 import com.ahmet.data.usecase.auth.Login
 import com.ahmet.data.usecase.firebase.GetUserData

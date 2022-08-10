@@ -10,7 +10,7 @@ import com.ahmet.features.R
 import com.ahmet.features.adapter.ChatAdapter
 import com.ahmet.features.databinding.FragmentChatBinding
 import com.ahmet.features.utils.Constants
-import com.ahmet.features.utils.resource.ImpUserImage
+import com.ahmet.features.utils.helpers.ImpUserImage
 import com.google.firebase.Timestamp
 import dagger.hilt.android.AndroidEntryPoint
 
