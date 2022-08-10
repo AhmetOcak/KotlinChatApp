@@ -12,7 +12,6 @@ import com.ahmet.data.usecase.firebase.GetCurrentUserEmail
 import com.ahmet.data.usecase.firebase.GetUserData
 import com.ahmet.data.usecase.firebase.GetUserImage
 import com.ahmet.data.usecase.messages.ListenAllMessageData
-import com.ahmet.data.usecase.messages.SearchUserFriends
 import com.ahmet.data.usecase.userdatabase.GetUserFromDb
 import com.ahmet.data.utils.EditEmail
 import com.ahmet.features.utils.Status
@@ -46,6 +45,7 @@ class MessageViewModel @Inject constructor(
     val userFriends: LiveData<MutableList<UserEntity>> get() = _userFriends
 
     private val userEmail = MutableLiveData<String>()
+    val isNewFriendAdded = MutableLiveData(false)
 
     init {
         userEmail.value = getCurrentUserEmail.getCurrentUser()
@@ -80,29 +80,35 @@ class MessageViewModel @Inject constructor(
         // counter
         var s = 0
 
-        while (s < _userFriends.value?.size ?: 0) {
+        // If current message size and user friends size are not equal, then new friend has been added.
+        if(currentMessages.value?.size ?: 0 == _userFriends.value?.size ?: 0) {
+            while (s < _userFriends.value?.size ?: 0) {
 
-            for (i in 0 until (_userFriends.value?.size ?: 0)) {
-                val currentFriendEmail = EditEmail.removeDot(_userFriends.value!![i].emailAddress)
+                for (i in 0 until (_userFriends.value?.size ?: 0)) {
+                    val currentFriendEmail = EditEmail.removeDot(_userFriends.value!![i].emailAddress)
 
-                if (currentMessages.value!![i].contains(currentFriendEmail)) {
-                    val currentMessagesSize = (currentMessages.value!![i][currentFriendEmail] as MutableList<MutableMap<String, Any>>).size
-                    val tempMessagesSize = (tempMessages.value!![i]?.get(currentFriendEmail) as MutableList<MutableMap<String, Any>>).size
-                    val count = currentMessagesSize - tempMessagesSize
+                    if (currentMessages.value!![i].contains(currentFriendEmail)) {
+                        val currentMessagesSize = (currentMessages.value!![i][currentFriendEmail] as MutableList<MutableMap<String, Any>>).size
+                        val tempMessagesSize = (tempMessages.value!![i]?.get(currentFriendEmail) as MutableList<MutableMap<String, Any>>).size
+                        val count = currentMessagesSize - tempMessagesSize
 
-                    // if not 0 then there are unread messages
-                    if (unreadMessagesAlert.value.isNullOrEmpty() || unreadMessagesAlert.value!!.size < _userFriends.value!!.size) {
-                        unreadMessagesAlert.value?.add(s, count)
-                    } else {
-                        if (unreadMessagesAlert.value!![s] == 0) {
-                            unreadMessagesAlert.value!![s] = count
+                        // if not 0 then there are unread messages
+                        if (unreadMessagesAlert.value.isNullOrEmpty() || unreadMessagesAlert.value!!.size < _userFriends.value!!.size) {
+                            unreadMessagesAlert.value?.add(s, count)
+                        } else {
+                            if (unreadMessagesAlert.value!![s] == 0) {
+                                unreadMessagesAlert.value!![s] = count
+                            }
                         }
-                    }
 
-                    // inc counter
-                    s++
+                        // inc counter
+                        s++
+                    }
                 }
             }
+        }else {
+            isNewFriendAdded.value = true
+            setProgBarVis(Status.LOADING)
         }
     }
 
@@ -136,21 +142,11 @@ class MessageViewModel @Inject constructor(
     private fun getUserFriendsData() {
         if (_userFriends.value.isNullOrEmpty()) {
             viewModelScope.launch {
-                //val friend = searchUserFriends.searchFriends(userEmail.value.toString())
-
                 if (_user.value != null && _userFriends.value.isNullOrEmpty()) {
                     for (i in 0 until (_user.value?.userFriends?.size ?: 0)) {
                         getUser.getUserDoc(_user.value!!.userFriends[i])
                             ?.let { _userFriends.value?.add(it) }
                     }
-                    /*if (friend.isNotEmpty()) {
-                        for (element in friend) {
-                            getUser.getUserDoc(element)?.let {
-                                it.userName = it.userName + " (not your friend)"
-                                _userFriends.value?.add(it)
-                            }
-                        }
-                    }*/
 
                     putUserFriendsImages()
                 }
@@ -163,7 +159,6 @@ class MessageViewModel @Inject constructor(
     }
 
     suspend fun refreshUserFriends() {
-        //val friend = searchUserFriends.searchFriends(userEmail.value.toString())
         clearFriends()
 
         _user.value = getUser.getUserDoc(userEmail.value.toString())
@@ -171,14 +166,6 @@ class MessageViewModel @Inject constructor(
             getUser.getUserDoc(_user.value!!.userFriends[i])
                 ?.let { _userFriends.value?.add(it) }
         }
-/*        if (friend.isNotEmpty()) {
-            for (element in friend) {
-                getUser.getUserDoc(element)?.let {
-                    it.userName = it.userName + " (not your friend)"
-                    _userFriends.value?.add(it)
-                }
-            }
-        }*/
 
         putUserFriendsImages()
     }
@@ -206,7 +193,7 @@ class MessageViewModel @Inject constructor(
         }
     }
 
-    private fun setProgBarVis(status: Status) {
+    fun setProgBarVis(status: Status) {
         if (status == Status.LOADING) _progressBarVisibility.value = View.VISIBLE
         else _progressBarVisibility.value = View.INVISIBLE
     }

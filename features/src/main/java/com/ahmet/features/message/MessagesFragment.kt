@@ -18,6 +18,7 @@ import com.ahmet.features.R
 import com.ahmet.features.adapter.UserAdapter
 import com.ahmet.features.databinding.FragmentMessagesBinding
 import com.ahmet.features.dialogs.adduser.AddUserDialogFragment
+import com.ahmet.features.utils.Status
 import com.ahmet.features.utils.resource.ImpUserImage
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -81,8 +82,9 @@ class MessagesFragment : BaseFragment<MessageViewModel, FragmentMessagesBinding>
             goToNextScreen(R.id.action_messagesFragment_to_accountSettingsFragment, null, null)
         }
 
+        notifyAdapterWhenFriendAdded()
         setRefreshListener()
-        notifyAdapter()
+        notifyAdapterWhenMessageCome()
     }
 
     private fun onBackHandler() {
@@ -132,13 +134,28 @@ class MessagesFragment : BaseFragment<MessageViewModel, FragmentMessagesBinding>
     }
 
     // notify adapter when message come
-    private fun notifyAdapter() {
+    private fun notifyAdapterWhenMessageCome() {
         viewModel.currentMessages.observe(viewLifecycleOwner) {
             if (!viewModel.currentMessages.value.isNullOrEmpty() && this::adapter.isInitialized) {
                 adapter.filterList(viewModel.userFriends.value)
                 adapter.updateMessageData(viewModel.currentMessages.value ?: listOf())
                 adapter.takeUnreadMessages(viewModel.unreadMessagesAlert.value ?: listOf())
                 adapter.notifyDataSetChanged()
+            }
+        }
+    }
+
+    // notify adapter when friend added
+    private fun notifyAdapterWhenFriendAdded() {
+        viewModel.isNewFriendAdded.observe(viewLifecycleOwner) {
+            if(it && this::adapter.isInitialized) {
+                lifecycleScope.launch {
+                    viewModel.refreshUserFriends()
+                    adapter.filterList(viewModel.userFriends.value) // for the update recylerview
+                    adapter.notifyDataSetChanged()
+                    viewModel.isNewFriendAdded.value = false
+                    viewModel.setProgBarVis(Status.DONE)
+                }
             }
         }
     }
