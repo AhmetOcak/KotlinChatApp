@@ -103,6 +103,14 @@
                     android:backgroundTint="@color/light_purple_100"
                     android:drawableLeft="@drawable/ic_baseline_edit_24"
                     android:text="@string/edit_profile" />
+
+                <Button
+                    android:id="@+id/friendRequests"
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp"
+                    android:backgroundTint="@color/light_purple_100"
+                    android:drawableLeft="@drawable/ic_baseline_friend_request"
+                    android:text="@string/friend_requests" />
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </FrameLayout>
