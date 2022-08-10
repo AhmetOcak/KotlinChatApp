@@ -25,7 +25,8 @@ class FirebaseUserDataRepository @Inject constructor() : IFirebaseUserDataReposi
         email: String,
         password: String,
         userName: String,
-        userFriends: List<String>
+        userFriends: List<String>,
+        friendRequests: List<String>
     ): String? {
         var resultMessage: String? = null
 
@@ -38,6 +39,7 @@ class FirebaseUserDataRepository @Inject constructor() : IFirebaseUserDataReposi
                         password,
                         userName,
                         userFriends,
+                        friendRequests,
                         Firebase.USER_COLLECTION_PATH
                     )
                 } else {
@@ -53,9 +55,9 @@ class FirebaseUserDataRepository @Inject constructor() : IFirebaseUserDataReposi
         auth.signInWithEmailAndPassword(email, password).addOnCompleteListener {
             if (it.isSuccessful) {
                 resultMessage = "Login Successful"
+                Log.e("current user", auth.currentUser.toString())
             } else {
                 resultMessage = it.exception!!.message
-                Log.e("e", resultMessage.toString())
             }
         }.await()
         return resultMessage
@@ -66,18 +68,19 @@ class FirebaseUserDataRepository @Inject constructor() : IFirebaseUserDataReposi
         password: String,
         userName: String,
         userFriends: List<String>,
+        friendRequests: List<String>,
         collectionPath: String
     ) {
-        val user = User(userName, email, password, userFriends)
+        val user = User(userName, email, password, userFriends, friendRequests)
         val userData: MutableMap<String, Any> = HashMap()
 
         userData[UserKeys.USERNAME] = user.userName
         userData[UserKeys.EMAIL] = user.emailAddress
         userData[UserKeys.PASSWORD] = user.password
         userData[UserKeys.USER_FRIENDS] = user.userFriends
+        userData[UserKeys.FRIEND_REQUESTS] = user.friendRequest
 
-        db.collection(collectionPath)
-            .document(user.emailAddress).set(userData)
+        db.collection(collectionPath).document(user.emailAddress).set(userData)
     }
 
     override suspend fun getUserDoc(email: String): User? {
@@ -86,40 +89,38 @@ class FirebaseUserDataRepository @Inject constructor() : IFirebaseUserDataReposi
 
         userDoc.get().addOnSuccessListener {
             if (!it.data.isNullOrEmpty()) {
-                val userFriendsList = it.get("user_friends") as List<String>
+                val userFriendsList = it.get(UserKeys.USER_FRIENDS) as List<String>
+                val friendRequests = it.get(UserKeys.FRIEND_REQUESTS) as List<String>
                 user = User(
                     it.data!![UserKeys.USERNAME].toString(),
                     it.data!![UserKeys.EMAIL].toString(),
                     it.data!![UserKeys.PASSWORD].toString(),
-                    userFriendsList
+                    userFriendsList,
+                    friendRequests
                 )
             }
         }.await()
         return user
     }
 
-    override suspend fun addUser(friendEmail: String, userEmail: String): String? {
-        val userRef = db.collection(Firebase.USER_COLLECTION_PATH).document(userEmail)
+    override suspend fun sendFriendRequest(userEmail: String, friendEmail: String): String? {
+        val userRef = db.collection(Firebase.USER_COLLECTION_PATH).document(friendEmail)
+        val isUserAlreadyAdded = isUserAlreadyAdded(userEmail, friendEmail)
         var resultMessage: String? = null
 
-        val data: MutableMap<String, List<String>> = HashMap()
-        data[UserKeys.USER_FRIENDS] = listOf(friendEmail)
-
-        val isUserAlreadyAdded = isUserAlreadyAdded(userEmail, friendEmail)
-
         if (isUserExist(friendEmail) == true) {
-            db.collection(Firebase.USER_COLLECTION_PATH)
-                .whereArrayContains("user_friends", friendEmail)
-                .get()
-                .addOnSuccessListener {
-                    if (isUserAlreadyAdded == true) {
-                        resultMessage = "You already added this account"
-                    } else {
-                        userRef.update("user_friends", FieldValue.arrayUnion(friendEmail))
-                            .addOnSuccessListener { resultMessage = "Successful" }
-                            .addOnFailureListener { resultMessage = "Unsuccessful" }
-                    }
-                }.await()
+            if (isUserAlreadyAdded == true) {
+                resultMessage = "You already added this account"
+            } else {
+                userRef.update("friend_requests", FieldValue.arrayUnion(userEmail))
+                    .addOnCompleteListener {
+                        if(it.isSuccessful) {
+                            resultMessage = "Successful"
+                        }else {
+                            resultMessage = "Unsuccessful"
+                        }
+                    }.await()
+            }
         } else {
             resultMessage = "There is no such account"
         }
@@ -127,7 +128,39 @@ class FirebaseUserDataRepository @Inject constructor() : IFirebaseUserDataReposi
         return resultMessage
     }
 
-    // created for addUser function
+    override suspend fun addUser(friendEmail: String, userEmail: String): String? {
+        val userRef = db.collection(Firebase.USER_COLLECTION_PATH).document(userEmail)
+        var resultMessage: String? = null
+
+        userRef.update("user_friends", FieldValue.arrayUnion(friendEmail))
+            .addOnCompleteListener {
+                if(it.isSuccessful) {
+                    resultMessage = "Successful"
+                }else {
+                    resultMessage = "Unsuccessful"
+                }
+            }.await()
+
+        return resultMessage
+    }
+
+    suspend fun deleteFriendRequest(friendEmail: String, userEmail: String): String? {
+        val userRef = db.collection(Firebase.USER_COLLECTION_PATH).document(userEmail)
+        var resultMessage: String? = null
+        
+        userRef.update("friend_requests", FieldValue.arrayRemove(friendEmail))
+            .addOnCompleteListener {
+                if(it.isSuccessful) {
+                    resultMessage = "Successful"
+                }else {
+                    resultMessage = "Unsuccessful"
+                }
+            }.await()
+
+        return resultMessage
+    }
+
+    // created for sendFriendRequest function
     private suspend fun isUserExist(friendEmail: String): Boolean? {
         val friendRef = db.collection(Firebase.USER_COLLECTION_PATH).document(friendEmail)
         var exist: Boolean? = null
@@ -139,7 +172,7 @@ class FirebaseUserDataRepository @Inject constructor() : IFirebaseUserDataReposi
         return exist
     }
 
-    // created for addUser function
+    // created for sendFriendRequest function
     suspend fun isUserAlreadyAdded(userEmail: String, friendEmail: String): Boolean? {
         var queryResult: Boolean? = null
         val user = getUserDoc(userEmail)
@@ -176,10 +209,9 @@ class FirebaseUserDataRepository @Inject constructor() : IFirebaseUserDataReposi
     override suspend fun deleteUserDoc(email: String): Boolean {
         var status = false
 
-        db.collection(Firebase.USER_COLLECTION_PATH).document(email).delete()
-            .addOnSuccessListener {
-                status = true
-            }.await()
+        db.collection(Firebase.USER_COLLECTION_PATH).document(email).delete().addOnSuccessListener {
+            status = true
+        }.await()
 
         return status
     }
@@ -201,7 +233,8 @@ class FirebaseUserDataRepository @Inject constructor() : IFirebaseUserDataReposi
 
     override suspend fun uploadImage(filePath: Uri): String? {
         var resultMessage: String? = null
-        val imagesRef = FirebaseStorage.getInstance().reference.child(("${auth.currentUser?.email}/${auth.currentUser?.email}.png"))
+        val imagesRef =
+            FirebaseStorage.getInstance().reference.child(("${auth.currentUser?.email}/${auth.currentUser?.email}.png"))
 
         imagesRef.putFile(filePath).addOnCompleteListener {
             resultMessage = if (it.isSuccessful) {
@@ -222,10 +255,29 @@ class FirebaseUserDataRepository @Inject constructor() : IFirebaseUserDataReposi
             if (it.isSuccessful) {
                 Log.e("result", "successful")
             } else {
-                Log.e("result", "successful")
+                Log.e("result", "fail")
             }
         }.await()
 
         return localFile.path
     }
+
+    override suspend fun getFriendRequests(email: String): List<String> {
+        val userRef = db.collection(Firebase.USER_COLLECTION_PATH).document(email)
+        var friendRequests: List<String> = listOf()
+
+        userRef.get().addOnCompleteListener {
+            if (it.isSuccessful) {
+                Log.e("result", "successful")
+                friendRequests = it.result.data?.get(UserKeys.FRIEND_REQUESTS) as List<String>
+            } else {
+                Log.e("result", "fail")
+            }
+        }.await()
+
+        return friendRequests
+    }
+
+
 }
+

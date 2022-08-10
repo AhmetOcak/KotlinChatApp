@@ -10,6 +10,7 @@ interface IFirebaseUserDataRepository {
         password: String,
         userName: String,
         userFriends: List<String>,
+        friendRequests: List<String>
     ): String?
 
     fun saveUserDoc(
@@ -17,6 +18,7 @@ interface IFirebaseUserDataRepository {
         password: String,
         userName: String,
         userFriends: List<String>,
+        friendRequests: List<String>,
         collectionPath: String
     )
 
@@ -28,11 +30,15 @@ interface IFirebaseUserDataRepository {
 
     suspend fun deleteUser(): String?
 
-    suspend fun deleteUserDoc(email: String) : Boolean
+    suspend fun deleteUserDoc(email: String): Boolean
 
-    suspend fun reauthenticate(email: String, password: String) : Boolean
+    suspend fun reauthenticate(email: String, password: String): Boolean
 
-    suspend fun uploadImage(filePath: Uri) : String?
+    suspend fun uploadImage(filePath: Uri): String?
 
-    suspend fun getUserImage(email: String) : String?
+    suspend fun getUserImage(email: String): String?
+
+    suspend fun getFriendRequests(email: String): List<String>
+
+    suspend fun sendFriendRequest(userEmail: String, friendEmail: String): String?
 }
