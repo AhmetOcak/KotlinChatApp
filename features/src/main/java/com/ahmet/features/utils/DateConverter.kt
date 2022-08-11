@@ -26,7 +26,7 @@ object DateConverter {
             }else if(date.hour < 10) {
                 "0${date.hour}:${date.minute}"
             }else if(date.minute < 10) {
-                "${date.hour}:${date.minute}"
+                "${date.hour}:0${date.minute}"
             }else {
                 "${date.hour}:${date.minute}"
             }
