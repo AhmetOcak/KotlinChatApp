@@ -276,5 +276,17 @@ class FirebaseUserDataRepository @Inject constructor() : IFirebaseUserDataReposi
         return localFile.path
     }
 
+    override suspend fun updateUserName(email: String, newUserName: String) {
+        val userRef = db.collection(Firebase.USER_COLLECTION_PATH).document(email)
+
+        userRef.update(UserKeys.USERNAME, newUserName).addOnCompleteListener {
+            if(it.isSuccessful) {
+                Log.e("update user name", "successful")
+            }else {
+                Log.e("update user name", "unsuccessful")
+            }
+        }.await()
+    }
+
 }
 

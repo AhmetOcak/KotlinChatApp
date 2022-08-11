@@ -46,7 +46,6 @@ interface IFirebaseUserDataRepository {
 
     suspend fun getUserImage(email: String): String?
 
-
-
+    suspend fun updateUserName(email: String, newUserName: String)
 
 }
