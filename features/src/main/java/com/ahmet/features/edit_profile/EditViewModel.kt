@@ -10,6 +10,7 @@ import androidx.lifecycle.viewModelScope
 import com.ahmet.core.base.BaseViewModel
 import com.ahmet.data.usecase.firebase.GetCurrentUserEmail
 import com.ahmet.data.usecase.firebase.GetUserImage
+import com.ahmet.data.usecase.firebase.UpdateUserName
 import com.ahmet.data.usecase.firebase.UploadUserImage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -21,7 +22,8 @@ class EditViewModel @Inject constructor(
     private val uploadUserImage: UploadUserImage,
     private val getUserImage: GetUserImage,
     private val sharedPreferences: SharedPreferences,
-    private val getCurrentUserEmail: GetCurrentUserEmail
+    private val getCurrentUserEmail: GetCurrentUserEmail,
+    private val updateUserName: UpdateUserName
 ) : BaseViewModel() {
 
     val resultMessage = MutableLiveData<String>()
@@ -29,6 +31,10 @@ class EditViewModel @Inject constructor(
 
     private val _progBarVisibility = MutableLiveData(View.GONE)
     val progBarVisibility: LiveData<Int> get() = _progBarVisibility
+
+    val fullName = MutableLiveData<String>()
+
+    private fun checkTextField(): Boolean = !fullName.value.isNullOrEmpty()
 
     fun uploadUserImage(filePath: Uri) {
         _progBarVisibility.value = View.VISIBLE
@@ -42,7 +48,19 @@ class EditViewModel @Inject constructor(
                 }
             } catch (e: Exception) {
                 Log.e("upload user image exception", e.toString())
-                _progBarVisibility.value = View.GONE
+            }
+            setProgBarVisGone()
+        }
+    }
+
+    fun updateFullName() {
+        viewModelScope.launch {
+            if (checkTextField()) {
+                fullName.value?.let {
+                    updateUserName.updateName(getCurrentUserEmail.getCurrentUser()!!,
+                        it
+                    )
+                }
             }
         }
     }
@@ -63,5 +81,11 @@ class EditViewModel @Inject constructor(
     }
 
     fun getUserImageFromSharedPref(): String? = sharedPreferences.getString(getCurrentUserEmail.getCurrentUser(), null)
+
+    private fun setProgBarVisGone() {
+        if(_progBarVisibility.value == View.VISIBLE) {
+            _progBarVisibility.value = View.GONE
+        }
+    }
 
 }

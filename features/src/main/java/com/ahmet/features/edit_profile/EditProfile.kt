@@ -7,8 +7,8 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import com.ahmet.core.R
 import com.ahmet.core.base.BaseFragment
+import com.ahmet.features.R
 import com.ahmet.features.databinding.FragmentEditProfileBinding
 import com.ahmet.features.utils.ResultMessages
 import com.ahmet.features.utils.helpers.ImpUserImage
@@ -26,8 +26,7 @@ class EditProfile : BaseFragment<EditViewModel, FragmentEditProfileBinding>() {
     lateinit var toast: Toast
 
     override fun getViewModelClass(): Class<EditViewModel> = EditViewModel::class.java
-    override fun getViewDataBinding(): FragmentEditProfileBinding =
-        FragmentEditProfileBinding.inflate(layoutInflater)
+    override fun getViewDataBinding(): FragmentEditProfileBinding = FragmentEditProfileBinding.inflate(layoutInflater)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,6 +45,7 @@ class EditProfile : BaseFragment<EditViewModel, FragmentEditProfileBinding>() {
             if (uri != null) {
                 viewModel.uploadUserImage(uri ?: Uri.EMPTY)
             }
+            viewModel.updateFullName()
         }
 
         binding.cancelButton.setOnClickListener { initUserImage() }

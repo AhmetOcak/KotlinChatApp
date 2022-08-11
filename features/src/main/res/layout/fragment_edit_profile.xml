@@ -57,6 +57,7 @@
                 android:hint="@string/full_name"
                 android:inputType="textEmailAddress"
                 android:minHeight="48dp"
+                android:text="@={viewModel.fullName}"
                 android:textColor="@color/white_100"
                 android:textColorHint="@color/orange" />
         </com.google.android.material.textfield.TextInputLayout>
