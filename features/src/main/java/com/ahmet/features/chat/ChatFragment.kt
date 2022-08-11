@@ -102,7 +102,7 @@ class ChatFragment : BaseFragment<ChatViewModel, FragmentChatBinding>() {
             val bitmap = ImpUserImage.implementUserImage(path)
             binding.friendImage.setImageBitmap(bitmap)
         } else {
-            binding.friendImage.setImageResource(com.ahmet.core.R.drawable.blank_profile_picture)
+            binding.friendImage.setImageResource(R.drawable.blank_profile_picture)
         }
     }
 

@@ -13,6 +13,7 @@ import com.ahmet.data.usecase.firebase.AddUser
 import com.ahmet.data.usecase.firebase.DeleteFriendRequest
 import com.ahmet.data.usecase.firebase.GetCurrentUserEmail
 import com.ahmet.data.usecase.messages.CreateMessageDoc
+import com.ahmet.features.R
 import com.ahmet.features.databinding.FriendRequestBinding
 import com.ahmet.features.utils.helpers.ImpUserImage
 import kotlinx.coroutines.launch
@@ -87,7 +88,7 @@ class FriendRequestsAdapter @Inject constructor(
             val bitmap = ImpUserImage.implementUserImage(path)
             holder.userImage.setImageBitmap(bitmap)
         } else {
-            holder.userImage.setImageResource(com.ahmet.core.R.drawable.blank_profile_picture)
+            holder.userImage.setImageResource(R.drawable.blank_profile_picture)
         }
     }
 }

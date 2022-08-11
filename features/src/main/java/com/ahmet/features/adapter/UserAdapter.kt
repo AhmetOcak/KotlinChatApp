@@ -63,12 +63,12 @@ class UserAdapter(
         // to avoid mistakes | possible error -> friends and currentData list may not be updated at the same time
         if (friends?.size ?: 0 <= currentData.size && currentData.isNotEmpty()) {
 
-            for (piece in currentData) {
-                if (piece.data?.get(EditEmail.removeDot(friends?.get(position)!!.emailAddress)).toString() != "null"
+            for (doc in currentData) {
+                if (doc.data?.get(EditEmail.removeDot(friends?.get(position)!!.emailAddress)).toString() != "null"
                     &&
-                    piece.data?.get(EditEmail.removeDot(friends?.get(position)!!.emailAddress)).toString() != "[]"
+                    doc.data?.get(EditEmail.removeDot(friends?.get(position)!!.emailAddress)).toString() != "[]"
                 ) {
-                    messageData = piece.data?.get(EditEmail.removeDot(friends?.get(position)!!.emailAddress)) as List<Map<String, Any>>
+                    messageData = doc.data?.get(EditEmail.removeDot(friends?.get(position)!!.emailAddress)) as List<Map<String, Any>>
                 }
             }
 
@@ -76,6 +76,7 @@ class UserAdapter(
                 holder.userName.text = friends?.get(position)?.userName ?: ""
                 holder.messagePreview.text = messageData.last()["message"].toString()
                 holder.unreadTime.text = DateConverter.convertLongToTime((messageData.last()["date"] as Timestamp).seconds)
+
                 if (!unreadMessages.isNullOrEmpty()) {
                     if (unreadMessages[position] != 0) {
                         holder.isThereUnreadMessage.text = "new messages"
@@ -123,7 +124,7 @@ class UserAdapter(
             val bitmap = ImpUserImage.implementUserImage(path)
             holder.userImage.setImageBitmap(bitmap)
         } else {
-            holder.userImage.setImageResource(com.ahmet.core.R.drawable.blank_profile_picture)
+            holder.userImage.setImageResource(R.drawable.blank_profile_picture)
         }
     }
 }

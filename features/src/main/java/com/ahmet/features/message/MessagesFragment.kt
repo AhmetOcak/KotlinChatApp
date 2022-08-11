@@ -180,7 +180,7 @@ class MessagesFragment : BaseFragment<MessageViewModel, FragmentMessagesBinding>
             val bitmap = ImpUserImage.implementUserImage(path)
             view?.findViewById<ImageView>(R.id.current_user_image)?.setImageBitmap(bitmap)
         } else {
-            view?.findViewById<ImageView>(R.id.current_user_image)?.setImageResource(com.ahmet.core.R.drawable.blank_profile_picture)
+            view?.findViewById<ImageView>(R.id.current_user_image)?.setImageResource(R.drawable.blank_profile_picture)
         }
     }
 

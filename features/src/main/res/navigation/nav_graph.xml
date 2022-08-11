@@ -19,8 +19,7 @@
         <action
             android:id="@+id/action_chatFragment_to_messagesFragment"
             app:destination="@id/messagesFragment"
-            app:popUpTo="@id/chatFragment"
-            app:popUpToInclusive="true" />
+            app:popUpTo="@id/messagesFragment" />
     </fragment>
     <fragment
         android:id="@+id/messagesFragment"
@@ -72,8 +71,7 @@
         <action
             android:id="@+id/action_accountSettingsFragment_to_messagesFragment"
             app:destination="@id/messagesFragment"
-            app:popUpTo="@id/messagesFragment"
-            app:popUpToInclusive="true" />
+            app:popUpTo="@id/messagesFragment" />
         <action
             android:id="@+id/action_accountSettingsFragment_to_loginFragment"
             app:destination="@id/loginFragment"

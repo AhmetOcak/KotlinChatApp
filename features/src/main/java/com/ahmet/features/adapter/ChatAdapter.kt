@@ -6,8 +6,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
-import com.ahmet.core.databinding.IncomingMessagesBinding
-import com.ahmet.core.databinding.OutgoingMessagesBinding
+import com.ahmet.features.databinding.IncomingMessagesBinding
+import com.ahmet.features.databinding.OutgoingMessagesBinding
 import com.ahmet.features.utils.DateConverter
 import com.google.firebase.Timestamp
 
@@ -31,15 +31,11 @@ class ChatAdapter(private val chat: MutableList<MutableMap<String, Any>>) :
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return if (viewType == VIEW_TYPE_USER) {
             UserViewHolder(
-                OutgoingMessagesBinding.inflate(
-                    LayoutInflater.from(parent.context)
-                )
+                OutgoingMessagesBinding.inflate(LayoutInflater.from(parent.context))
             )
         } else {
             OtherViewHolder(
-                IncomingMessagesBinding.inflate(
-                    LayoutInflater.from(parent.context)
-                )
+                IncomingMessagesBinding.inflate(LayoutInflater.from(parent.context))
             )
         }
     }

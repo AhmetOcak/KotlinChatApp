@@ -10,6 +10,7 @@ import com.ahmet.data.usecase.firebase.AddUser
 import com.ahmet.data.usecase.firebase.DeleteFriendRequest
 import com.ahmet.data.usecase.firebase.GetCurrentUserEmail
 import com.ahmet.data.usecase.messages.CreateMessageDoc
+import com.ahmet.features.R
 import com.ahmet.features.adapter.FriendRequestsAdapter
 import com.ahmet.features.databinding.FragmentFriendRequestsBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -37,6 +38,10 @@ class FriendRequests : BaseFragment<FriendRequestsViewModel, FragmentFriendReque
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.viewModel = viewModel
+
+        binding.back.setOnClickListener {
+            goToNextScreen(R.id.action_friendRequests_to_accountSettingsFragment, null, null)
+        }
 
         // when our data is ready, it will init adapter
         initAdapter()

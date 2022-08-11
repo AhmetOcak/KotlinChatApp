@@ -80,7 +80,6 @@ class MessageViewModel @Inject constructor(
         // counter
         var s = 0
 
-        // size PROBLEM
         // If current message size and user friends size are not equal, then new friend has been added.
         if(currentMessages.value?.size ?: 0 == _userFriends.value?.size ?: 0) {
             while (s < _userFriends.value?.size ?: 0) {
