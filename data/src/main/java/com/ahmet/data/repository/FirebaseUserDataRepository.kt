@@ -21,9 +21,7 @@ class FirebaseUserDataRepository @Inject constructor() : IFirebaseUserDataReposi
     private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
 
-    override fun getCurrentUserEmail(): String? {
-        return auth.currentUser?.email
-    }
+    override fun getCurrentUserEmail(): String? = auth.currentUser?.email
 
     override suspend fun reauthenticate(email: String, password: String): Boolean {
         var status = false
@@ -203,7 +201,7 @@ class FirebaseUserDataRepository @Inject constructor() : IFirebaseUserDataReposi
     }
 
     // created for sendFriendRequest function
-    suspend fun isUserAlreadyAdded(userEmail: String, friendEmail: String): Boolean? {
+    private suspend fun isUserAlreadyAdded(userEmail: String, friendEmail: String): Boolean? {
         var queryResult: Boolean? = null
         val user = getUserDoc(userEmail)
 

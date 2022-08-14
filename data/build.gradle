@@ -52,6 +52,7 @@ dependencies {
     implementation (Libs.firebaseAuth)
     implementation (Libs.firebaseFirestore)
     implementation (Libs.firebaseStorage)
+    implementation platform(Libs.firebaseBom)
 
     // Room
     implementation (Libs.room)
@@ -68,9 +69,6 @@ dependencies {
     implementation (Libs.coroutineCore)
     implementation (Libs.coroutineAndroid)
     implementation (Libs.coroutinePlayServices)
-
-    // Firebase
-    implementation platform(Libs.firebaseBom)
 
     // Modules
     implementation project(':domain')
