@@ -1,22 +1,28 @@
 # 📱Chat App
 
+<!-- 
 #### [TR]
-Hesabınız var ise direk giriş yapabilirsiniz. Eğer hesabınız yok is e-posta'nız ile hesap açabilirsiniz. 
-Hesabınıza sürekli giriş yapmak istemiyorsanız "beni hatırla" kutusunu işaretliyebilirsiniz. Hesabınızdan çıkış yapabilirsiniz.
-Arkadaş eklemek için, eklemek istediğiniz kullanıcıya e-mail'i aracılığıyla arkadaşlık isteği gönderebilirsiniz.
-Arkadaşlık isteklerinizi görebilir, istekleri kabul edebilir veya red edebilirsiniz.
-Hesabınızı silebilirsiniz. Hesabınızın kullanıcı ismini ve kullanıcı resmini güncelleyebilirsiniz.
-Arkadaşlarınızla gerçek zamanlı mesajlaşabilirsiniz.
-Arkadaş listenizin bulunduğu ekranda filtreleme yaparak istediğiniz arkadaşınızı hemen bulabilirsiniz.
+<li>Hesabınız var ise direk giriş yapabilirsiniz. Eğer hesabınız yok is e-posta'nız ile hesap açabilirsiniz.</li>
+<li>Hesabınıza sürekli giriş yapmak istemiyorsanız "beni hatırla" kutusunu işaretliyebilirsiniz.</li>
+<li>Hesabınızdan çıkış yapabilirsiniz.</li>
+<li>Arkadaş eklemek için, eklemek istediğiniz kullanıcıya e-mail'i aracılığıyla arkadaşlık isteği gönderebilirsiniz.</li>
+<li>Arkadaşlık isteklerinizi görebilir, istekleri kabul edebilir veya red edebilirsiniz.</li>
+<li>Hesabınızı silebilirsiniz. Hesabınızın kullanıcı ismini ve kullanıcı resmini güncelleyebilirsiniz.</li>
+<li>Arkadaşlarınızla gerçek zamanlı mesajlaşabilirsiniz.</li>
+<li>Arkadaş listenizin bulunduğu ekranda filtreleme yaparak istediğiniz arkadaşınızı hemen bulabilirsiniz.</li>
+-->
+
 
 #### [EN]
-If you have an account, you can log in directly. If you do not have an account, you can open an account with your e-mail.
-If you don't want to log into your account all the time, you can tick the "remember me" box. You can log out of your account.
-To add a friend, you can send a friend request to the user you want to add via e-mail.
-You can view, accept or decline friend requests.
-You can delete your account. You can update the username and user picture of your account.
-You can chat with your friends in real time.
-You can immediately find the friend you want by filtering on the screen where your friend list is located.
+<li>If you have an account, you can log in directly. If you do not have an account, you can open an account with your e-mail.</li>
+<li>If you don't want to log into your account all the time, you can tick the "remember me" box.</li>
+<li>You can log out of your account.</li>
+<li>To add a friend, you can send a friend request to the user you want to add via e-mail.</li>
+<li>You can view, accept or decline friend requests.</li>
+<li>You can delete your account. You can update the username and user picture of your account.</li>
+<li>You can chat with your friends in real time.</li>
+<li>You can immediately find the friend you want by filtering on the screen where your friend list is located.</li>
+
 
 ## Libraries📚
 
@@ -41,3 +47,36 @@ You can immediately find the friend you want by filtering on the screen where yo
 [<li>Firebase Storage</li>](https://firebase.google.com/docs/storage)
 
 [<li>Gson</li>](https://github.com/google/gson)
+
+## Modules
+
+#### App Module
+Initializes the project. It contains the main activity, Application class(created for hilt) and google-service.json file(it's coming from firebase).
+
+#### Domain Module
+It contains the interfaces and models.
+
+#### Data Module
+This module includes local and network operations. It takes the data and makes it ready. It contains the entity models, repositories, mappers, usecases.
+
+#### Core Module
+It contains base classes.
+
+#### Features Module
+This module includes ui operations. It shows data to user.
+
+## Modularization Graph
+
+<p align="left" width="100%">
+  <img src="https://user-images.githubusercontent.com/73544434/184920127-30958647-72c7-4304-907f-ac13ca9da99e.jpg"/>
+</p>
+
+* ``:features`` module depends on core and data modules
+
+* ``:app`` module depends on core and features modules
+
+* ``:data`` module depends on domain module
+
+
+
+
