@@ -13,7 +13,7 @@
 -->
 
 
-#### [EN]
+<!-- #### [EN] -->
 <li>If you have an account, you can log in directly. If you do not have an account, you can open an account with your e-mail.</li>
 <li>If you don't want to log into your account all the time, you can tick the "remember me" box.</li>
 <li>You can log out of your account.</li>
@@ -78,7 +78,7 @@ This module includes ui operations. It shows data to user.
 * ``:data`` module depends on domain module
 
 
-## Images form app
+## Images from app
 
 | Login            | <img src="https://user-images.githubusercontent.com/73544434/184932976-8cdff7eb-1241-4e6d-86b7-54ab3a33780b.png" width="320" height="640"/>  |
 |------------------|---|
