@@ -14,6 +14,8 @@
 
 
 <!-- #### [EN] -->
+
+## Features
 <li>If you have an account, you can log in directly. If you do not have an account, you can open an account with your e-mail.</li>
 <li>If you don't want to log into your account all the time, you can tick the "remember me" box.</li>
 <li>You can log out of your account.</li>
