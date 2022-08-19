@@ -113,6 +113,7 @@ Download the google-services.json and copy to ``app`` directory
   <img src="https://user-images.githubusercontent.com/73544434/185698508-6a0f04ad-af47-4228-8d5c-fdf8244b16e9.png" height="500"/>
 </p>
 
+Create database
 <p align="left" width="100%">
   <img src="https://user-images.githubusercontent.com/73544434/185698787-1ff63648-28d2-4f88-8945-ef98ca64b72f.jpg" height="500"/>
 </p>
