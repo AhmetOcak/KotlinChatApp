@@ -7,9 +7,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.ahmet.core.base.BaseViewModel
-import com.ahmet.data.usecase.firebase.GetCurrentUserEmail
-import com.ahmet.data.usecase.firebase.GetFriendRequests
-import com.ahmet.data.usecase.firebase.GetUserImage
+import com.ahmet.data.usecase.user.GetCurrentUserEmail
+import com.ahmet.data.usecase.friend.GetFriendRequests
+import com.ahmet.data.usecase.user.GetUserImage
 import com.ahmet.features.utils.Status
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch

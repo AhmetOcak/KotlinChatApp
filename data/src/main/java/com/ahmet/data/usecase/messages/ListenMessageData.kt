@@ -1,9 +1,9 @@
 package com.ahmet.data.usecase.messages
 
-import com.ahmet.data.repository.FirebaseMessagesRepository
+import com.ahmet.data.repository.MessagesRepository
 import javax.inject.Inject
 
-class ListenMessageData @Inject constructor(private val repository: FirebaseMessagesRepository) {
+class ListenMessageData @Inject constructor(private val repository: MessagesRepository) {
     suspend fun listenPrivateData(
         userEmail: String,
         friendEmail: String,

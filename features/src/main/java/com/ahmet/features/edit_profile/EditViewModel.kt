@@ -8,10 +8,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.ahmet.core.base.BaseViewModel
-import com.ahmet.data.usecase.firebase.GetCurrentUserEmail
-import com.ahmet.data.usecase.firebase.GetUserImage
-import com.ahmet.data.usecase.firebase.UpdateUserName
-import com.ahmet.data.usecase.firebase.UploadUserImage
+import com.ahmet.data.usecase.user.GetCurrentUserEmail
+import com.ahmet.data.usecase.user.GetUserImage
+import com.ahmet.data.usecase.user.UpdateUserName
+import com.ahmet.data.usecase.user.UploadUserImage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.lang.Exception

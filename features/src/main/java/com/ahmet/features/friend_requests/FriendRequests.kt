@@ -6,9 +6,9 @@ import android.view.View
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ahmet.core.base.BaseFragment
-import com.ahmet.data.usecase.firebase.AddUser
-import com.ahmet.data.usecase.firebase.DeleteFriendRequest
-import com.ahmet.data.usecase.firebase.GetCurrentUserEmail
+import com.ahmet.data.usecase.friend.AddUser
+import com.ahmet.data.usecase.friend.DeleteFriendRequest
+import com.ahmet.data.usecase.user.GetCurrentUserEmail
 import com.ahmet.data.usecase.messages.CreateMessageDoc
 import com.ahmet.features.R
 import com.ahmet.features.adapter.FriendRequestsAdapter

@@ -8,9 +8,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.ahmet.core.base.BaseViewModel
 import com.ahmet.data.model.UserEntity
-import com.ahmet.data.usecase.firebase.GetCurrentUserEmail
-import com.ahmet.data.usecase.firebase.GetUserData
-import com.ahmet.data.usecase.firebase.GetUserImage
+import com.ahmet.data.usecase.user.GetCurrentUserEmail
+import com.ahmet.data.usecase.friend.GetUserData
+import com.ahmet.data.usecase.user.GetUserImage
 import com.ahmet.data.usecase.messages.ListenAllMessageData
 import com.ahmet.data.usecase.userdatabase.GetUserFromDb
 import com.ahmet.data.utils.EditEmail

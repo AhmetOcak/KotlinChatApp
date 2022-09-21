@@ -9,7 +9,7 @@ import com.ahmet.core.base.BaseViewModel
 import com.ahmet.features.utils.helpers.EmailController
 import com.ahmet.data.model.UserEntity
 import com.ahmet.data.usecase.auth.Login
-import com.ahmet.data.usecase.firebase.GetUserData
+import com.ahmet.data.usecase.friend.GetUserData
 import com.ahmet.data.usecase.userdatabase.AddUserToDb
 import com.ahmet.data.usecase.userdatabase.DeleteUserFromDb
 import com.ahmet.data.usecase.userdatabase.GetUserFromDb

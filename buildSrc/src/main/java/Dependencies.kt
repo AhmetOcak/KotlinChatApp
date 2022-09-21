@@ -23,7 +23,9 @@ object Versions {
     const val gson = "2.9.0"
     const val coroutine_core = "1.6.1"
     const val coroutine_android = "1.6.1"
-    const val coroutine_play_services= "1.2.1"
+    const val coroutine_play_services = "1.2.1"
+    const val databinding_viewbinding = "7.2.1"
+    const val databinding_runtime = "7.2.1"
 }
 
 object Libs {
@@ -51,6 +53,8 @@ object Libs {
     const val coroutineCore = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.coroutine_core}"
     const val coroutineAndroid = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.coroutine_android}"
     const val coroutinePlayServices = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:${Versions.coroutine_play_services}"
+    const val databindingViewbinding = "androidx.databinding:viewbinding:${Versions.databinding_viewbinding}"
+    const val databindingRuntime = "androidx.databinding:databinding-runtime:${Versions.databinding_runtime}"
 }
 
 object Configs {

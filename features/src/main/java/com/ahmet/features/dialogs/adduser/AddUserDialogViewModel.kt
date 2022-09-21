@@ -4,8 +4,8 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.ahmet.core.base.BaseViewModel
 import com.ahmet.features.utils.helpers.EmailController
-import com.ahmet.data.usecase.firebase.GetCurrentUserEmail
-import com.ahmet.data.usecase.firebase.SendFriendRequest
+import com.ahmet.data.usecase.user.GetCurrentUserEmail
+import com.ahmet.data.usecase.friend.SendFriendRequest
 import com.ahmet.features.utils.Constants
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.lang.Exception

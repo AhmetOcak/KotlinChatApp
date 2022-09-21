@@ -2,7 +2,7 @@ package com.ahmet.domain.interfaces
 
 import com.google.firebase.firestore.DocumentSnapshot
 
-interface IFirebaseMessagesRepository {
+interface IMessagesRepository {
 
     suspend fun createMessageDoc(userEmail: String, friendEmail: String)
 

@@ -4,7 +4,7 @@ import android.util.Log
 import com.ahmet.data.model.MessageEntity
 import com.ahmet.data.utils.EditEmail
 import com.ahmet.data.utils.Firebase
-import com.ahmet.domain.interfaces.IFirebaseMessagesRepository
+import com.ahmet.domain.interfaces.IMessagesRepository
 import com.ahmet.domain.model.Message
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.*
@@ -12,7 +12,7 @@ import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 @Suppress("ConvertToStringTemplate")
-class FirebaseMessagesRepository @Inject constructor() : IFirebaseMessagesRepository {
+class MessagesRepository @Inject constructor() : IMessagesRepository {
 
     private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
 

@@ -4,10 +4,10 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.ahmet.core.base.BaseViewModel
-import com.ahmet.data.usecase.firebase.DeleteUser
-import com.ahmet.data.usecase.firebase.DeleteUserDoc
-import com.ahmet.data.usecase.firebase.GetCurrentUserEmail
-import com.ahmet.data.usecase.firebase.Reauthenticate
+import com.ahmet.data.usecase.user.DeleteUser
+import com.ahmet.data.usecase.user.DeleteUserDoc
+import com.ahmet.data.usecase.user.GetCurrentUserEmail
+import com.ahmet.data.usecase.auth.Reauthenticate
 import com.ahmet.features.utils.Constants
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch

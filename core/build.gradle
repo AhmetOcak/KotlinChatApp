@@ -42,8 +42,8 @@ dependencies {
     implementation (Libs.material)
     implementation (Libs.constraint)
     implementation (Libs.androidxLegacy)
-    implementation 'androidx.databinding:viewbinding:7.2.1'
-    implementation 'androidx.databinding:databinding-runtime:7.2.1'
+    implementation (Libs.databindingViewbinding)
+    implementation (Libs.databindingRuntime)
     testImplementation (Libs.junit)
     androidTestImplementation (Libs.junit_ext)
     androidTestImplementation (Libs.espresso)

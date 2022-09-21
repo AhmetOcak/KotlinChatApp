@@ -9,7 +9,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.ahmet.core.base.BaseViewModel
 import com.ahmet.data.model.MessageEntity
-import com.ahmet.data.usecase.firebase.GetCurrentUserEmail
+import com.ahmet.data.usecase.user.GetCurrentUserEmail
 import com.ahmet.data.usecase.messages.ListenMessageData
 import com.ahmet.data.usecase.messages.SendMessage
 import com.ahmet.features.utils.Status

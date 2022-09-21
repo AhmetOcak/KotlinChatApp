@@ -1,9 +1,9 @@
 package com.ahmet.data.usecase.auth
 
-import com.ahmet.data.repository.FirebaseUserDataRepository
+import com.ahmet.data.repository.AuthRepository
 import javax.inject.Inject
 
-class Register @Inject constructor(private val repository: FirebaseUserDataRepository) {
+class Register @Inject constructor(private val repository: AuthRepository) {
 
     suspend fun register(
         email: String,
